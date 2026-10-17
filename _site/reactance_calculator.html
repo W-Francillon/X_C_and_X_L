@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Reactance Calculator – X_C_and_X_L</title>
+<title>Reactance Calculator – Wesley Francillon, PhD</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -45,7 +45,12 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-445b8638c3d06994fee0907d791121c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ba8f7c244c1f50cbf6c6a3aa3874339a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<meta name="shinylive:serviceworker_dir" content=".">
+<script src="site_libs/quarto-contrib/shinylive-0.10.15/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="site_libs/quarto-contrib/shinylive-0.10.15/shinylive/run-python-blocks.js" type="module"></script>
+<link href="site_libs/quarto-contrib/shinylive-0.10.15/shinylive/shinylive.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,10 +80,9 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -86,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">X_C_and_X_L</span>
+    <span class="navbar-title">Wesley Francillon, PhD</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -97,11 +101,27 @@ ul.task-list li input[type="checkbox"] {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Home</span></a>
+<span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
+    <a class="nav-link" href="./research.qmd"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./projects.qmd"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./education.qmd"> 
+<span class="menu-text">Education</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./circuit_analysis.html"> 
+<span class="menu-text">Circuit Analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./reactance_calculator.html" aria-current="page"> 
+<span class="menu-text">Reactance Calculator</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -114,9 +134,7 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -139,7 +157,55 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<iframe src="https://blank-app-2ah0jfsoyvi.streamlit.app/?embed=true" width="100%" height="850px" style="border:none;"></iframe> 
+<p>Use the sliders below to adjust the Capacitance and Inductance and watch how the resonant frequency shifts.</p>
+<pre class="shinylive-python" data-engine="python"><code>#| '!! shinylive warning !!': |
+#|   shinylive does not work in self-contained HTML documents.
+#|   Please set `embed-resources: false` in your metadata.
+#| standalone: true
+#| viewerHeight: 600
+
+from shiny import App, render, ui
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 1. Define the User Interface
+app_ui = ui.page_fluid(
+    ui.input_slider("C_uF", "Capacitance (uF)", min=10, max=500, value=100, step=10),
+    ui.input_slider("L_mH", "Inductance (mH)", min=1, max=50, value=10, step=1),
+    ui.output_plot("reactance_plot")
+)
+
+# 2. Define the Server Logic
+def server(input, output, session):
+    @output
+    @render.plot(alt="Reactance vs Frequency")
+    def reactance_plot():
+        C = input.C_uF() * 1e-6
+        L = input.L_mH() * 1e-3
+        
+        f = np.linspace(10, 1000, 500)
+        X_C = 1 / (2 * np.pi * f * C)
+        X_L = 2 * np.pi * f * L
+        
+        fig, ax = plt.subplots(figsize=(8, 5))
+        ax.plot(f, X_C, label='Capacitive Reactance ($X_C$)', color='#0072B2', linewidth=2.5)
+        ax.plot(f, X_L, label='Inductive Reactance ($X_L$)', color='#D55E00', linewidth=2.5)
+        
+        f_res = 1 / (2 * np.pi * np.sqrt(L * C))
+        if f_res &lt;= 1000:
+            X_res = 2 * np.pi * f_res * L
+            ax.plot(f_res, X_res, 'ko', markersize=8, label=f'Resonance ({f_res:.1f} Hz)')
+            
+        ax.set_title('Reactance vs Frequency', fontsize=14, fontweight='bold')
+        ax.set_xlabel('Frequency (Hz)', fontsize=12)
+        ax.set_ylabel('Reactance (Ohms)', fontsize=12)
+        ax.set_ylim(0, 150)
+        ax.grid(True, linestyle='--', alpha=0.7)
+        ax.legend(fontsize=11)
+        
+        return fig
+
+app = App(app_ui, server)</code></pre>
 
 
 

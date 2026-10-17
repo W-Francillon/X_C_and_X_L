@@ -1,32 +1,55 @@
 ---
 title: "Reactance Calculator"
+filters:
+  - shinylive
 ---
 
-This plot shows the intersection of Capacitive ($X_C$) and Inductive ($X_L$) Reactance across a frequency sweep.
+Use the sliders below to adjust the Capacitance and Inductance and watch how the resonant frequency shifts.
 
-```{python}
+```{shinylive-python}
+#| standalone: true
+#| viewerHeight: 600
 
-
+from shiny import App, render, ui
 import numpy as np
 import matplotlib.pyplot as plt
 
-f = np.linspace(10, 1000, 500)
-C = 100e-6  
-L = 10e-3   
+# 1. Define the User Interface
+app_ui = ui.page_fluid(
+    ui.input_slider("C_uF", "Capacitance (uF)", min=10, max=500, value=100, step=10),
+    ui.input_slider("L_mH", "Inductance (mH)", min=1, max=50, value=10, step=1),
+    ui.output_plot("reactance_plot")
+)
 
-X_C = 1 / (2 * np.pi * f * C)
-X_L = 2 * np.pi * f * L
+# 2. Define the Server Logic
+def server(input, output, session):
+    @output
+    @render.plot(alt="Reactance vs Frequency")
+    def reactance_plot():
+        C = input.C_uF() * 1e-6
+        L = input.L_mH() * 1e-3
+        
+        f = np.linspace(10, 1000, 500)
+        X_C = 1 / (2 * np.pi * f * C)
+        X_L = 2 * np.pi * f * L
+        
+        fig, ax = plt.subplots(figsize=(8, 5))
+        ax.plot(f, X_C, label='Capacitive Reactance ($X_C$)', color='#0072B2', linewidth=2.5)
+        ax.plot(f, X_L, label='Inductive Reactance ($X_L$)', color='#D55E00', linewidth=2.5)
+        
+        f_res = 1 / (2 * np.pi * np.sqrt(L * C))
+        if f_res <= 1000:
+            X_res = 2 * np.pi * f_res * L
+            ax.plot(f_res, X_res, 'ko', markersize=8, label=f'Resonance ({f_res:.1f} Hz)')
+            
+        ax.set_title('Reactance vs Frequency', fontsize=14, fontweight='bold')
+        ax.set_xlabel('Frequency (Hz)', fontsize=12)
+        ax.set_ylabel('Reactance (Ohms)', fontsize=12)
+        ax.set_ylim(0, 150)
+        ax.grid(True, linestyle='--', alpha=0.7)
+        ax.legend(fontsize=11)
+        
+        return fig
 
-plt.figure(figsize=(9, 6))
-plt.plot(f, X_C, label='Capacitive Reactance')
-plt.plot(f, X_L, label='Inductive Reactance')
-
-plt.title('Reactance vs Frequency')
-plt.xlabel('Frequency (Hz)')
-plt.ylabel('Reactance (Ohms)')
-plt.ylim(0, 100)
-plt.grid(True)
-plt.legend()
-plt.show()
-
+app = App(app_ui, server)
 ```

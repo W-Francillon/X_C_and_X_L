@@ -7,10 +7,24 @@
     "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
   },
   {
+    "objectID": "circuit_analysis.html",
+    "href": "circuit_analysis.html",
+    "title": "Transient Circuit Analysis",
+    "section": "",
+    "text": "Introduction to RC Circuits\nWhen a DC voltage is applied to an RC circuit, the capacitor charges over time. The voltage across the capacitor \\(V_c(t)\\) is described by the following differential equation solution:\n\\[ V_c(t) = V_s \\left(1 - e^{-\\frac{t}{RC}}\\right) \\]\n\n\nComputational Model\nClick the “Code” button to the right to see the Python script used to model this behavior."
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
     "text": "About this site"
+  },
+  {
+    "objectID": "reactance_calculator.html",
+    "href": "reactance_calculator.html",
+    "title": "Reactance Calculator",
+    "section": "",
+    "text": "Use the sliders below to adjust the Capacitance and Inductance and watch how the resonant frequency shifts.\n#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n#| viewerHeight: 600\n\nfrom shiny import App, render, ui\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# 1. Define the User Interface\napp_ui = ui.page_fluid(\n    ui.input_slider(\"C_uF\", \"Capacitance (uF)\", min=10, max=500, value=100, step=10),\n    ui.input_slider(\"L_mH\", \"Inductance (mH)\", min=1, max=50, value=10, step=1),\n    ui.output_plot(\"reactance_plot\")\n)\n\n# 2. Define the Server Logic\ndef server(input, output, session):\n    @output\n    @render.plot(alt=\"Reactance vs Frequency\")\n    def reactance_plot():\n        C = input.C_uF() * 1e-6\n        L = input.L_mH() * 1e-3\n        \n        f = np.linspace(10, 1000, 500)\n        X_C = 1 / (2 * np.pi * f * C)\n        X_L = 2 * np.pi * f * L\n        \n        fig, ax = plt.subplots(figsize=(8, 5))\n        ax.plot(f, X_C, label='Capacitive Reactance ($X_C$)', color='#0072B2', linewidth=2.5)\n        ax.plot(f, X_L, label='Inductive Reactance ($X_L$)', color='#D55E00', linewidth=2.5)\n        \n        f_res = 1 / (2 * np.pi * np.sqrt(L * C))\n        if f_res &lt;= 1000:\n            X_res = 2 * np.pi * f_res * L\n            ax.plot(f_res, X_res, 'ko', markersize=8, label=f'Resonance ({f_res:.1f} Hz)')\n            \n        ax.set_title('Reactance vs Frequency', fontsize=14, fontweight='bold')\n        ax.set_xlabel('Frequency (Hz)', fontsize=12)\n        ax.set_ylabel('Reactance (Ohms)', fontsize=12)\n        ax.set_ylim(0, 150)\n        ax.grid(True, linestyle='--', alpha=0.7)\n        ax.legend(fontsize=11)\n        \n        return fig\n\napp = App(app_ui, server)"
   }
 ]
