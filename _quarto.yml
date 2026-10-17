@@ -1,0 +1,16 @@
+website:
+  title: "Wesley Francillon, PhD"
+  navbar:
+    left:
+      - href: index.qmd
+        text: About Me
+      - href: research.qmd
+        text: Research
+      - href: projects.qmd
+        text: Projects
+      - href: education.qmd
+        text: Education
+      - href: circuit_analysis.qmd
+        text: Circuit Analysis
+      - href: reactance_calculator.qmd
+        text: Reactance Calculator

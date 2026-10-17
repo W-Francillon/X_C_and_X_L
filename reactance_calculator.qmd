@@ -1,0 +1,7 @@
+---
+title: "Reactance Calculator"
+---
+
+```{=html}
+<iframe src="https://blank-app-2ah0jfsoyvi.streamlit.app/?embed=true" width="100%" height="850px" style="border:none;"></iframe> 
+```

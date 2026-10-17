@@ -1,0 +1,12 @@
+{
+  "hash": "32fe6a3d313fcadb599a169d0526a440",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"Transient Circuit Analysis\"\njupyter: python3\nformat:\n  html:\n    code-fold: true\n    code-tools: true\n---\n\n### Introduction to RC Circuits\n\nWhen a DC voltage is applied to an RC circuit, the capacitor charges over time. The voltage across the capacitor $V_c(t)$ is described by the following differential equation solution:\n\n$$ V_c(t) = V_s \\left(1 - e^{-\\frac{t}{RC}}\\right) $$\n\n### Computational Model\n\nClick the **\"Code\"** button to the right to see the Python script used to model this behavior.\n\n",
+    "supporting": [
+      "circuit_analysis_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
