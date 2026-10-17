@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "X_C_and_X_L",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  },
+  {
+    "objectID": "circuit_analysis.html",
+    "href": "circuit_analysis.html",
+    "title": "Transient Circuit Analysis",
+    "section": "",
+    "text": "Introduction to RC Circuits\nWhen a DC voltage is applied to an RC circuit, the capacitor charges over time. The voltage across the capacitor \\(V_c(t)\\) is described by the following differential equation solution:\n\\[ V_c(t) = V_s \\left(1 - e^{-\\frac{t}{RC}}\\right) \\]\n\n\nComputational Model\nClick the “Code” button to the right to see the Python script used to model this behavior."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  }
+]
