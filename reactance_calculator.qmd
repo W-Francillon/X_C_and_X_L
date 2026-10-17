@@ -2,6 +2,31 @@
 title: "Reactance Calculator"
 ---
 
-```{=html}
-<iframe src="https://blank-app-2ah0jfsoyvi.streamlit.app/?embed=true" width="100%" height="850px" style="border:none;"></iframe> 
+This plot shows the intersection of Capacitive ($X_C$) and Inductive ($X_L$) Reactance across a frequency sweep.
+
+```{python}
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+f = np.linspace(10, 1000, 500)
+C = 100e-6  
+L = 10e-3   
+
+X_C = 1 / (2 * np.pi * f * C)
+X_L = 2 * np.pi * f * L
+
+plt.figure(figsize=(9, 6))
+plt.plot(f, X_C, label='Capacitive Reactance')
+plt.plot(f, X_L, label='Inductive Reactance')
+
+plt.title('Reactance vs Frequency')
+plt.xlabel('Frequency (Hz)')
+plt.ylabel('Reactance (Ohms)')
+plt.ylim(0, 100)
+plt.grid(True)
+plt.legend()
+plt.show()
+
 ```
