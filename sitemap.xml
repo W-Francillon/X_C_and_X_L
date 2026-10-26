@@ -1,19 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://W-Francillon.github.io/X_C_and_X_L/reactance_calculator.html</loc>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/reactance_calculator.html</loc>
     <lastmod>2026-10-17T20:59:05.914Z</lastmod>
   </url>
   <url>
-    <loc>https://W-Francillon.github.io/X_C_and_X_L/index.html</loc>
-    <lastmod>2026-10-17T20:19:09.743Z</lastmod>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/usaf_1951.html</loc>
+    <lastmod>2026-10-24T17:29:23.655Z</lastmod>
   </url>
   <url>
-    <loc>https://W-Francillon.github.io/X_C_and_X_L/circuit_analysis.html</loc>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/web_scraping.html</loc>
+    <lastmod>2026-10-20T02:29:48.066Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/about.html</loc>
+    <lastmod>2026-10-17T20:19:09.730Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/index.html</loc>
+    <lastmod>2026-10-18T18:40:00.915Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/circuit_simulator.html</loc>
+    <lastmod>2026-10-20T01:24:34.400Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/resonance_game.html</loc>
+    <lastmod>2026-10-20T13:37:15.578Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/outreach_data.html</loc>
+    <lastmod>2026-10-18T22:08:54.811Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/teaching.html</loc>
+    <lastmod>2026-10-18T16:53:22.424Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/circuit_analysis.html</loc>
     <lastmod>2026-10-17T20:19:09.736Z</lastmod>
   </url>
   <url>
-    <loc>https://W-Francillon.github.io/X_C_and_X_L/about.html</loc>
-    <lastmod>2026-10-17T20:19:09.730Z</lastmod>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/circuit_generator.html</loc>
+    <lastmod>2026-10-21T06:22:46.475Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/linear_regression.html</loc>
+    <lastmod>2026-10-20T02:17:18.615Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/projects.html</loc>
+    <lastmod>2026-10-18T17:06:44.146Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/circuit_dashboard.html</loc>
+    <lastmod>2026-10-18T16:23:25.955Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/simulations.html</loc>
+    <lastmod>2026-10-24T17:14:57.803Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/outreach.html</loc>
+    <lastmod>2026-10-20T13:52:23.404Z</lastmod>
+  </url>
+  <url>
+    <loc>https://W-Francillon.github.io/professor-francillon-site/circuit_breakout.html</loc>
+    <lastmod>2026-10-22T12:43:58.344Z</lastmod>
   </url>
 </urlset>
