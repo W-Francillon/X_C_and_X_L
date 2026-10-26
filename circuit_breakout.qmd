@@ -1,0 +1,11 @@
+---
+title: "Impedance Breaker: RLC Breakout"
+subtitle: "Interactive Passive Network Arcade & Circuit Override Challenge"
+page-layout: full
+---
+
+Pilot the **Copper Busbar Paddle** to bounce an electron charge pulse through stages of passive **Resistors ($R$)**, **Capacitors ($C$)**, and **Inductors ($L$)**. Shatter **IC Gate (`GATE?`)** blocks to trigger real-time **Engineering Override** math challenges for bonus points and busbar expansions!
+
+<div style="width: 100%; max-width: 960px; margin: 0 auto; background: #0f172a; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.25);">
+  <iframe src="circuit_breakout_app.html" width="100%" height="720px" style="border: none; display: block;"></iframe>
+</div>

@@ -1,0 +1,10 @@
+---
+title: "Interactive Circuit Generator"
+subtitle: "Procedural DC, AC Phasor, Transient, Thévenin & Op-Amp Problem Engine"
+page-layout: full
+toc: false
+---
+
+Use this interactive problem engine to practice circuit analysis across **DC Networks (Mesh, Nodal & Dependent Sources)**, **Thévenin & Norton Equivalents**, **AC Sinusoidal Steady-State (Phasors)**, **First-Order RC & RL Transients**, **Second-Order RLC Transients**, and **Operational Amplifiers**. Click **New Circuit Topology** within any category to cycle through different circuit schematics, complete with step-by-step mathematical derivations, **LTspice netlists**, and **Overleaf LaTeX (`circuitikz`)** code.
+
+<iframe src="circuit_app.html" style="width: 100%; height: 860px; border: none; display: block; background: transparent;" scrolling="yes"></iframe>

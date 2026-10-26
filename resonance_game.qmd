@@ -1,0 +1,11 @@
+---
+title: "Resonance Defender"
+subtitle: "Interactive RLC Circuit Simulation Game"
+page-layout: full
+---
+
+Test your understanding of inductive and capacitive reactance. Adjust the sliders to match the incoming hostile AC wave frequency to achieve resonance and neutralize the threat!
+
+<div style="width: 100%; max-width: 900px; margin: 0 auto; background: #0f172a; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+  <iframe src="resonance_defender.html" width="100%" height="800px" style="border: none; display: block;"></iframe>
+</div>

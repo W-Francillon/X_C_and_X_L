@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resonance Defender</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the Oscilloscope CRT effect and sliders */
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        
+        body { 
+            /* Fallback background, assuming Quarto site handles the outer page */
+            background-color: transparent; 
+        }
+        
+        .crt-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2), inset 0 0 30px rgba(0, 0, 0, 0.8);
+            background-color: #021005;
+        }
+        
+        /* CRT Scanline Overlay */
+        .crt-container::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 10;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        
+        /* Custom Range Sliders */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]:focus { outline: none; }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 8px; cursor: pointer;
+            background: #1f2937; border-radius: 4px; border: 1px solid #374151;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            height: 24px; width: 16px; border-radius: 4px;
+            background: #10b981; cursor: pointer; -webkit-appearance: none;
+            margin-top: -9px; box-shadow: 0 0 10px #10b981;
+            transition: background 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:hover { background: #34d399; }
+        
+        .font-tech { font-family: 'Share Tech Mono', monospace; }
+        .glow-text { text-shadow: 0 0 8px currentColor; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 font-tech">
+
+    <!-- Main Game Container -->
+    <div id="game-container" class="relative w-full max-w-4xl mx-auto bg-slate-900 border-4 border-slate-700 rounded-xl overflow-hidden shadow-2xl text-emerald-400 select-none">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-center p-4 bg-slate-800 border-b-2 border-slate-700">
+            <div>
+                <h1 class="text-2xl font-bold glow-text text-emerald-400 tracking-wider">RESONANCE DEFENDER</h1>
+                <p class="text-xs text-slate-400 mt-1">Series RLC Circuit Simulation</p>
+            </div>
+            <div class="flex gap-6 text-xl">
+                <div class="flex flex-col items-end">
+                    <span class="text-slate-400 text-xs">SCORE</span>
+                    <span id="score-display" class="font-bold glow-text">0000</span>
+                </div>
+                <div class="flex flex-col items-end">
+                    <span class="text-slate-400 text-xs">SYSTEM INTEGRITY</span>
+                    <div class="flex gap-1 mt-1" id="lives-display">
+                        <!-- Hearts will be injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Oscilloscope Screen -->
+        <div class="crt-container w-full aspect-[2/1] relative">
+            <canvas id="oscilloscope" width="800" height="400" class="w-full h-full block"></canvas>
+            
+            <!-- Overlays -->
+            <div id="start-screen" class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm">
+                <h2 class="text-4xl mb-4 text-emerald-400 glow-text">SYSTEM STANDBY</h2>
+                <p class="max-w-md text-center mb-6 text-sm text-emerald-200">
+                    Incoming hostile AC sine waves detected.<br><br>
+                    Adjust your circuit's Inductance (L) and Capacitance (C) to match the wave's frequency. When <span class="text-cyan-400">X_L</span> equals <span class="text-cyan-400">X_C</span>, the circuit reaches resonance and neutralizes the threat.
+                </p>
+                <button id="start-btn" class="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded font-bold tracking-widest transition-all shadow-[0_0_15px_#059669]">INITIALIZE</button>
+            </div>
+            
+            <div id="game-over-screen" class="absolute inset-0 z-20 hidden flex-col items-center justify-center bg-red-950/90 backdrop-blur-sm">
+                <h2 class="text-5xl mb-2 text-red-500 font-bold" style="text-shadow: 0 0 15px red;">SYSTEM FAILURE</h2>
+                <p class="mb-6 text-red-300">Final Score: <span id="final-score" class="text-white text-xl">0</span></p>
+                <button id="restart-btn" class="px-8 py-3 bg-red-700 hover:bg-red-600 text-white rounded font-bold tracking-widest transition-all shadow-[0_0_15px_#b91c1c]">REBOOT SYSTEM</button>
+            </div>
+            
+            <!-- Target Lock Progress Bar -->
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 w-64 h-2 bg-slate-800 rounded overflow-hidden border border-slate-600 z-10 hidden" id="lock-container">
+                <div id="lock-bar" class="h-full bg-emerald-400 w-0 transition-all duration-75 shadow-[0_0_10px_#34d399]"></div>
+            </div>
+            
+            <!-- Incoming Threat Info -->
+            <div class="absolute top-4 left-4 z-10 text-xs bg-slate-900/80 p-2 rounded border border-slate-700">
+                <span class="text-red-400">TARGET AC FREQUENCY:</span><br>
+                <span id="target-freq-display" class="text-lg text-red-400 glow-text font-bold">-- Hz</span>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="bg-slate-800 p-6 border-t-2 border-slate-700">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Sliders -->
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <label class="text-sm text-slate-300">Inductance (L)</label>
+                            <span id="l-display" class="font-bold text-emerald-400">55 mH</span>
+                        </div>
+                        <input type="range" id="slider-l" min="10" max="100" value="55" step="1">
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <label class="text-sm text-slate-300">Capacitance (C)</label>
+                            <span id="c-display" class="font-bold text-emerald-400">55 µF</span>
+                        </div>
+                        <input type="range" id="slider-c" min="10" max="100" value="55" step="1">
+                    </div>
+                </div>
+                
+                <!-- Telemetry Readout -->
+                <div class="bg-slate-900 rounded p-4 border border-slate-700 flex flex-col justify-center relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-2 text-[10px] text-slate-500">REAL-TIME TELEMETRY</div>
+                    <div class="flex justify-between items-end mb-4 border-b border-slate-800 pb-2">
+                        <div>
+                            <div class="text-xs text-cyan-500 mb-1">INDUCTIVE REACTANCE (X_L = 2πfL)</div>
+                            <div class="text-2xl font-bold text-cyan-400" id="xl-display">-- Ω</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <div class="text-xs text-purple-400 mb-1">CAPACITIVE REACTANCE (X_C = 1/2πfC)</div>
+                            <div class="text-2xl font-bold text-purple-400" id="xc-display">-- Ω</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tuning Status -->
+                    <div class="mt-4 text-center p-2 rounded bg-slate-800 border border-slate-600 transition-colors duration-300" id="status-panel">
+                        <span id="status-text" class="text-sm font-bold tracking-widest text-slate-400">AWAITING TUNE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// Game Constants & Variables
+const canvas = document.getElementById('oscilloscope');
+const ctx = canvas.getContext('2d');
+let animationId;
+let isPlaying = false;
+let score = 0;
+let lives = 3;
+let time = 0;
+
+// Circuit parameters
+let currentL = 55; // mH
+let currentC = 55; // uF
+let targetF = 0; // Hz
+let XL = 0; // Ohms
+let XC = 0; // Ohms
+let playerF = 0; // Hz
+
+// Wave mechanics
+let waveProgress = 0; 
+let waveDuration = 600; 
+let lockOnProgress = 0; 
+let particles = [];
+
+// DOM Elements
+const startScreen = document.getElementById('start-screen');
+const gameOverScreen = document.getElementById('game-over-screen');
+const startBtn = document.getElementById('start-btn');
+const restartBtn = document.getElementById('restart-btn');
+const scoreDisplay = document.getElementById('score-display');
+const livesDisplay = document.getElementById('lives-display');
+const targetFreqDisplay = document.getElementById('target-freq-display');
+const sliderL = document.getElementById('slider-l');
+const sliderC = document.getElementById('slider-c');
+const lDisplay = document.getElementById('l-display');
+const cDisplay = document.getElementById('c-display');
+const xlDisplay = document.getElementById('xl-display');
+const xcDisplay = document.getElementById('xc-display');
+const lockContainer = document.getElementById('lock-container');
+const lockBar = document.getElementById('lock-bar');
+const statusPanel = document.getElementById('status-panel');
+const statusText = document.getElementById('status-text');
+const finalScore = document.getElementById('final-score');
+
+// --- Utility Functions ---
+function generateTargetFrequency() {
+    const randomL = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+    const randomC = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+    const L_henrys = randomL * 1e-3;
+    const C_farads = randomC * 1e-6;
+    return Math.round(1 / (2 * Math.PI * Math.sqrt(L_henrys * C_farads)));
+}
+
+function updateTelemetry() {
+    currentL = parseFloat(sliderL.value);
+    currentC = parseFloat(sliderC.value);
+    lDisplay.innerText = `${currentL} mH`;
+    cDisplay.innerText = `${currentC} µF`;
+    
+    if (targetF > 0) {
+        const L_henrys = currentL * 1e-3;
+        const C_farads = currentC * 1e-6;
+        XL = 2 * Math.PI * targetF * L_henrys;
+        XC = 1 / (2 * Math.PI * targetF * C_farads);
+        playerF = 1 / (2 * Math.PI * Math.sqrt(L_henrys * C_farads));
+        
+        xlDisplay.innerText = `${XL.toFixed(1)} Ω`;
+        xcDisplay.innerText = `${XC.toFixed(1)} Ω`;
+        
+        const error = Math.abs(XL - XC) / Math.max(XL, XC);
+        
+        if (error < 0.05) {
+            statusPanel.className = "mt-4 text-center p-2 rounded bg-emerald-900 border border-emerald-500 transition-colors duration-300";
+            statusText.className = "text-sm font-bold tracking-widest text-emerald-400 glow-text";
+            statusText.innerText = "RESONANCE ACHIEVED - LOCKING";
+            lockOnProgress += 0.015; 
+            lockContainer.classList.remove('hidden');
+        } else if (error < 0.20) {
+            statusPanel.className = "mt-4 text-center p-2 rounded bg-yellow-900 border border-yellow-500 transition-colors duration-300";
+            statusText.className = "text-sm font-bold tracking-widest text-yellow-400";
+            statusText.innerText = "TUNING PROXIMITY ALERT";
+            lockOnProgress = 0;
+            lockContainer.classList.add('hidden');
+        } else {
+            statusPanel.className = "mt-4 text-center p-2 rounded bg-slate-800 border border-slate-600 transition-colors duration-300";
+            statusText.className = "text-sm font-bold tracking-widest text-slate-400";
+            statusText.innerText = "OUT OF PHASE";
+            lockOnProgress = 0;
+            lockContainer.classList.add('hidden');
+        }
+        
+        if (lockOnProgress > 1) lockOnProgress = 1;
+        lockBar.style.width = `${lockOnProgress * 100}%`;
+        
+        if (lockOnProgress >= 1 && isPlaying) {
+            destroyWave();
+        }
+    }
+}
+
+// --- Game Logic ---
+function initGame() {
+    score = 0;
+    lives = 3;
+    scoreDisplay.innerText = "0000";
+    updateLivesDisplay();
+    spawnWave();
+    isPlaying = true;
+    startScreen.classList.add('hidden');
+    gameOverScreen.classList.add('hidden');
+    if (animationId) cancelAnimationFrame(animationId);
+    gameLoop();
+}
+
+function spawnWave() {
+    targetF = generateTargetFrequency();
+    targetFreqDisplay.innerText = `${targetF} Hz`;
+    waveProgress = 0;
+    lockOnProgress = 0;
+    let speedMult = 1 + (score / 1000) * 0.1;
+    waveDuration = 600 / speedMult;
+    updateTelemetry();
+}
+
+function destroyWave() {
+    createExplosion();
+    score += 100;
+    scoreDisplay.innerText = score.toString().padStart(4, '0');
+    lockOnProgress = 0;
+    lockContainer.classList.add('hidden');
+    spawnWave();
+}
+
+function takeDamage() {
+    lives--;
+    updateLivesDisplay();
+    const flash = document.createElement('div');
+    flash.className = "absolute inset-0 bg-red-600 mix-blend-overlay pointer-events-none z-50 transition-opacity duration-300";
+    document.querySelector('.crt-container').appendChild(flash);
+    setTimeout(() => {
+        flash.style.opacity = '0';
+        setTimeout(() => flash.remove(), 300);
+    }, 50);
+    
+    if (lives <= 0) {
+        gameOver();
+    } else {
+        spawnWave();
+    }
+}
+
+function gameOver() {
+    isPlaying = false;
+    finalScore.innerText = score;
+    gameOverScreen.classList.remove('hidden');
+    gameOverScreen.classList.add('flex');
+    targetFreqDisplay.innerText = "-- Hz";
+    xlDisplay.innerText = "-- Ω";
+    xcDisplay.innerText = "-- Ω";
+}
+
+function updateLivesDisplay() {
+    livesDisplay.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+        if (i < lives) {
+            livesDisplay.innerHTML += `<svg class="w-5 h-5 text-emerald-500 fill-current drop-shadow-[0_0_5px_rgba(16,185,129,0.8)]" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>`;
+        } else {
+            livesDisplay.innerHTML += `<svg class="w-5 h-5 text-slate-700 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>`;
+        }
+    }
+}
+
+// --- Visual Effects & Drawing ---
+function drawGrid() {
+    ctx.strokeStyle = 'rgba(16, 185, 129, 0.15)'; 
+    ctx.lineWidth = 1;
+    for (let y = 0; y < canvas.height; y += 40) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+    }
+    for (let x = 0; x < canvas.width; x += 40) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+    }
+    ctx.strokeStyle = 'rgba(16, 185, 129, 0.4)';
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height / 2);
+    ctx.lineTo(canvas.width, canvas.height / 2);
+    ctx.moveTo(canvas.width / 2, 0);
+    ctx.lineTo(canvas.width / 2, canvas.height);
+    ctx.stroke();
+}
+
+function drawWave(frequency, amplitude, color, speedOffset, lineWidth) {
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = lineWidth;
+    const visualFreq = frequency / 50;
+    const k = (Math.PI * 2 * visualFreq) / canvas.width;
+    for (let x = 0; x < canvas.width; x++) {
+        const y = canvas.height / 2 + Math.sin(x * k + speedOffset) * amplitude;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+}
+
+function createExplosion() {
+    for (let i = 0; i < 30; i++) {
+        particles.push({
+            x: canvas.width / 2 + (Math.random() * 100 - 50),
+            y: canvas.height / 2,
+            vx: (Math.random() - 0.5) * 15,
+            vy: (Math.random() - 0.5) * 15,
+            life: 1.0,
+            color: i % 2 === 0 ? '#34d399' : '#10b981'
+        });
+    }
+}
+
+function drawParticles() {
+    for (let i = particles.length - 1; i >= 0; i--) {
+        let p = particles[i];
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.life;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= 0.05;
+        if (p.life <= 0) particles.splice(i, 1);
+    }
+    ctx.globalAlpha = 1.0;
+}
+
+// --- Main Game Loop ---
+function gameLoop() {
+    if (!isPlaying) return;
+    
+    time += 0.1;
+    waveProgress += 1 / waveDuration;
+    if (waveProgress >= 1) {
+        takeDamage();
+    }
+    
+    ctx.fillStyle = 'rgba(2, 16, 5, 0.3)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    drawGrid();
+    
+    const maxAmplitude = 150; 
+    const currentThreatAmplitude = waveProgress * maxAmplitude; 
+    const playerAmplitude = 100; 
+    
+    const error = Math.abs(XL - XC) / Math.max(XL, XC);
+    let playerColor = '#22d3ee'; 
+    if (error < 0.05) {
+        playerColor = '#10b981'; 
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = playerColor;
+    } else if (error < 0.20) {
+        playerColor = '#facc15'; 
+    }
+    
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = '#ef4444';
+    drawWave(targetF, currentThreatAmplitude, '#ef4444', time * 1.5, 3);
+    
+    ctx.shadowBlur = error < 0.05 ? 20 : 5;
+    ctx.shadowColor = playerColor;
+    const playerSpeed = error < 0.05 ? time * 1.5 : time * (1.5 + error);
+    drawWave(playerF, playerAmplitude, playerColor, playerSpeed, 2);
+    
+    ctx.shadowBlur = 0;
+    drawParticles();
+    
+    if (waveProgress > 0.7) {
+        const intensity = (waveProgress - 0.7) / 0.3;
+        ctx.fillStyle = `rgba(255, 0, 0, ${intensity * 0.2})`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    
+    animationId = requestAnimationFrame(gameLoop);
+}
+
+// --- Event Listeners ---
+sliderL.addEventListener('input', updateTelemetry);
+sliderC.addEventListener('input', updateTelemetry);
+startBtn.addEventListener('click', initGame);
+restartBtn.addEventListener('click', initGame);
+
+// Initial setup
+updateLivesDisplay();
+ctx.fillStyle = '#021005';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+drawGrid();
+</script>
+</body>
+</html>

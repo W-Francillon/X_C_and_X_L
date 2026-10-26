@@ -1,7 +1,25 @@
 ---
-title: "X_C_and_X_L"
+page-layout: full
 ---
 
-This is a Quarto website.
+<div class="welcome-headline">
+Welcome to Papillon Engineering
+</div>
+<div class="welcome-subheadline">
+Practical Insights into Materials, Circuits, Engineering Science & Empowering the Next Generation of Engineers
+</div>
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+::: {.grid}
+
+<!-- Shrunk from md-5 to md-4 -->
+::: {.g-col-12 .g-col-md-4 style="background-color: #f8f9fa; padding: 25px; margin-top: 20px;"}
+Led by Dr. Wesley Francillon, Papillon Engineering is a dynamic hub for engineering education and related projects. Drawing on a Ph.D. in Materials Science and over two decades of cross-sector experience spanning private industry, federal government, and academia, our mission is to make complex systems accessible. As an Associate Professor teaching Engineering Science and Electrical Engineering Technology, Dr. Francillon bridges the gap between classroom theory and real-world implementation, guiding hands-on undergraduate projects and fostering the next generation of STEM professionals through robust K-12 outreach.
+:::
+
+<!-- Expanded from md-7 to md-8 -->
+::: {.g-col-12 .g-col-md-8}
+![](Papillon2.jpg){width=70%}
+:::
+
+:::
+:::

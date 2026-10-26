@@ -1,0 +1,11 @@
+---
+title: "Teaching"
+---
+
+## Course Materials
+
+* **Engineering Science:** Lecture slides and operational amplifier assessments.
+* **Circuit Simulation:** PSpice and LTspice lab manuals.
+* **Materials Science:** Supplemental resources for chemical engineering.
+
+More information coming soon.

@@ -1,0 +1,38 @@
+---
+title: "RESEARCH & PROJECT AREAS"
+page-layout: full
+---
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+![](https://via.placeholder.com/400x250.png?text=Autonomous+Systems)
+::: {.card-body}
+<h5 class="card-title">Autonomous Systems</h5>
+<p class="card-text">Developing AI-enabled autonomous systems and modular robotics. Mentorship initiatives focus on software integration and control systems for next-generation automation.</p>
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+![](https://via.placeholder.com/400x250.png?text=Aviation+Fuel)
+::: {.card-body}
+<h5 class="card-title">Sustainable Aviation Fuel</h5>
+<p class="card-text">Exploring clean-technology ventures and chemical engineering approaches through Etherion Fuels to develop and scale sustainable alternatives for aviation.</p>
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+![](https://via.placeholder.com/400x250.png?text=Power+Systems)
+::: {.card-body}
+<h5 class="card-title">Polyphase Power Systems</h5>
+<p class="card-text">Measurement and transient modeling of analog, digital, and AC polyphase power circuits utilizing PSpice, TINA-TI, and MATLAB data visualization.</p>
+:::
+:::
+:::
+
+:::

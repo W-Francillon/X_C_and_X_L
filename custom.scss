@@ -1,0 +1,50 @@
+/*-- scss:defaults --*/
+/* 1. Force the entire site to use ONE uniform font */
+$font-family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-base: $font-family-sans-serif;
+$headings-font-family: $font-family-sans-serif;
+
+/* 2. Theme Colors */
+$primary: #1c528b; 
+$body-color: #333333; 
+$navbar-bg: #ffffff; 
+$navbar-fg: #555555;
+
+/*-- scss:rules --*/
+/* Replicate the large, block-background logo */
+.navbar-brand {
+  background-color: #1a0b2e; /* Deep purple background block */
+  padding: 15px 30px;
+  margin-left: -20px; 
+}
+
+.navbar-brand img {
+  max-height: 100px; 
+  width: auto;
+}
+
+/* Navigation text formatting */
+.navbar-nav .nav-link {
+  font-family: $font-family-sans-serif !important;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  color: #555555 !important;
+  margin-top: 35px; 
+}
+
+/* Homepage Typography */
+.welcome-headline {
+  color: #1c528b; 
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.welcome-subheadline {
+  color: #447294;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 30px;
+}

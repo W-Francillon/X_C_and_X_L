@@ -1,0 +1,22 @@
+---
+title: "Interactive Circuit Simulator"
+subtitle: "Real-Time Analog, Digital, and Power Electronic Simulation"
+page-layout: full
+---
+
+Welcome to the Papillon Engineering interactive circuit laboratory. Use the simulation workbench below to build, wire, and analyze DC/AC circuits, filters, and operational amplifiers.
+
+::: {.callout-note}
+If you prefer an isolated workspace or are presenting in class, you can open the simulation in a dedicated full-screen window: [Launch Full-Screen Simulator ↗](https://www.falstad.com/circuit/circuitjs.html){target="_blank"}
+:::
+
+::: {.callout-tip}
+### Quick Instructions
+* **Placing Components:** Use the top menu (**Draw > Passive Components** or **Active Components**) to select resistors, capacitors, sources, and semiconductors.
+* **Wiring:** Click and drag your mouse between component nodes to draw connection wires.
+* **Control:** Use the buttons on the right to **Run/Stop** the simulation or **Reset** the workspace.
+:::
+
+<div style="width: 100%; background: #121212; border: 1px solid #dcdcdc; border-radius: 8px; overflow: hidden; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+  <iframe src="https://www.falstad.com/circuit/circuitjs.html" width="100%" height="650px" style="border: none; display: block; background: #121212;"></iframe>
+</div>

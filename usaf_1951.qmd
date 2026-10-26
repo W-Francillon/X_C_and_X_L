@@ -1,0 +1,1669 @@
+---
+title: ""
+page-layout: full
+toc: false
+---
+
+Use this interactive optical metrology lab to evaluate spatial frequency ($R = 2^{G+(E-1)/6}$), **Modulation Transfer Function (MTF)** contrast, **Astigmatic Gaussian PSF Blur** ($\sigma_x, \sigma_y$), and **CMOS Nyquist Sensor Sampling** across a standard **MIL-STD-150A 1951 USAF Target**, a calibrated **U.S. Lincoln Cent (“Penny”)**, a **60 TPI Textile Weave**, **PCB Micro-Traces**, or your own uploaded inspection images.
+
+```{=html}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+<style>
+.usaf-app-wrapper {
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-subtle: #f8fafc;
+  --bg-pill: #f1f5f9;
+  --navy-header: #1e2436;
+  --navy-active: #1e2436;
+  --indigo-accent: #4338ca;
+  --indigo-soft: #eef2ff;
+  --amber-accent: #d97706;
+  --border-light: #e2e8f0;
+  --border-frame: #cbd5e1;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --pass-bg: #dcfce7;
+  --pass-text: #15803d;
+  --warn-bg: #fef3c7;
+  --warn-text: #b45309;
+  --fail-bg: #fee2e2;
+  --fail-text: #b91c1c;
+  --font-latex: 'Computer Modern Serif', 'Latin Modern Roman', Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'SFMono-Regular', monospace;
+
+  max-width: 1320px;
+  margin: 1rem auto 3rem auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.05);
+  padding: 24px 28px 30px 28px;
+  color: var(--text-primary);
+  font-family: var(--font-latex);
+}
+
+.usaf-app-wrapper * {
+  box-sizing: border-box;
+}
+
+.usaf-top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.usaf-brand-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.usaf-brand-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--indigo-accent);
+  display: inline-block;
+}
+
+.usaf-brand-sub {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 3px 0 0 21px;
+}
+
+.usaf-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.usaf-counter-pill {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-frame);
+  border-radius: 6px;
+  color: var(--text-secondary);
+}
+
+.usaf-cycle-btn {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  background: var(--navy-active);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.usaf-tabs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.usaf-tab-pill {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 8px 15px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: var(--bg-pill);
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.usaf-tab-pill:hover {
+  background: #e2e8f0;
+}
+
+.usaf-tab-pill.active {
+  background: var(--navy-active);
+  color: #ffffff;
+}
+
+.usaf-workspace-grid {
+  display: grid;
+  grid-template-columns: 1.26fr 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+@media (max-width: 1080px) {
+  .usaf-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Left Column: Navy Framed Dual Viewport */
+.usaf-navy-frame {
+  border: 1.5px solid var(--navy-header);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.usaf-navy-banner {
+  background: var(--navy-header);
+  color: #ffffff;
+  padding: 9px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.03em;
+}
+
+.usaf-split-stage {
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr;
+  gap: 14px;
+  padding: 14px;
+  background-color: #ffffff;
+  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+@media (max-width: 680px) {
+  .usaf-split-stage {
+    grid-template-columns: 1fr;
+  }
+}
+
+.usaf-pane-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.usaf-pane-kicker {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: 0.69rem;
+  color: var(--text-secondary);
+}
+
+.usaf-pane-kicker strong {
+  color: var(--indigo-accent);
+}
+
+.usaf-canvas-box {
+  position: relative;
+  border: 1px solid var(--border-frame);
+  border-radius: 6px;
+  background: #ffffff;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.usaf-canvas-box canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+}
+
+.usaf-roi-Readout-box {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: 5px;
+  padding: 6px 10px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-primary);
+}
+
+.usaf-control-select {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  padding: 6px 8px;
+  border: 1px solid var(--border-frame);
+  border-radius: 5px;
+  background: #ffffff;
+  color: var(--text-primary);
+}
+
+.usaf-chk-row {
+  display: flex;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.71rem;
+  color: var(--text-secondary);
+}
+
+.usaf-chk-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.usaf-frame-footer {
+  border-top: 1px solid var(--border-light);
+  background: #ffffff;
+  padding: 8px 14px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+/* Card Panels */
+.usaf-card-panel {
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 16px 18px;
+  margin-top: 16px;
+}
+
+.usaf-right-stack .usaf-card-panel:first-child {
+  margin-top: 0;
+}
+
+.usaf-panel-kicker {
+  font-family: var(--font-sans);
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin: 0 0 6px 0;
+}
+
+.usaf-panel-desc {
+  font-family: var(--font-latex);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: 0 0 12px 0;
+}
+
+.usaf-formula-strip {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin: 10px 0 12px 0;
+  text-align: center;
+  font-size: 0.94rem;
+  overflow-x: auto;
+}
+
+.usaf-given-box {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 11px 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-primary);
+}
+
+.usaf-given-footer {
+  grid-column: 1 / -1;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border-frame);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.74rem;
+}
+
+.usaf-link-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.usaf-link-pill {
+  background: var(--indigo-soft);
+  border: 1px solid #c7d2fe;
+  color: var(--indigo-accent);
+  padding: 5px 11px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.usaf-reset-pill {
+  background: var(--bg-pill);
+  border: 1px solid var(--border-frame);
+  color: var(--text-primary);
+  padding: 5px 11px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+
+.usaf-sliders-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 18px;
+}
+
+.usaf-slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.usaf-slider-top {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.usaf-slider-val {
+  font-family: var(--font-mono);
+  color: var(--indigo-accent);
+  font-weight: 700;
+}
+
+.usaf-app-wrapper input[type="range"] {
+  width: 100%;
+  accent-color: var(--navy-active);
+  cursor: pointer;
+}
+
+.usaf-plot-legend {
+  display: flex;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.usaf-status-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+
+.usaf-status-badge.pass { background: var(--pass-bg); color: var(--pass-text); }
+.usaf-status-badge.warn { background: var(--warn-bg); color: var(--warn-text); }
+.usaf-status-badge.fail { background: var(--fail-bg); color: var(--fail-text); }
+
+.usaf-ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+}
+
+.usaf-ref-table th {
+  text-align: left;
+  padding: 6px 8px;
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border-frame);
+  color: var(--text-secondary);
+}
+
+.usaf-ref-table td {
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer;
+}
+
+.usaf-ref-table tr.active-row {
+  background: var(--indigo-soft);
+  font-weight: 700;
+}
+</style>
+
+<div class="usaf-app-wrapper" id="usafAppRoot">
+  <!-- Header -->
+  <div class="usaf-top-header">
+    <div>
+      <h2 class="usaf-brand-title">
+        <span class="usaf-brand-dot"></span>
+        1951 USAF OPTICAL RESOLUTION &amp; MTF METROLOGY ENGINE
+      </h2>
+      <p class="usaf-brand-sub">High-Contrast MIL-STD-150A Schematics • Anisotropic 2D PSF Convolution • Real-Time MTF &amp; Nyquist Verification</p>
+    </div>
+    <div class="usaf-header-right">
+      <span class="usaf-counter-pill" id="uiSampleCounter">Target 1 of 5</span>
+      <button class="usaf-cycle-btn" id="uiCycleBtn" type="button">↻ Next Optical Sample</button>
+    </div>
+  </div>
+
+  <!-- Category Pills -->
+  <div class="usaf-tabs-row">
+    <button class="usaf-tab-pill active" data-target="usaf" type="button">1. 1951 USAF Standard Target</button>
+    <button class="usaf-tab-pill" data-target="penny" type="button">2. U.S. Lincoln Cent ("Penny")</button>
+    <button class="usaf-tab-pill" data-target="textile" type="button">3. 60 TPI Woven Textile Weave</button>
+    <button class="usaf-tab-pill" data-target="pcb" type="button">4. PCB Micro-Traces &amp; Wirebonds</button>
+    <button class="usaf-tab-pill" data-target="custom" type="button">5. Upload Custom Image</button>
+  </div>
+
+  <!-- Main 2-Column Grid -->
+  <div class="usaf-workspace-grid">
+    <!-- LEFT COLUMN: Dual Split Viewport + PSF Controls -->
+    <div>
+      <div class="usaf-navy-frame">
+        <div class="usaf-navy-banner">
+          <span id="uiBannerLeft">OPTICAL TARGET 1: 1951 USAF RESOLUTION TEST CHART</span>
+          <span id="uiBannerRight">MIL-STD-150A Standard</span>
+        </div>
+
+        <div class="usaf-split-stage">
+          <!-- Left Sub-Pane: Object Plane Overview -->
+          <div class="usaf-pane-col">
+            <div class="usaf-pane-kicker">
+              <span>OBJECT PLANE OVERVIEW</span>
+              <span>Drag ROI reticle or click zone badge</span>
+            </div>
+            <div class="usaf-canvas-box">
+              <canvas id="cvOverview" width="380" height="380"></canvas>
+            </div>
+            <!-- USAF Group/Element selector or Custom Image Upload -->
+            <div id="uiOverviewControls" style="display:flex; gap:6px; align-items:center;">
+              <select id="selGroup" class="usaf-control-select" style="width:50%;">
+                <option value="-1">Group -1 (0.50–0.89 lp/mm)</option>
+                <option value="0">Group 0 (1.00–1.78 lp/mm)</option>
+                <option value="1">Group 1 (2.00–3.56 lp/mm)</option>
+                <option value="2" selected>Group 2 (4.00–7.13 lp/mm)</option>
+                <option value="3">Group 3 (8.00–14.25 lp/mm)</option>
+                <option value="4">Group 4 (16.0–28.5 lp/mm)</option>
+                <option value="5">Group 5 (32.0–57.0 lp/mm)</option>
+              </select>
+              <select id="selElement" class="usaf-control-select" style="width:50%;">
+                <option value="1">Element 1</option>
+                <option value="2">Element 2</option>
+                <option value="3">Element 3</option>
+                <option value="4" selected>Element 4</option>
+                <option value="5">Element 5</option>
+                <option value="6">Element 6</option>
+              </select>
+            </div>
+            <div id="uiUploadWrap" style="display:none;">
+              <input type="file" id="inpCustomFile" accept="image/*" style="font-family:var(--font-mono); font-size:0.72rem; width:100%;">
+            </div>
+          </div>
+
+          <!-- Right Sub-Pane: Sensor ROI Inspector -->
+          <div class="usaf-pane-col">
+            <div class="usaf-pane-kicker">
+              <span>SENSOR ROI INSPECTOR</span>
+              <strong id="uiEqHeader">Eq: Group 2, Elem 4</strong>
+            </div>
+            <div class="usaf-canvas-box">
+              <canvas id="cvRoi" width="320" height="320"></canvas>
+            </div>
+            <div class="usaf-roi-Readout-box">
+              <span>ROI FOV: <strong id="uiRoiFov">1.08 mm</strong></span>
+              <span>Sampling: <strong id="uiPxPerFeat" style="color:var(--indigo-accent);">3.7 px/feature</strong></span>
+            </div>
+            <select id="selZonePreset" class="usaf-control-select"></select>
+            <div class="usaf-chk-row">
+              <label><input type="checkbox" id="chkPixelGrid" checked> Sensor Pixel Grid</label>
+              <label><input type="checkbox" id="chkCrosshairs" checked> Scan Crosshairs</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="usaf-frame-footer">
+          <span>All spatial dimensions calibrated to MIL-STD-150A.</span>
+          <span>Eff. Object Pixel: <strong id="uiFooterPeff" style="color:var(--indigo-accent);">24.00 µm/px</strong> • Sensor Nyquist: <strong id="uiFooterNyq" style="color:var(--pass-text);">20.8 lp/mm</strong></span>
+        </div>
+      </div>
+
+      <!-- Bottom Left Card: Optical PSF Aberration & Digital Sensor Controls -->
+      <div class="usaf-card-panel">
+        <p class="usaf-panel-kicker">OPTICAL PSF ABERRATION &amp; DIGITAL SENSOR SAMPLING CONTROLS</p>
+        <p class="usaf-panel-desc">
+          Adjust sagittal ($\sigma_x$) and tangential ($\sigma_y$) Gaussian blur, pixel size ($p_{\text{sensor}}$), and magnification ($M$).
+        </p>
+
+        <div class="usaf-link-bar">
+          <label class="usaf-link-pill">
+            <input type="checkbox" id="chkLinkSigma" checked>
+            <span>Link $\sigma_x = \sigma_y$ (Symmetric PSF)</span>
+          </label>
+          <button type="button" class="usaf-reset-pill" id="btnResetOptics">Reset Ideal</button>
+        </div>
+
+        <div class="usaf-sliders-grid">
+          <div class="usaf-slider-row">
+            <div class="usaf-slider-top">
+              <span>Sagittal Blur ($\sigma_x$)</span>
+              <span class="usaf-slider-val" id="valSldSigmaX">12 µm</span>
+            </div>
+            <input type="range" id="sldSigmaX" min="0" max="140" step="1" value="12">
+          </div>
+
+          <div class="usaf-slider-row">
+            <div class="usaf-slider-top">
+              <span>Tangential Blur ($\sigma_y$)</span>
+              <span class="usaf-slider-val" id="valSldSigmaY">12 µm</span>
+            </div>
+            <input type="range" id="sldSigmaY" min="0" max="140" step="1" value="12">
+          </div>
+
+          <div class="usaf-slider-row">
+            <div class="usaf-slider-top">
+              <span>Sensor Pixel Size ($p_{\text{sensor}}$)</span>
+              <span class="usaf-slider-val" id="valSldPitch">24.0 µm</span>
+            </div>
+            <input type="range" id="sldPitch" min="2.4" max="96.0" step="1.2" value="24.0">
+          </div>
+
+          <div class="usaf-slider-row">
+            <div class="usaf-slider-top">
+              <span>Optical Magnification ($M$)</span>
+              <span class="usaf-slider-val" id="valSldMag">1.0x</span>
+            </div>
+            <input type="range" id="sldMag" min="0.25" max="4.0" step="0.25" value="1.0">
+          </div>
+
+          <div class="usaf-slider-row">
+            <div class="usaf-slider-top">
+              <span>Veiling Glare / Flare</span>
+              <span class="usaf-slider-val" id="valSldFlare">2%</span>
+            </div>
+            <input type="range" id="sldFlare" min="0" max="45" step="1" value="2">
+          </div>
+
+          <div class="usaf-slider-row">
+            <div class="usaf-slider-top">
+              <span>Sensor Shot Noise ($\sigma_n$)</span>
+              <span class="usaf-slider-val" id="valSldNoise">1%</span>
+            </div>
+            <input type="range" id="sldNoise" min="0" max="25" step="1" value="1">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Specification, Cross-Sectional Plot & Reference Table -->
+    <div class="usaf-right-stack">
+      <!-- Card 1: Governing Equations & Given Parameters -->
+      <div class="usaf-card-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <p class="usaf-panel-kicker" style="margin:0;">METROLOGY SPECIFICATION &amp; GOVERNING EQUATIONS</p>
+          <span class="usaf-status-badge pass" id="uiStatusBadge">PASS: RESOLVED</span>
+        </div>
+        <p class="usaf-panel-desc" style="margin-bottom:8px;">
+          Evaluating optical resolving power using the standard <strong>MIL-STD-150A</strong> governing equations:
+        </p>
+
+        <div class="usaf-formula-strip">
+          $$R = 2^{\left(G + \frac{E-1}{6}\right)}\text{ lp/mm}, \qquad w = \frac{1000}{2R}\ \mu\text{m}, \qquad \text{MTF} = \frac{I_{\max} - I_{\min}}{I_{\max} + I_{\min}}$$
+        </div>
+
+        <p class="usaf-panel-desc" id="uiVerdictSummary" style="margin-bottom:10px;">
+          Both sagittal (X) and tangential (Y) profiles exceed the 20% Rayleigh criterion (Min MTF: 91%).
+        </p>
+
+        <p class="usaf-panel-kicker" style="font-size:0.68rem; color:var(--text-muted);">GIVEN TARGET &amp; SENSOR PARAMETERS:</p>
+        <div class="usaf-given-box">
+          <div>R<sub>target</sub> = <strong id="uiParamR">5.66 lp/mm</strong></div>
+          <div>w<sub>feature</sub> = <strong id="uiParamW">88.39 µm</strong></div>
+          <div>USAF<sub>eq</sub> = <strong id="uiParamEq" style="color:var(--indigo-accent);">Group 2, Elem 4</strong></div>
+          <div>Pitch (2w) = <strong id="uiParamPitch">176.8 µm</strong></div>
+          <div>p<sub>eff</sub> (p/M) = <strong id="uiParamPeff">24.00 µm/px</strong></div>
+          <div>f<sub>Nyquist</sub> = <strong id="uiParamNyq">20.83 lp/mm</strong></div>
+          <div class="usaf-given-footer">
+            <span id="uiSamplingNote">Sampling: 3.7 sensor px / feature</span>
+            <strong id="uiNyquistVerdict" style="color:var(--pass-text);">Oversampled (3.7× Nyquist)</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Light-Theme Cross-Sectional Intensity Profile & MTF Plot -->
+      <div class="usaf-card-panel">
+        <p class="usaf-panel-kicker">CROSS-SECTIONAL INTENSITY PROFILE &amp; MTF PLOT</p>
+        <p class="usaf-panel-desc" style="font-size:0.84rem; margin-bottom:8px;">
+          Michelson Contrast $C = (I_{\max} - I_{\min})/(I_{\max} + I_{\min})$ vs. $20\%$ Rayleigh Criterion
+        </p>
+        <div class="usaf-plot-legend">
+          <span style="color:var(--indigo-accent);" id="uiLegendSag">— Sagittal (X): 92%</span>
+          <span style="color:var(--amber-accent);" id="uiLegendTan">— Tangential (Y): 92%</span>
+        </div>
+        <canvas id="cvPlot" width="520" height="195" style="width:100%; height:195px; display:block;"></canvas>
+      </div>
+
+      <!-- Card 3: Group Reference Table -->
+      <div class="usaf-card-panel">
+        <p class="usaf-panel-kicker" id="uiTableTitle">GROUP 2 ELEMENT REFERENCE TABLE (CLICK ROW TO INSPECT)</p>
+        <table class="usaf-ref-table">
+          <thead>
+            <tr>
+              <th>Element</th>
+              <th>Freq (lp/mm)</th>
+              <th>Bar Width</th>
+              <th>MTF (Min)</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="uiTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const cvOverview = document.getElementById('cvOverview');
+  const ctxOver = cvOverview.getContext('2d');
+  const cvRoi = document.getElementById('cvRoi');
+  const ctxRoi = cvRoi.getContext('2d');
+  const cvPlot = document.getElementById('cvPlot');
+  const ctxPlot = cvPlot.getContext('2d');
+
+  // High-res clean master buffer for accurate 2D ROI crop & pixel quantization
+  const masterBuf = document.createElement('canvas');
+  masterBuf.width = 380;
+  masterBuf.height = 380;
+  const ctxMaster = masterBuf.getContext('2d');
+
+  const targetOrder = ['usaf', 'penny', 'textile', 'pcb', 'custom'];
+
+  const state = {
+    target: 'usaf',
+    group: 2,
+    element: 4,
+    zoneIdx: 0,
+    sigmaX: 12,
+    sigmaY: 12,
+    pitch: 24.0,
+    mag: 1.0,
+    flare: 2,
+    noise: 1,
+    roiX: 135,
+    roiY: 195,
+    roiSize: 92,
+    showGrid: true,
+    showCross: true,
+    usafBoxes: [],
+    customImg: null,
+    dragging: false
+  };
+
+  const targetMeta = {
+    usaf: {
+      num: 1,
+      banner: 'OPTICAL TARGET 1: 1951 USAF RESOLUTION TEST CHART (4.50 MM FOV)',
+      std: 'MIL-STD-150A Standard',
+      fovMm: 4.5,
+      zones: []
+    },
+    penny: {
+      num: 2,
+      banner: 'OPTICAL TARGET 2: U.S. LINCOLN CENT MICRO-INSPECTION (19.05 MM FOV)',
+      std: 'U.S. Mint Calibrated Relief',
+      fovMm: 6.0,
+      zones: [
+        { label: 'Zone 1: "LIBERTY" Motto Relief (w ≈ 180 µm)', x: 96, y: 205, wUm: 180 },
+        { label: 'Zone 2: "2026-D" Mint Date Numerals (w ≈ 130 µm)', x: 285, y: 225, wUm: 130 },
+        { label: 'Zone 3: Memorial Doric Columns (w ≈ 85 µm)', x: 190, y: 165, wUm: 85 },
+        { label: 'Zone 4: Lincoln Micro-Statue & Steps (w ≈ 35 µm)', x: 190, y: 205, wUm: 35 },
+        { label: 'Zone 5: Fine Mint Die Striations (w ≈ 14 µm)', x: 155, y: 105, wUm: 14 }
+      ]
+    },
+    textile: {
+      num: 3,
+      banner: 'OPTICAL TARGET 3: 60 TPI WOVEN TEXTILE SAMPLE (4.50 MM FOV)',
+      std: 'ASTM D3775 Weave Standard',
+      fovMm: 4.5,
+      zones: [
+        { label: 'Zone 1: 60 Threads/Inch plain weave (w ≈ 211.9 µm)', x: 112, y: 152, wUm: 211.86 },
+        { label: 'Zone 2: Inter-yarn optical porosity gap (w ≈ 85.0 µm)', x: 238, y: 112, wUm: 85.0 },
+        { label: 'Zone 3: Individual twisted micro-filaments (w ≈ 28.0 µm)', x: 132, y: 252, wUm: 28.0 },
+        { label: 'Zone 4: Broken filament snag defect (w ≈ 42.0 µm)', x: 228, y: 235, wUm: 42.0 }
+      ]
+    },
+    pcb: {
+      num: 4,
+      banner: 'OPTICAL TARGET 4: HIGH-DENSITY PCB & WIREBONDS (4.50 MM FOV)',
+      std: 'IPC-A-600 Micro-Inspection',
+      fovMm: 4.5,
+      zones: [
+        { label: 'Zone 1: QFN Perimeter Copper Pads (w ≈ 110 µm)', x: 95, y: 150, wUm: 110.0 },
+        { label: 'Zone 2: 100-Ohm Differential Microstrip (w ≈ 50 µm)', x: 195, y: 145, wUm: 50.0 },
+        { label: 'Zone 3: Solder Bridge Short Defect (w ≈ 28 µm)', x: 195, y: 245, wUm: 28.0 },
+        { label: 'Zone 4: 18 µm Gold Thermosonic Wirebonds (w ≈ 18 µm)', x: 295, y: 190, wUm: 18.0 }
+      ]
+    },
+    custom: {
+      num: 5,
+      banner: 'OPTICAL TARGET 5: CUSTOM IMPORTED MICROSCOPY IMAGE (4.50 MM FOV)',
+      std: 'User Calibrated Metric Plane',
+      fovMm: 4.5,
+      zones: [
+        { label: 'Zone 1: Custom ROI Feature Inspection (w ≈ 62.5 µm)', x: 190, y: 190, wUm: 62.5 }
+      ]
+    }
+  };
+
+  function calcFreq(g, e) {
+    return Math.pow(2, g + (e - 1) / 6);
+  }
+
+  function calcWidthUm(freq) {
+    return 1000 / (2 * freq);
+  }
+
+  function findEqUSAF(wUm) {
+    const freq = 1000 / (2 * wUm);
+    const logVal = Math.log2(freq);
+    let g = Math.floor(logVal);
+    let e = Math.round((logVal - g) * 6) + 1;
+    if (e > 6) {
+      e = 1;
+      g += 1;
+    }
+    return { g, e: Math.max(1, Math.min(6, e)), freq };
+  }
+
+  function computeMTF(wUm) {
+    const freq = 1000 / (2 * wUm);
+    const peff = state.pitch / state.mag; // um/px
+    const fNyq = 1000 / (2 * peff); // lp/mm
+
+    const mtfPsfX = Math.exp(-2 * Math.PI * Math.PI * Math.pow(state.sigmaX * freq * 0.001, 2) / 0.22);
+    const mtfPsfY = Math.exp(-2 * Math.PI * Math.PI * Math.pow(state.sigmaY * freq * 0.001, 2) / 0.22);
+
+    const sincArg = Math.min(0.92, (peff / (2 * wUm)) * 0.65);
+    const mtfPix = sincArg > 0.01 ? Math.sin(Math.PI * sincArg) / (Math.PI * sincArg) : 1.0;
+
+    const flareAtten = 1 - (state.flare / 100) * 0.85;
+    const mtfX = Math.max(0.02, Math.min(0.99, mtfPsfX * mtfPix * flareAtten));
+    const mtfY = Math.max(0.02, Math.min(0.99, mtfPsfY * mtfPix * flareAtten));
+
+    return { mtfX, mtfY, freq, peff, fNyq, pxPerFeat: wUm / peff };
+  }
+
+  // Draw clean high-resolution master target
+  function drawMasterTarget() {
+    ctxMaster.clearRect(0, 0, 380, 380);
+    ctxMaster.fillStyle = '#ffffff';
+    ctxMaster.fillRect(0, 0, 380, 380);
+
+    if (state.target === 'usaf') {
+      drawUSAFMaster(ctxMaster);
+    } else if (state.target === 'textile') {
+      drawRealisticTextile(ctxMaster);
+    } else if (state.target === 'penny') {
+      drawRealisticPenny(ctxMaster);
+    } else if (state.target === 'pcb') {
+      drawRealisticPcb(ctxMaster);
+    } else if (state.target === 'custom') {
+      drawCustomMaster(ctxMaster);
+    }
+  }
+
+  function drawUSAFMaster(ctx) {
+    state.usafBoxes = [];
+    ctx.strokeStyle = '#0f172a';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(12, 12, 356, 356);
+
+    ctx.fillStyle = '#0f172a';
+    ctx.font = 'bold 20px "Computer Modern Serif", Georgia, serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(`Group ${state.group}`, 105, 36);
+    ctx.font = 'bold 16px "Computer Modern Serif", Georgia, serif';
+    ctx.fillText(`Group ${state.group + 1}`, 275, 36);
+
+    const widths = [9.5, 8.5, 7.6, 6.8, 6.0, 5.4];
+    let yLeft = 52;
+    for (let i = 0; i < 6; i++) {
+      const eNum = i + 1;
+      const bw = widths[i];
+      const barL = bw * 5;
+      const xBase = i < 3 ? 52 : 232;
+      if (i === 3) yLeft = 56;
+
+      ctx.fillStyle = '#0f172a';
+      ctx.font = 'bold 14px "Computer Modern Serif", serif';
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(String(eNum), xBase - 7, yLeft + barL / 2);
+
+      // Vertical tri-bars
+      for (let b = 0; b < 3; b++) {
+        ctx.fillRect(xBase + b * 2 * bw, yLeft, bw, barL);
+      }
+      // Horizontal tri-bars
+      const hx = xBase + barL + bw * 1.3;
+      for (let b = 0; b < 3; b++) {
+        ctx.fillRect(hx, yLeft + b * 2 * bw, barL, bw);
+      }
+
+      const totW = barL * 2 + bw * 1.3;
+      state.usafBoxes.push({
+        e: eNum,
+        x: xBase - 14,
+        y: yLeft - 4,
+        w: totW + 18,
+        h: barL + 8,
+        cx: xBase + totW / 2,
+        cy: yLeft + barL / 2
+      });
+
+      if (state.element === eNum && !state.dragging) {
+        state.roiX = xBase + totW / 2;
+        state.roiY = yLeft + barL / 2;
+      }
+
+      yLeft += barL + 20;
+    }
+
+    // Center Nested Spiral Group G+1
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(148, 222, 92, 110);
+    let ny = 235;
+    for (let i = 0; i < 6; i++) {
+      const bw = widths[i] * 0.42;
+      const barL = bw * 5;
+      const nx = i < 3 ? 158 : 200;
+      if (i === 3) ny = 235;
+      ctx.fillStyle = '#0f172a';
+      for (let b = 0; b < 3; b++) {
+        ctx.fillRect(nx + b * 2 * bw, ny, bw, barL);
+        ctx.fillRect(nx + barL + 3, ny + b * 2 * bw, barL, bw);
+      }
+      ny += barL + 10;
+    }
+  }
+
+  // Exact 3D-shaded interlaced woven textile from screenshot 2
+  function drawRealisticTextile(ctx) {
+    // Dark backlit optical gap background
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(10, 10, 360, 360);
+
+    const cell = 42;
+    const yarnW = 31;
+    const start = 16;
+
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const x = start + c * cell;
+        const y = start + r * cell;
+        const warpOver = (r + c) % 2 === 0;
+
+        // Draw Weft (Horizontal Yarn Segment)
+        const hGrad = ctx.createLinearGradient(x, y + 4, x, y + 4 + yarnW);
+        hGrad.addColorStop(0, '#64748b');
+        hGrad.addColorStop(0.25, '#e2e8f0');
+        hGrad.addColorStop(0.5, '#f8fafc');
+        hGrad.addColorStop(0.75, '#cbd5e1');
+        hGrad.addColorStop(1, '#475569');
+
+        // Draw Warp (Vertical Yarn Segment)
+        const vGrad = ctx.createLinearGradient(x + 4, y, x + 4 + yarnW, y);
+        vGrad.addColorStop(0, '#64748b');
+        vGrad.addColorStop(0.25, '#e2e8f0');
+        vGrad.addColorStop(0.5, '#ffffff');
+        vGrad.addColorStop(0.75, '#cbd5e1');
+        vGrad.addColorStop(1, '#475569');
+
+        const drawWeft = () => {
+          ctx.fillStyle = hGrad;
+          ctx.fillRect(x - 5, y + 4, cell + 10, yarnW);
+          // Micro-filament twist lines
+          ctx.strokeStyle = 'rgba(30, 41, 59, 0.28)';
+          ctx.lineWidth = 0.9;
+          for (let f = 4; f < yarnW - 3; f += 4.2) {
+            ctx.beginPath();
+            ctx.moveTo(x - 5, y + 4 + f);
+            ctx.lineTo(x + cell + 5, y + 4 + f);
+            ctx.stroke();
+          }
+        };
+
+        const drawWarp = () => {
+          ctx.fillStyle = vGrad;
+          ctx.fillRect(x + 4, y - 5, yarnW, cell + 10);
+          ctx.strokeStyle = 'rgba(30, 41, 59, 0.28)';
+          ctx.lineWidth = 0.9;
+          for (let f = 4; f < yarnW - 3; f += 4.2) {
+            ctx.beginPath();
+            ctx.moveTo(x + 4 + f, y - 5);
+            ctx.lineTo(x + 4 + f, y + cell + 5);
+            ctx.stroke();
+          }
+        };
+
+        if (warpOver) {
+          drawWeft();
+          // Overlap shadow
+          ctx.fillStyle = 'rgba(15, 23, 42, 0.32)';
+          ctx.fillRect(x + 1, y + 2, yarnW + 6, yarnW + 4);
+          drawWarp();
+        } else {
+          drawWarp();
+          ctx.fillStyle = 'rgba(15, 23, 42, 0.32)';
+          ctx.fillRect(x + 2, y + 1, yarnW + 4, yarnW + 6);
+          drawWeft();
+        }
+      }
+    }
+
+    // Zone 4 Broken Filament Snag Defect (white/silver frayed loop)
+    ctx.save();
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2.6;
+    ctx.shadowColor = '#000000';
+    ctx.shadowBlur = 4;
+    ctx.beginPath();
+    ctx.moveTo(205, 238);
+    ctx.bezierCurveTo(222, 212, 244, 255, 262, 226);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawRealisticPenny(ctx) {
+    const cx = 190, cy = 190, r = 168;
+    const grad = ctx.createRadialGradient(cx - 35, cy - 35, 15, cx, cy, r);
+    grad.addColorStop(0, '#f0a686');
+    grad.addColorStop(0.55, '#bd6a47');
+    grad.addColorStop(1, '#68301a');
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.lineWidth = 7;
+    ctx.strokeStyle = '#4d2212';
+    ctx.stroke();
+
+    // Radial flow striations
+    ctx.strokeStyle = 'rgba(255, 235, 220, 0.35)';
+    ctx.lineWidth = 1;
+    for (let a = 0; a < 360; a += 2.5) {
+      const rad = (a * Math.PI) / 180;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(rad) * 95, cy + Math.sin(rad) * 95);
+      ctx.lineTo(cx + Math.cos(rad) * 158, cy + Math.sin(rad) * 158);
+      ctx.stroke();
+    }
+
+    // Memorial Columns
+    ctx.fillStyle = '#f8d8c8';
+    ctx.fillRect(112, 118, 156, 12);
+    ctx.fillRect(102, 222, 176, 14);
+    for (let i = 0; i < 12; i++) {
+      const colX = 118 + i * 12.5;
+      ctx.fillStyle = '#fce8dc';
+      ctx.fillRect(colX, 130, 6.2, 92);
+      ctx.fillStyle = '#4a2010';
+      ctx.fillRect(colX + 6.2, 130, 2.8, 92);
+    }
+
+    // Micro Statue
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(185, 185, 10, 28);
+
+    ctx.fillStyle = '#fff3eb';
+    ctx.font = 'bold 17px "Computer Modern Serif", serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('IN GOD WE TRUST', cx, 64);
+    ctx.fillText('LIBERTY', 88, 208);
+    ctx.fillText('2026-D', 292, 226);
+  }
+
+  function drawRealisticPcb(ctx) {
+    ctx.fillStyle = '#064e3b';
+    ctx.fillRect(12, 12, 356, 356);
+
+    // Copper QFN Pads
+    ctx.fillStyle = '#fbbf24';
+    for (let i = 0; i < 8; i++) {
+      ctx.fillRect(52, 75 + i * 28, 72, 15);
+    }
+
+    // Differential Pair Traces
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 5.5;
+    for (let i = 0; i < 6; i++) {
+      ctx.beginPath();
+      ctx.moveTo(142, 88 + i * 34);
+      ctx.lineTo(255, 88 + i * 34);
+      ctx.stroke();
+    }
+
+    // Solder Bridge Defect
+    ctx.fillStyle = '#e2e8f0';
+    ctx.beginPath();
+    ctx.arc(195, 245, 13, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Gold Wirebonds
+    ctx.strokeStyle = '#fde047';
+    ctx.lineWidth = 2;
+    for (let i = 0; i < 11; i++) {
+      ctx.beginPath();
+      ctx.moveTo(268, 92 + i * 19);
+      ctx.quadraticCurveTo(302, 80 + i * 19, 342, 96 + i * 19);
+      ctx.stroke();
+    }
+  }
+
+  function drawCustomMaster(ctx) {
+    if (state.customImg) {
+      ctx.drawImage(state.customImg, 12, 12, 356, 356);
+    } else {
+      ctx.fillStyle = '#f8fafc';
+      ctx.fillRect(12, 12, 356, 356);
+      ctx.strokeStyle = '#94a3b8';
+      ctx.setLineDash([5, 5]);
+      ctx.strokeRect(28, 28, 324, 324);
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#334155';
+      ctx.font = 'bold 15px "Computer Modern Serif", serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Upload Any Microscopy or Target Image Below', 190, 182);
+      ctx.font = '12px "Computer Modern Serif", serif';
+      ctx.fillText('Drag the ROI box to test PSF blur & sensor sampling', 190, 204);
+    }
+  }
+
+  function renderAll() {
+    drawMasterTarget();
+
+    // 1. Render Overview Pane with Zone Badges, Scale Bar, and ROI Reticle
+    ctxOver.clearRect(0, 0, 380, 380);
+    ctxOver.drawImage(masterBuf, 0, 0);
+
+    const meta = targetMeta[state.target];
+    // Draw numbered circular badges ① ② ③ ④ for non-USAF targets
+    if (meta.zones && meta.zones.length > 0) {
+      meta.zones.forEach((z, idx) => {
+        ctxOver.save();
+        ctxOver.beginPath();
+        ctxOver.arc(z.x, z.y, 10, 0, Math.PI * 2);
+        ctxOver.fillStyle = idx === state.zoneIdx ? '#4338ca' : '#0f172a';
+        ctxOver.fill();
+        ctxOver.lineWidth = 1.8;
+        ctxOver.strokeStyle = '#ffffff';
+        ctxOver.stroke();
+        ctxOver.fillStyle = '#ffffff';
+        ctxOver.font = 'bold 11px "JetBrains Mono", monospace';
+        ctxOver.textAlign = 'center';
+        ctxOver.textBaseline = 'middle';
+        ctxOver.fillText(String(idx + 1), z.x, z.y + 0.5);
+        ctxOver.restore();
+      });
+    }
+
+    // Draw 1.0 mm Scale Bar in bottom-left of Overview
+    const scaleBarPx = Math.round((1.0 / meta.fovMm) * 360);
+    ctxOver.save();
+    ctxOver.fillStyle = 'rgba(15, 23, 42, 0.82)';
+    ctxOver.fillRect(18, 340, scaleBarPx + 16, 22);
+    ctxOver.strokeStyle = '#ffffff';
+    ctxOver.lineWidth = 2;
+    ctxOver.beginPath();
+    ctxOver.moveTo(26, 355);
+    ctxOver.lineTo(26 + scaleBarPx, 355);
+    ctxOver.moveTo(26, 351);
+    ctxOver.lineTo(26, 355);
+    ctxOver.moveTo(26 + scaleBarPx, 351);
+    ctxOver.lineTo(26 + scaleBarPx, 355);
+    ctxOver.stroke();
+    ctxOver.fillStyle = '#ffffff';
+    ctxOver.font = 'bold 10px "JetBrains Mono", monospace';
+    ctxOver.textAlign = 'center';
+    ctxOver.fillText('1.0 mm', 26 + scaleBarPx / 2, 349);
+    ctxOver.restore();
+
+    // Draw ROI Reticle + Label Pill
+    const half = state.roiSize / 2;
+    const rx = Math.max(half + 10, Math.min(370 - half, state.roiX));
+    const ry = Math.max(half + 22, Math.min(370 - half, state.roiY));
+    const roiFovMm = ((state.roiSize / 360) * meta.fovMm).toFixed(2);
+
+    ctxOver.save();
+    ctxOver.strokeStyle = '#4338ca';
+    ctxOver.lineWidth = 2;
+    ctxOver.strokeRect(rx - half, ry - half, state.roiSize, state.roiSize);
+    ctxOver.fillStyle = '#0f172a';
+    ctxOver.fillRect(rx - half, ry - half - 18, 86, 16);
+    ctxOver.fillStyle = '#ffffff';
+    ctxOver.font = 'bold 9.5px "JetBrains Mono", monospace';
+    ctxOver.textAlign = 'left';
+    ctxOver.fillText(`ROI: ${roiFovMm} mm`, rx - half + 5, ry - half - 7);
+    ctxOver.restore();
+
+    // 2. Render Sensor ROI Inspector (with Pixel Grid + Crosshairs)
+    let activeWUm = calcWidthUm(calcFreq(state.group, state.element));
+    if (state.target !== 'usaf') {
+      const z = meta.zones[state.zoneIdx] || meta.zones[0];
+      activeWUm = z.wUm;
+    }
+
+    const mtfData = computeMTF(activeWUm);
+    const eqUsaf = state.target === 'usaf'
+      ? { g: state.group, e: state.element, freq: mtfData.freq }
+      : findEqUSAF(activeWUm);
+
+    const nPixels = Math.max(10, Math.min(64, Math.round((roiFovMm * 1000) / mtfData.peff)));
+    const smallBuf = document.createElement('canvas');
+    smallBuf.width = nPixels;
+    smallBuf.height = nPixels;
+    const sCtx = smallBuf.getContext('2d');
+
+    const blurPx = ((state.sigmaX + state.sigmaY) * 0.5) / 18;
+    if (blurPx > 0.15) {
+      sCtx.filter = `blur(${blurPx.toFixed(2)}px)`;
+    }
+    sCtx.drawImage(masterBuf, rx - half, ry - half, state.roiSize, state.roiSize, 0, 0, nPixels, nPixels);
+
+    // Apply Veiling Glare & Shot Noise on quantized sensor pixels
+    const sData = sCtx.getImageData(0, 0, nPixels, nPixels);
+    const d = sData.data;
+    const flareLift = (state.flare / 100) * 115;
+    const noiseAmp = (state.noise / 100) * 90;
+    for (let i = 0; i < d.length; i += 4) {
+      const n = (Math.random() - 0.5) * noiseAmp;
+      d[i] = Math.min(255, Math.max(0, d[i] * (1 - state.flare / 125) + flareLift + n));
+      d[i + 1] = Math.min(255, Math.max(0, d[i + 1] * (1 - state.flare / 125) + flareLift + n));
+      d[i + 2] = Math.min(255, Math.max(0, d[i + 2] * (1 - state.flare / 125) + flareLift + n));
+    }
+    sCtx.putImageData(sData, 0, 0);
+
+    ctxRoi.clearRect(0, 0, 320, 320);
+    ctxRoi.imageSmoothingEnabled = false;
+    ctxRoi.drawImage(smallBuf, 0, 0, 320, 320);
+
+    // Sensor Pixel Grid Overlay
+    if (state.showGrid && nPixels <= 48) {
+      ctxRoi.save();
+      ctxRoi.strokeStyle = 'rgba(148, 163, 184, 0.35)';
+      ctxRoi.lineWidth = 0.8;
+      const step = 320 / nPixels;
+      for (let i = 1; i < nPixels; i++) {
+        const p = i * step;
+        ctxRoi.beginPath();
+        ctxRoi.moveTo(p, 0);
+        ctxRoi.lineTo(p, 320);
+        ctxRoi.moveTo(0, p);
+        ctxRoi.lineTo(320, p);
+        ctxRoi.stroke();
+      }
+      ctxRoi.restore();
+    }
+
+    // Scan Crosshairs Overlay (Indigo Horizontal + Amber Vertical)
+    if (state.showCross) {
+      ctxRoi.save();
+      ctxRoi.setLineDash([5, 4]);
+      ctxRoi.lineWidth = 1.5;
+      ctxRoi.strokeStyle = '#4338ca';
+      ctxRoi.beginPath();
+      ctxRoi.moveTo(0, 160);
+      ctxRoi.lineTo(320, 160);
+      ctxRoi.stroke();
+
+      ctxRoi.strokeStyle = '#d97706';
+      ctxRoi.beginPath();
+      ctxRoi.moveTo(160, 0);
+      ctxRoi.lineTo(160, 320);
+      ctxRoi.stroke();
+      ctxRoi.restore();
+    }
+
+    renderLightPlot(mtfData.mtfX, mtfData.mtfY);
+    updateUIReadouts(activeWUm, mtfData, eqUsaf, roiFovMm);
+  }
+
+  // Light-theme cross-sectional plot matching Screenshot 2
+  function renderLightPlot(mtfX, mtfY) {
+    const w = cvPlot.width, h = cvPlot.height;
+    ctxPlot.clearRect(0, 0, w, h);
+    ctxPlot.fillStyle = '#ffffff';
+    ctxPlot.fillRect(0, 0, w, h);
+
+    const padL = 42, padR = 16, padT = 14, padB = 28;
+    const pw = w - padL - padR;
+    const ph = h - padT - padB;
+
+    // Horizontal grid lines & Y-axis labels (100%, 75%, 50%, 25%, 0%)
+    ctxPlot.font = '10px "JetBrains Mono", monospace';
+    ctxPlot.textAlign = 'right';
+    ctxPlot.textBaseline = 'middle';
+    const levels = [1.0, 0.75, 0.5, 0.25, 0.0];
+    levels.forEach(lv => {
+      const y = padT + (1 - lv) * ph;
+      ctxPlot.strokeStyle = '#e2e8f0';
+      ctxPlot.lineWidth = 1;
+      ctxPlot.beginPath();
+      ctxPlot.moveTo(padL, y);
+      ctxPlot.lineTo(w - padR, y);
+      ctxPlot.stroke();
+      ctxPlot.fillStyle = '#64748b';
+      ctxPlot.fillText(`${Math.round(lv * 100)}%`, padL - 6, y);
+    });
+
+    // 20% Rayleigh Limit Red Dashed Line
+    const yRay = padT + (1 - 0.2) * ph;
+    ctxPlot.save();
+    ctxPlot.strokeStyle = '#ef4444';
+    ctxPlot.lineWidth = 1.3;
+    ctxPlot.setLineDash([4, 4]);
+    ctxPlot.beginPath();
+    ctxPlot.moveTo(padL, yRay);
+    ctxPlot.lineTo(w - padR, yRay);
+    ctxPlot.stroke();
+    ctxPlot.fillStyle = '#dc2626';
+    ctxPlot.font = 'bold 9.5px "JetBrains Mono", monospace';
+    ctxPlot.textAlign = 'right';
+    ctxPlot.fillText('20% RAYLEIGH LIMIT', w - padR - 4, yRay - 7);
+    ctxPlot.restore();
+
+    // Plot Sagittal (Indigo) and Tangential (Amber) Cross-Section Profiles
+    const drawCurve = (mtf, color, phase) => {
+      ctxPlot.strokeStyle = color;
+      ctxPlot.lineWidth = 2.2;
+      ctxPlot.beginPath();
+      const pts = 18;
+      for (let i = 0; i <= pts; i++) {
+        const norm = i / pts;
+        const x = padL + norm * pw;
+        const triMod = Math.cos(norm * Math.PI * 6 + phase);
+        const val = Math.min(0.98, Math.max(0.05, 0.68 - 0.32 * mtf * triMod));
+        const y = padT + (1 - val) * ph;
+        if (i === 0) ctxPlot.moveTo(x, y);
+        else ctxPlot.lineTo(x, y);
+      }
+      ctxPlot.stroke();
+    };
+
+    drawCurve(mtfX, '#4338ca', 0);
+    drawCurve(mtfY, '#d97706', 0.45);
+
+    ctxPlot.fillStyle = '#64748b';
+    ctxPlot.font = '10px "JetBrains Mono", monospace';
+    ctxPlot.textAlign = 'center';
+    ctxPlot.fillText('Normalized Cross-Section Scan Position (Indigo = Sagittal X, Amber = Tangential Y)', padL + pw / 2, h - 8);
+  }
+
+  function updateUIReadouts(wUm, mtfData, eqUsaf, roiFovMm) {
+    const meta = targetMeta[state.target];
+    document.getElementById('uiSampleCounter').textContent = `Target ${meta.num} of 5`;
+    document.getElementById('uiBannerLeft').textContent = meta.banner;
+    document.getElementById('uiBannerRight').textContent = meta.std;
+
+    document.getElementById('uiEqHeader').textContent = `Eq: Group ${eqUsaf.g}, Elem ${eqUsaf.e}`;
+    document.getElementById('uiRoiFov').textContent = `${roiFovMm} mm`;
+    document.getElementById('uiPxPerFeat').textContent = `${mtfData.pxPerFeat.toFixed(1)} px/feature`;
+
+    document.getElementById('uiFooterPeff').textContent = `${mtfData.peff.toFixed(2)} µm/px`;
+    document.getElementById('uiFooterNyq').textContent = `${mtfData.fNyq.toFixed(1)} lp/mm`;
+
+    document.getElementById('uiParamR').textContent = `${mtfData.freq.toFixed(2)} lp/mm`;
+    document.getElementById('uiParamW').textContent = `${wUm.toFixed(2)} µm`;
+    document.getElementById('uiParamEq').textContent = state.target === 'usaf'
+      ? `Group ${eqUsaf.g}, Elem ${eqUsaf.e}`
+      : `Group ${eqUsaf.g}, Elem ${eqUsaf.e} (Zone ${state.zoneIdx + 1})`;
+    document.getElementById('uiParamPitch').textContent = `${(wUm * 2).toFixed(1)} µm`;
+    document.getElementById('uiParamPeff').textContent = `${mtfData.peff.toFixed(2)} µm/px`;
+    document.getElementById('uiParamNyq').textContent = `${mtfData.fNyq.toFixed(2)} lp/mm`;
+
+    document.getElementById('uiSamplingNote').textContent = `Sampling: ${mtfData.pxPerFeat.toFixed(1)} sensor px / feature`;
+    const nyqRatio = mtfData.fNyq / mtfData.freq;
+    const nyqEl = document.getElementById('uiNyquistVerdict');
+    if (nyqRatio >= 1.0) {
+      nyqEl.style.color = 'var(--pass-text)';
+      nyqEl.textContent = `Oversampled (${nyqRatio.toFixed(1)}× Nyquist)`;
+    } else {
+      nyqEl.style.color = 'var(--fail-text)';
+      nyqEl.textContent = `Aliased (${nyqRatio.toFixed(2)}× Nyquist)`;
+    }
+
+    const minMtf = Math.min(mtfData.mtfX, mtfData.mtfY);
+    const maxMtf = Math.max(mtfData.mtfX, mtfData.mtfY);
+    const badge = document.getElementById('uiStatusBadge');
+    const summary = document.getElementById('uiVerdictSummary');
+
+    if (minMtf >= 0.2) {
+      badge.className = 'usaf-status-badge pass';
+      badge.textContent = 'PASS: RESOLVED';
+      summary.textContent = `Both sagittal (X) and tangential (Y) profiles exceed the 20% Rayleigh criterion (Min MTF: ${Math.round(minMtf * 100)}%).`;
+    } else if (maxMtf >= 0.2) {
+      badge.className = 'usaf-status-badge warn';
+      badge.textContent = 'MARGINAL: ASTIGMATIC';
+      summary.textContent = `Directional astigmatism detected: one axis resolves while the orthogonal axis falls below 20% MTF.`;
+    } else {
+      badge.className = 'usaf-status-badge fail';
+      badge.textContent = 'FAIL: UNRESOLVED';
+      summary.textContent = `Spatial frequency exceeds optical PSF or sensor Nyquist limit (Min MTF: ${Math.round(minMtf * 100)}% < 20%).`;
+    }
+
+    document.getElementById('uiLegendSag').textContent = `— Sagittal (X): ${Math.round(mtfData.mtfX * 100)}%`;
+    document.getElementById('uiLegendTan').textContent = `— Tangential (Y): ${Math.round(mtfData.mtfY * 100)}%`;
+
+    // Populate Reference Table
+    const refG = eqUsaf.g;
+    document.getElementById('uiTableTitle').textContent = `GROUP ${refG} ELEMENT REFERENCE TABLE (CLICK ROW TO INSPECT)`;
+    const tbody = document.getElementById('uiTableBody');
+    tbody.innerHTML = '';
+    for (let e = 1; e <= 6; e++) {
+      const f = calcFreq(refG, e);
+      const w = calcWidthUm(f);
+      const m = computeMTF(w);
+      const mMin = Math.min(m.mtfX, m.mtfY);
+      const tr = document.createElement('tr');
+      if (eqUsaf.e === e) tr.className = 'active-row';
+
+      const st = mMin >= 0.2
+        ? '<span class="usaf-status-badge pass">PASS</span>'
+        : '<span class="usaf-status-badge fail">FAIL</span>';
+
+      tr.innerHTML = `
+        <td>Element ${e}</td>
+        <td>${f.toFixed(2)}</td>
+        <td>${w.toFixed(2)} µm</td>
+        <td>${Math.round(mMin * 100)}%</td>
+        <td>${st}</td>
+      `;
+      tr.addEventListener('click', () => {
+        state.target = 'usaf';
+        state.group = refG;
+        state.element = e;
+        document.getElementById('selGroup').value = String(refG);
+        document.getElementById('selElement').value = String(e);
+        syncTargetTabs();
+        renderAll();
+      });
+      tbody.appendChild(tr);
+    }
+  }
+
+  function syncTargetTabs() {
+    document.querySelectorAll('.usaf-tab-pill').forEach(b => {
+      b.classList.toggle('active', b.dataset.target === state.target);
+    });
+
+    const isUsaf = state.target === 'usaf';
+    document.getElementById('uiOverviewControls').style.display = isUsaf ? 'flex' : 'none';
+    document.getElementById('uiUploadWrap').style.display = state.target === 'custom' ? 'block' : 'none';
+
+    const selZone = document.getElementById('selZonePreset');
+    selZone.innerHTML = '';
+    if (isUsaf) {
+      for (let e = 1; e <= 6; e++) {
+        const f = calcFreq(state.group, e);
+        const w = calcWidthUm(f);
+        const opt = document.createElement('option');
+        opt.value = String(e - 1);
+        opt.textContent = `Group ${state.group}, Element ${e} (w = ${w.toFixed(1)} µm)`;
+        if (e === state.element) opt.selected = true;
+        selZone.appendChild(opt);
+      }
+    } else {
+      const zones = targetMeta[state.target].zones;
+      zones.forEach((z, idx) => {
+        const opt = document.createElement('option');
+        opt.value = String(idx);
+        opt.textContent = z.label;
+        if (idx === state.zoneIdx) opt.selected = true;
+        selZone.appendChild(opt);
+      });
+      const z = zones[state.zoneIdx] || zones[0];
+      state.roiX = z.x;
+      state.roiY = z.y;
+    }
+  }
+
+  // Event Bindings
+  document.querySelectorAll('.usaf-tab-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.target = btn.dataset.target;
+      state.zoneIdx = 0;
+      syncTargetTabs();
+      renderAll();
+    });
+  });
+
+  document.getElementById('uiCycleBtn').addEventListener('click', () => {
+    const idx = (targetOrder.indexOf(state.target) + 1) % targetOrder.length;
+    state.target = targetOrder[idx];
+    state.zoneIdx = 0;
+    syncTargetTabs();
+    renderAll();
+  });
+
+  document.getElementById('selGroup').addEventListener('change', e => {
+    state.group = Number(e.target.value);
+    syncTargetTabs();
+    renderAll();
+  });
+
+  document.getElementById('selElement').addEventListener('change', e => {
+    state.element = Number(e.target.value);
+    syncTargetTabs();
+    renderAll();
+  });
+
+  document.getElementById('selZonePreset').addEventListener('change', e => {
+    const val = Number(e.target.value);
+    if (state.target === 'usaf') {
+      state.element = val + 1;
+      document.getElementById('selElement').value = String(state.element);
+    } else {
+      state.zoneIdx = val;
+      const z = targetMeta[state.target].zones[val];
+      if (z) {
+        state.roiX = z.x;
+        state.roiY = z.y;
+      }
+    }
+    renderAll();
+  });
+
+  document.getElementById('chkPixelGrid').addEventListener('change', e => {
+    state.showGrid = e.target.checked;
+    renderAll();
+  });
+
+  document.getElementById('chkCrosshairs').addEventListener('change', e => {
+    state.showCross = e.target.checked;
+    renderAll();
+  });
+
+  const chkLink = document.getElementById('chkLinkSigma');
+  const sldX = document.getElementById('sldSigmaX');
+  const sldY = document.getElementById('sldSigmaY');
+
+  sldX.addEventListener('input', () => {
+    state.sigmaX = Number(sldX.value);
+    document.getElementById('valSldSigmaX').textContent = `${state.sigmaX} µm`;
+    if (chkLink.checked) {
+      state.sigmaY = state.sigmaX;
+      sldY.value = state.sigmaY;
+      document.getElementById('valSldSigmaY').textContent = `${state.sigmaY} µm`;
+    }
+    renderAll();
+  });
+
+  sldY.addEventListener('input', () => {
+    state.sigmaY = Number(sldY.value);
+    document.getElementById('valSldSigmaY').textContent = `${state.sigmaY} µm`;
+    if (chkLink.checked) {
+      state.sigmaX = state.sigmaY;
+      sldX.value = state.sigmaX;
+      document.getElementById('valSldSigmaX').textContent = `${state.sigmaX} µm`;
+    }
+    renderAll();
+  });
+
+  document.getElementById('sldPitch').addEventListener('input', e => {
+    state.pitch = Number(e.target.value);
+    document.getElementById('valSldPitch').textContent = `${state.pitch.toFixed(1)} µm`;
+    renderAll();
+  });
+
+  document.getElementById('sldMag').addEventListener('input', e => {
+    state.mag = Number(e.target.value);
+    document.getElementById('valSldMag').textContent = `${state.mag.toFixed(2)}x`;
+    renderAll();
+  });
+
+  document.getElementById('sldFlare').addEventListener('input', e => {
+    state.flare = Number(e.target.value);
+    document.getElementById('valSldFlare').textContent = `${state.flare}%`;
+    renderAll();
+  });
+
+  document.getElementById('sldNoise').addEventListener('input', e => {
+    state.noise = Number(e.target.value);
+    document.getElementById('valSldNoise').textContent = `${state.noise}%`;
+    renderAll();
+  });
+
+  document.getElementById('btnResetOptics').addEventListener('click', () => {
+    state.sigmaX = 8;
+    state.sigmaY = 8;
+    state.pitch = 12.0;
+    state.mag = 1.0;
+    state.flare = 0;
+    state.noise = 0;
+    sldX.value = 8;
+    sldY.value = 8;
+    document.getElementById('sldPitch').value = 12.0;
+    document.getElementById('sldMag').value = 1.0;
+    document.getElementById('sldFlare').value = 0;
+    document.getElementById('sldNoise').value = 0;
+    document.getElementById('valSldSigmaX').textContent = '8 µm';
+    document.getElementById('valSldSigmaY').textContent = '8 µm';
+    document.getElementById('valSldPitch').textContent = '12.0 µm';
+    document.getElementById('valSldMag').textContent = '1.00x';
+    document.getElementById('valSldFlare').textContent = '0%';
+    document.getElementById('valSldNoise').textContent = '0%';
+    renderAll();
+  });
+
+  document.getElementById('inpCustomFile').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        state.customImg = img;
+        renderAll();
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function handleOverviewPointer(e) {
+    const rect = cvOverview.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (cvOverview.width / rect.width);
+    const my = (e.clientY - rect.top) * (cvOverview.height / rect.height);
+
+    if (state.target === 'usaf') {
+      for (const b of state.usafBoxes) {
+        if (mx >= b.x && mx <= b.x + b.w && my >= b.y && my <= b.y + b.h) {
+          state.element = b.e;
+          document.getElementById('selElement').value = String(b.e);
+          break;
+        }
+      }
+    } else {
+      const zones = targetMeta[state.target].zones;
+      zones.forEach((z, idx) => {
+        if (Math.hypot(mx - z.x, my - z.y) <= 16) {
+          state.zoneIdx = idx;
+          document.getElementById('selZonePreset').value = String(idx);
+        }
+      });
+    }
+    state.roiX = mx;
+    state.roiY = my;
+    renderAll();
+  }
+
+  cvOverview.addEventListener('mousedown', e => {
+    state.dragging = true;
+    handleOverviewPointer(e);
+  });
+  window.addEventListener('mousemove', e => {
+    if (state.dragging) handleOverviewPointer(e);
+  });
+  window.addEventListener('mouseup', () => {
+    state.dragging = false;
+  });
+
+  syncTargetTabs();
+  renderAll();
+
+  // Trigger KaTeX math rendering inside the raw HTML block
+  function triggerMath() {
+    if (window.renderMathInElement) {
+      window.renderMathInElement(document.getElementById('usafAppRoot'), {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+      });
+    }
+  }
+  triggerMath();
+  window.addEventListener('load', triggerMath);
+})();
+</script>
+```

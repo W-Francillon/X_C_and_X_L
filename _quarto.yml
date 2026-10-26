@@ -1,19 +1,84 @@
 project:
   type: website
+  resources:
+    - "circuit_app.html"
+    - "resonance_defender.html"
+    - "circuit_breakout_app.html"
+    - "usaf_1951_analyzer.html"
 
 website:
   title: "Wesley Francillon, PhD"
+  page-navigation: false
+  search: true
+  
   navbar:
+    background: "#ffffff"
+    search: true
+    title: false
+    logo: papillon.png
+    logo-alt: "Papillon Engineering"
     left:
       - href: index.qmd
-        text: About Me
-      - href: research.qmd
-        text: Research
+        text: Home
+      - href: teaching.qmd
+        text: Teaching
+      - text: Outreach
+        menu: 
+          - href: outreach.qmd
+            text: K-12 Outreach Hub
+          - href: linear_regression.qmd
+            text: Linear Regression
+          - href: outreach_data.qmd
+            text: API Data Challenge
+          - href: web_scraping.qmd
+            text: Web Scraping
+          - href: resonance_game.qmd
+            text: Resonance Defender Game
+          - href: circuit_breakout.qmd
+            text: Impedance Breaker Game
+      - text: Circuit Analysis
+        menu: 
+          - href: circuit_dashboard.qmd
+            text: Electrical Dashboard
+          - href: circuit_simulator.qmd
+            text: Live Circuit Simulator
+          - href: reactance_calculator.qmd
+            text: Reactance Calculator
+          - href: resonance_game.qmd
+            text: Resonance Defender Game
+          - href: circuit_breakout.qmd
+            text: Impedance Breaker Game
+          - href: circuit_generator.qmd
+            text: Circuit Problem Generator
+      - text: Simulations
+        menu:
+          - href: simulations.qmd
+            text: Simulations Hub
+          - href: usaf_1951.qmd
+            text: 1951 USAF Optical Resolution Analyzer
+          - href: circuit_simulator.qmd
+            text: Live Circuit Simulator
+          - href: circuit_generator.qmd
+            text: Circuit Problem Generator
+          - href: reactance_calculator.qmd
+            text: Reactance Calculator
+          - href: resonance_game.qmd
+            text: Resonance Defender Game
+          - href: circuit_breakout.qmd
+            text: Impedance Breaker Game
       - href: projects.qmd
         text: Projects
-      - href: education.qmd
-        text: Education
-      - href: circuit_analysis.qmd
-        text: Circuit Analysis
-      - href: reactance_calculator.qmd
-        text: Reactance Calculator
+      - href: lectures.qmd
+        text: Class Lectures
+
+format:
+  html:
+    theme: 
+      - cosmo
+      - custom.scss
+    fontcolor: "#000000"
+    toc: true
+    toc-title: "On this page..."
+    toc-location: right
+    smooth-scroll: true
+    html-math-method: katex

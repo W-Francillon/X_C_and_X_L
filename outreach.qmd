@@ -1,0 +1,125 @@
+---
+title: "K-12 OUTREACH PROJECTS"
+page-layout: full
+jupyter: python3
+---
+
+::: {.grid}
+
+<!-- CARD 1: LINEAR REGRESSION -->
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate Linear Regression Thumbnail
+x = np.array([60, 61, 65, 66, 67, 68, 70, 73, 74, 75])
+y = np.array([110, 120, 155, 160, 164, 170, 178, 215, 223, 235])
+
+fig, ax = plt.subplots(figsize=(5, 2.8))
+ax.scatter(x, y, color='#1c528b', s=50)
+m, b = np.polyfit(x, y, 1)
+ax.plot(x, m*x + b, color='#ed7953', linewidth=2.5) 
+ax.axis('off') # Hides axes for a clean image look
+plt.tight_layout(pad=0)
+plt.show()
+```
+::: {.card-body}
+<h5 class="card-title">Linear Regression Modeling</h5>
+<p class="card-text">Predicting physical characteristics using math. An introduction to simple linear regression and plotting lines of best fit in Python.</p>
+<a href="linear_regression.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a>
+:::
+:::
+:::
+
+<!-- CARD 2: API DATA CHALLENGE -->
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+
+# Generate API Area Chart Thumbnail
+years = ['2019', '2020', '2021', '2022', '2023']
+pop = [1471317, 1465277, 1510715, 1540104, 1535141]
+
+fig, ax = plt.subplots(figsize=(5, 2.8))
+ax.plot(years, pop, marker='o', color='#1c528b', linewidth=2.5, markersize=8)
+ax.fill_between(years, pop, color='#1c528b', alpha=0.15)
+ax.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+```
+::: {.card-body}
+<h5 class="card-title">API Data Challenge</h5>
+<p class="card-text">Pulling live demographic data from the New York State government database using APIs, cleaning datasets, and visualizing trends.</p>
+<a href="outreach_data.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a>
+:::
+:::
+:::
+
+<!-- CARD 3: WEB SCRAPING -->
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate Web Scraping Thumbnail (Network Nodes representing the web)
+np.random.seed(42)
+x_nodes = np.random.rand(15)
+y_nodes = np.random.rand(15)
+
+fig, ax = plt.subplots(figsize=(5, 2.8))
+for i in range(len(x_nodes)-1):
+    ax.plot([x_nodes[i], x_nodes[i+1]], [y_nodes[i], y_nodes[i+1]], color='lightgrey', zorder=1)
+ax.scatter(x_nodes, y_nodes, color='#ed7953', s=80, zorder=2)
+ax.scatter(x_nodes[0], y_nodes[0], color='#1c528b', s=120, zorder=3) # Highlight starting node
+ax.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+```
+::: {.card-body}
+<h5 class="card-title">Automating the Web</h5>
+<p class="card-text">Introduction to web scraping and automation. Build a Python robot to navigate websites and extract image files using BeautifulSoup.</p>
+<a href="web_scraping.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a>
+:::
+:::
+:::
+
+<!-- CARD 4: RESONANCE DEFENDER GAME -->
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate Game Waveform Thumbnail (Green/Red to match the game)
+t = np.linspace(0, 4*np.pi, 100)
+y1 = np.sin(t)
+y2 = np.sin(t + np.pi/2)
+
+fig, ax = plt.subplots(figsize=(5, 2.8))
+ax.plot(t, y1, color='#10b981', linewidth=2.5)
+ax.plot(t, y2, color='#ef4444', linewidth=2.5, linestyle='--')
+ax.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+```
+::: {.card-body}
+<h5 class="card-title">Resonance Defender</h5>
+<p class="card-text">Interactive RLC Circuit Simulator. Defend the system by matching inductive and capacitive reactance to neutralize incoming AC sine waves.</p>
+<a href="resonance_game.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Play Game</a>
+:::
+:::
+:::
+
+:::

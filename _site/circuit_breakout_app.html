@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impedance Breaker: RLC Arcade</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: transparent; user-select: none; }
+        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+        .canvas-glow {
+            box-shadow: inset 0 0 30px rgba(2, 6, 23, 0.9), 0 0 15px rgba(16, 185, 129, 0.12);
+        }
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]:focus { outline: none; }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 6px; cursor: pointer;
+            background: #1e293b; border-radius: 4px; border: 1px solid #334155;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            height: 18px; width: 14px; border-radius: 3px;
+            background: #10b981; cursor: pointer; -webkit-appearance: none;
+            margin-top: -7px; box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+        }
+    </style>
+</head>
+<body class="p-2 md:p-4 text-slate-100">
+
+<div class="max-w-4xl mx-auto bg-slate-900 border-2 border-slate-700 rounded-xl shadow-2xl overflow-hidden">
+    
+    <!-- Top Header & Telemetry Bar -->
+    <div class="bg-slate-800 p-4 border-b border-slate-700 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <div class="flex items-center gap-2">
+                <h1 class="text-xl font-bold text-emerald-400 tracking-wide">⚡ IMPEDANCE BREAKER</h1>
+                <span class="text-[10px] font-mono-code bg-emerald-950 text-emerald-300 border border-emerald-700/60 px-2 py-0.5 rounded uppercase">RLC Breakout Engine</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5">Clear the passive network, catch component power-ups & solve circuit overrides</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 font-mono-code text-xs bg-slate-900/90 px-4 py-2 rounded-lg border border-slate-700">
+            <div>
+                <span class="text-slate-500 block text-[10px]">SCORE</span>
+                <span id="hud-score" class="text-emerald-400 font-bold text-sm">00000</span>
+            </div>
+            <div class="border-l border-slate-700 pl-4">
+                <span class="text-slate-500 block text-[10px]">STAGE</span>
+                <span id="hud-level" class="text-cyan-400 font-bold text-sm">1 / 3</span>
+            </div>
+            <div class="border-l border-slate-700 pl-4">
+                <span class="text-slate-500 block text-[10px]">Z_EQ CLEARED</span>
+                <span id="hud-zeq" class="text-amber-400 font-bold text-sm">0 Ω</span>
+            </div>
+            <div class="border-l border-slate-700 pl-4">
+                <span class="text-slate-500 block text-[10px]">INTEGRITY</span>
+                <div id="hud-lives" class="flex gap-1 mt-0.5 text-emerald-400 text-sm">⚡⚡⚡</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Canvas Container -->
+    <div class="relative bg-slate-950 canvas-glow w-full aspect-[16/10] max-h-[500px] overflow-hidden flex items-center justify-center">
+        <canvas id="breakout-canvas" width="800" height="500" class="w-full h-full block cursor-none"></canvas>
+
+        <!-- Start / Standby Overlay -->
+        <div id="overlay-start" class="absolute inset-0 bg-slate-950/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center p-6 text-center">
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-6 max-w-lg shadow-2xl">
+                <span class="text-[11px] font-mono-code text-emerald-400 uppercase tracking-widest">Interactive Hardware Arcade</span>
+                <h2 class="text-2xl font-bold text-white mt-1 mb-3">Circuit Board Breakout</h2>
+                <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                    Pilot the <b class="text-emerald-400"> Copper Busbar Paddle</b> using your mouse or arrow keys to bounce the <b class="text-cyan-300">Electron Charge Pulse</b> through passive component arrays.
+                </p>
+                <div class="grid grid-cols-2 gap-2 text-left font-mono-code text-[11px] bg-slate-950 p-3.5 rounded-lg border border-slate-800 mb-5">
+                    <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-sm bg-cyan-500 inline-block"></span> <span class="text-slate-300"><b>Resistor (R):</b> 1-Hit Ohmic</span></div>
+                    <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-sm bg-amber-500 inline-block"></span> <span class="text-slate-300"><b>Capacitor (C):</b> 2-Hit Burst</span></div>
+                    <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-sm bg-purple-500 inline-block"></span> <span class="text-slate-300"><b>Inductor (L):</b> 3-Hit Flux</span></div>
+                    <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-sm bg-emerald-500 inline-block"></span> <span class="text-slate-300"><b>IC Gate (?):</b> Math Override</span></div>
+                </div>
+                <button onclick="startGame()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2.5 px-6 rounded-lg text-xs tracking-wider uppercase transition shadow-lg shadow-emerald-600/20">
+                    ⚡ Initialize Electron Beam
+                </button>
+            </div>
+        </div>
+
+        <!-- Engineering Override Modal (Quiz Challenge) -->
+        <div id="overlay-quiz" class="hidden absolute inset-0 bg-slate-950/85 backdrop-blur-md z-30 flex items-center justify-center p-4">
+            <div class="bg-slate-900 border-2 border-emerald-500/70 rounded-xl p-5 max-w-md w-full shadow-2xl">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2.5 mb-3">
+                    <span class="text-xs font-mono-code font-bold text-emerald-400 uppercase tracking-wider">🧠 IC Gate Engineering Override</span>
+                    <span class="text-[10px] font-mono-code bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-700">+500 PTS & WIDE BUSBAR</span>
+                </div>
+                <p id="quiz-question" class="text-xs text-slate-200 leading-relaxed mb-3 font-medium"></p>
+                <div id="quiz-formula" class="bg-slate-950 border border-slate-800 rounded p-2.5 font-mono-code text-xs text-cyan-300 mb-3 text-center"></div>
+                <div id="quiz-options" class="grid grid-cols-2 gap-2.5 font-mono-code text-xs">
+                    <!-- Dynamic Options -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over / Victory Overlay -->
+        <div id="overlay-end" class="hidden absolute inset-0 bg-slate-950/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center p-6 text-center">
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-6 max-w-md w-full shadow-2xl">
+                <h2 id="end-title" class="text-2xl font-bold text-emerald-400 mb-1">NETWORK CLEARED</h2>
+                <p id="end-subtitle" class="text-xs text-slate-400 mb-4">All passive stages neutralized</p>
+                <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 mb-5 font-mono-code text-xs space-y-1">
+                    <div class="flex justify-between"><span class="text-slate-400">FINAL SCORE:</span> <span id="end-score" class="text-emerald-400 font-bold">0</span></div>
+                    <div class="flex justify-between"><span class="text-slate-400">TOTAL IMPEDANCE CLEARED:</span> <span id="end-zeq" class="text-amber-400 font-bold">0 Ω</span></div>
+                </div>
+                <button onclick="startGame()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2.5 px-6 rounded-lg text-xs tracking-wider uppercase transition">
+                    🔄 Reboot Simulation
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Controls & Component Legend Bar -->
+    <div class="bg-slate-800/90 border-t border-slate-700 px-5 py-3 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+        <div class="flex flex-wrap items-center gap-4 font-mono-code text-[11px] text-slate-300">
+            <span class="text-slate-400">CONTROLS: <b class="text-white">Mouse</b> or <b class="text-white">◀ ▶ Arrows</b> | <b class="text-white">SPACE</b> Launch / Pause</span>
+            <span id="active-buff" class="hidden bg-amber-950/90 text-amber-300 border border-amber-600/50 px-2.5 py-0.5 rounded">⚡ SUPERCAPACITOR ACTIVE</span>
+        </div>
+        <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+            <label class="text-[11px] font-mono-code text-slate-400 whitespace-nowrap">BEAM SPEED:</label>
+            <input type="range" id="speed-slider" min="4" max="9" step="0.5" value="6" class="w-24">
+            <button onclick="nextStageDebug()" class="text-[11px] font-mono-code bg-slate-900 hover:bg-slate-950 text-slate-300 border border-slate-700 px-2.5 py-1 rounded transition">Skip Stage ⏭</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById('breakout-canvas');
+const ctx = canvas.getContext('2d');
+
+let gameState = 'START'; // START, PLAY, QUIZ, END
+let score = 0;
+let lives = 3;
+let stage = 1;
+let totalZCleared = 0;
+let baseSpeed = 6;
+let animId = null;
+
+// Paddle (Copper Busbar)
+const paddle = {
+    w: 115,
+    h: 14,
+    x: 342,
+    y: 465,
+    speed: 8,
+    dx: 0,
+    wideTimer: 0
+};
+
+// Balls (Electron Pulses)
+let balls = [];
+// Bricks (Passive Components)
+let bricks = [];
+// Falling Power-ups
+let drops = [];
+// Spark Particles
+let particles = [];
+
+const COMP_TYPES = {
+    R: { name: 'Resistor', hp: 1, color: '#06b6d4', fill: '#083344', border: '#22d3ee', points: 50, zVal: 100 },
+    C: { name: 'Capacitor', hp: 2, color: '#f59e0b', fill: '#451a03', border: '#fbbf24', points: 100, zVal: 220 },
+    L: { name: 'Inductor', hp: 3, color: '#a855f7', fill: '#3b0764', border: '#c084fc', points: 150, zVal: 470 },
+    IC: { name: 'IC Override', hp: 1, color: '#10b981', fill: '#064e3b', border: '#34d399', points: 250, zVal: 330 }
+};
+
+const QUIZZES = [
+    {
+        q: "DC Series-Parallel: Two 100 Ω resistors are connected in parallel. What is their equivalent resistance R_eq?",
+        f: "R_eq = (R_1 × R_2) / (R_1 + R_2)",
+        opts: ["50 Ω", "200 Ω", "100 Ω", "25 Ω"],
+        ans: 0
+    },
+    {
+        q: "First-Order RC Transient: Given R = 10 kΩ and C = 100 µF, calculate the circuit time constant τ.",
+        f: "τ = R × C",
+        opts: ["1.0 s", "0.1 s", "10 ms", "100 s"],
+        ans: 0
+    },
+    {
+        q: "AC Sinusoidal Resonance: In a series RLC circuit at resonance, if X_L = 50 Ω and R = 25 Ω, what is the total impedance |Z|?",
+        f: "At Resonance: X_L = X_C  ⇒  |Z| = √(R² + (X_L - X_C)²)",
+        opts: ["25 Ω", "50 Ω", "75 Ω", "0 Ω"],
+        ans: 0
+    },
+    {
+        q: "Inverting Op-Amp: Given input resistor R_in = 2 kΩ and feedback resistor R_f = 10 kΩ, what is the closed-loop voltage gain A_v?",
+        f: "A_v = - R_f / R_in",
+        opts: ["-5 V/V", "+5 V/V", "-0.2 V/V", "-12 V/V"],
+        ans: 0
+    },
+    {
+        q: "2nd-Order RLC Transient: If Neper frequency α = 200 Np/s and natural frequency ω_0 = 500 rad/s, what is the damping regime?",
+        f: "Compare α vs. ω_0",
+        opts: ["Underdamped (α < ω_0)", "Overdamped (α > ω_0)", "Critically Damped (α = ω_0)", "Unstable"],
+        ans: 0
+    },
+    {
+        q: "AC Waveform: For source v(t) = 20 sin(2π·60t) V, what is the peak amplitude V_p?",
+        f: "v(t) = V_p sin(2πft)",
+        opts: ["20 V", "60 V", "14.14 V", "40 V"],
+        ans: 0
+    }
+];
+
+function resetBall(onPaddle = true) {
+    balls = [{
+        x: paddle.x + paddle.w / 2,
+        y: paddle.y - 10,
+        r: 7,
+        vx: baseSpeed * (Math.random() > 0.5 ? 0.7 : -0.7),
+        vy: -baseSpeed * 0.85,
+        stuck: onPaddle
+    }];
+}
+
+function buildStage(lvl) {
+    bricks = [];
+    drops = [];
+    const cols = 8;
+    const rows = lvl === 1 ? 4 : (lvl === 2 ? 5 : 6);
+    const padX = 12;
+    const padY = 12;
+    const offsetX = 42;
+    const offsetY = 55;
+    const bw = (canvas.width - offsetX * 2 - padX * (cols - 1)) / cols;
+    const bh = 28;
+
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            let typeKey = 'R';
+            if (lvl === 1) {
+                if (r === 0) typeKey = 'C';
+                else if (r === 1 && (c === 2 || c === 5)) typeKey = 'IC';
+            } else if (lvl === 2) {
+                if (r === 0) typeKey = 'L';
+                else if (r === 1) typeKey = 'C';
+                else if (r === 2 && (c === 1 || c === 6)) typeKey = 'IC';
+            } else {
+                if (r <= 1) typeKey = 'L';
+                else if (r === 2) typeKey = 'C';
+                if ((r === 1 || r === 3) && (c === 3 || c === 4)) typeKey = 'IC';
+            }
+
+            const spec = COMP_TYPES[typeKey];
+            const labels = {
+                R: `${spec.zVal}Ω`,
+                C: `10µF`,
+                L: `50mH`,
+                IC: `GATE?`
+            };
+
+            bricks.push({
+                x: offsetX + c * (bw + padX),
+                y: offsetY + r * (bh + padY),
+                w: bw,
+                h: bh,
+                type: typeKey,
+                hp: spec.hp,
+                maxHp: spec.hp,
+                color: spec.color,
+                fill: spec.fill,
+                border: spec.border,
+                points: spec.points,
+                zVal: spec.zVal,
+                label: labels[typeKey]
+            });
+        }
+    }
+}
+
+function updateHUD() {
+    document.getElementById('hud-score').innerText = score.toString().padStart(5, '0');
+    document.getElementById('hud-level').innerText = `${stage} / 3`;
+    document.getElementById('hud-zeq').innerText = `${totalZCleared} Ω`;
+    document.getElementById('hud-lives').innerText = '⚡'.repeat(Math.max(0, lives)) || 'OUT';
+
+    const buffEl = document.getElementById('active-buff');
+    if (paddle.wideTimer > 0) {
+        buffEl.classList.remove('hidden');
+    } else {
+        buffEl.classList.add('hidden');
+    }
+}
+
+function startGame() {
+    score = 0;
+    lives = 3;
+    stage = 1;
+    totalZCleared = 0;
+    paddle.w = 115;
+    paddle.wideTimer = 0;
+    baseSpeed = parseFloat(document.getElementById('speed-slider').value);
+
+    document.getElementById('overlay-start').classList.add('hidden');
+    document.getElementById('overlay-end').classList.add('hidden');
+    document.getElementById('overlay-quiz').classList.add('hidden');
+
+    buildStage(stage);
+    resetBall(true);
+    updateHUD();
+    gameState = 'PLAY';
+    if (animId) cancelAnimationFrame(animId);
+    loop();
+}
+
+function nextStageDebug() {
+    if (gameState !== 'PLAY') return;
+    if (stage < 3) {
+        stage++;
+        buildStage(stage);
+        resetBall(true);
+        updateHUD();
+    } else {
+        endGame(true);
+    }
+}
+
+function spawnParticles(x, y, color) {
+    for (let i = 0; i < 14; i++) {
+        particles.push({
+            x, y,
+            vx: (Math.random() - 0.5) * 7,
+            vy: (Math.random() - 0.5) * 7,
+            life: 1,
+            color
+        });
+    }
+}
+
+function maybeSpawnDrop(brick) {
+    if (Math.random() < 0.28) {
+        const kind = Math.random() < 0.55 ? 'WIDE' : 'MULTI';
+        drops.push({
+            x: brick.x + brick.w / 2,
+            y: brick.y + brick.h / 2,
+            vy: 2.6,
+            kind,
+            label: kind === 'WIDE' ? '+BUSBAR' : 'x2 BEAM',
+            color: kind === 'WIDE' ? '#10b981' : '#38bdf8'
+        });
+    }
+}
+
+function triggerQuiz() {
+    gameState = 'QUIZ';
+    const qObj = QUIZZES[Math.floor(Math.random() * QUIZZES.length)];
+    document.getElementById('quiz-question').innerText = qObj.q;
+    document.getElementById('quiz-formula').innerText = qObj.f;
+
+    // Shuffle options while tracking correct answer
+    const indices = [0, 1, 2, 3].sort(() => Math.random() - 0.5);
+    const container = document.getElementById('quiz-options');
+    container.innerHTML = '';
+
+    indices.forEach(idx => {
+        const btn = document.createElement('button');
+        btn.className = 'bg-slate-800 hover:bg-emerald-950 hover:border-emerald-500 text-slate-200 border border-slate-700 rounded-lg py-2.5 px-3 transition text-center font-semibold';
+        btn.innerText = qObj.opts[idx];
+        btn.onclick = () => {
+            if (idx === qObj.ans) {
+                score += 500;
+                paddle.w = 165;
+                paddle.wideTimer = 700;
+                spawnParticles(paddle.x + paddle.w / 2, paddle.y, '#10b981');
+            } else {
+                score = Math.max(0, score - 100);
+            }
+            document.getElementById('overlay-quiz').classList.add('hidden');
+            updateHUD();
+            gameState = 'PLAY';
+            loop();
+        };
+        container.appendChild(btn);
+    });
+
+    document.getElementById('overlay-quiz').classList.remove('hidden');
+}
+
+function endGame(victory) {
+    gameState = 'END';
+    const title = document.getElementById('end-title');
+    const sub = document.getElementById('end-subtitle');
+    if (victory) {
+        title.innerText = '⚡ ALL RLC STAGES CLEARED!';
+        title.className = 'text-2xl font-bold text-emerald-400 mb-1';
+        sub.innerText = 'Mastery achieved across DC, Transient, and AC networks.';
+    } else {
+        title.innerText = '⚠️ CIRCUIT OPEN-CIRCUITED';
+        title.className = 'text-2xl font-bold text-rose-400 mb-1';
+        sub.innerText = 'System integrity depleted. Re-initialize electron beam.';
+    }
+    document.getElementById('end-score').innerText = score;
+    document.getElementById('end-zeq').innerText = `${totalZCleared} Ω`;
+    document.getElementById('overlay-end').classList.remove('hidden');
+}
+
+// Drawing Helper: Schematic Symbols Inside Bricks
+function drawBrickSchematic(b) {
+    const cx = b.x + b.w / 2;
+    const cy = b.y + b.h / 2;
+    ctx.strokeStyle = b.color;
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+
+    if (b.type === 'R') {
+        // Zig-zag resistor symbol on left side of brick
+        const sx = b.x + 10;
+        ctx.moveTo(sx, cy);
+        ctx.lineTo(sx + 4, cy - 5);
+        ctx.lineTo(sx + 8, cy + 5);
+        ctx.lineTo(sx + 12, cy - 5);
+        ctx.lineTo(sx + 16, cy + 5);
+        ctx.lineTo(sx + 20, cy);
+        ctx.stroke();
+    } else if (b.type === 'C') {
+        // Parallel plates capacitor symbol
+        const sx = b.x + 14;
+        ctx.moveTo(sx, cy - 6);
+        ctx.lineTo(sx, cy + 6);
+        ctx.moveTo(sx + 6, cy - 6);
+        ctx.lineTo(sx + 6, cy + 6);
+        ctx.stroke();
+    } else if (b.type === 'L') {
+        // Inductor coils
+        const sx = b.x + 10;
+        ctx.arc(sx + 4, cy, 4, Math.PI, 0, false);
+        ctx.arc(sx + 12, cy, 4, Math.PI, 0, false);
+        ctx.arc(sx + 20, cy, 4, Math.PI, 0, false);
+        ctx.stroke();
+    } else if (b.type === 'IC') {
+        // IC chip box
+        ctx.strokeRect(b.x + 10, cy - 6, 14, 12);
+    }
+
+    // Component Value Text
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = '600 11px "JetBrains Mono", monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(b.label, b.x + b.w - 8, cy + 4);
+
+    // Hitpoints indicator dots for multi-hit components
+    if (b.maxHp > 1) {
+        for (let i = 0; i < b.hp; i++) {
+            ctx.fillStyle = b.color;
+            ctx.beginPath();
+            ctx.arc(b.x + 8 + i * 6, b.y + 6, 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+}
+
+function drawBackgroundGrid() {
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = 'rgba(30, 41, 59, 0.55)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 40) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += 40) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+    }
+}
+
+function updateAndDraw() {
+    drawBackgroundGrid();
+
+    // Update paddle timer
+    if (paddle.wideTimer > 0) {
+        paddle.wideTimer--;
+        if (paddle.wideTimer === 0) {
+            paddle.w = 115;
+            updateHUD();
+        }
+    }
+
+    // Move paddle via keyboard
+    paddle.x += paddle.dx;
+    if (paddle.x < 10) paddle.x = 10;
+    if (paddle.x + paddle.w > canvas.width - 10) paddle.x = canvas.width - 10 - paddle.w;
+
+    // Draw Paddle (Copper/Emerald Busbar)
+    ctx.fillStyle = '#064e3b';
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(paddle.x, paddle.y, paddle.w, paddle.h, 5);
+    ctx.fill();
+    ctx.stroke();
+
+    // Busbar terminal nodes
+    ctx.fillStyle = '#34d399';
+    ctx.font = 'bold 10px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('V_BUSBAR', paddle.x + paddle.w / 2, paddle.y + 10.5);
+
+    // Draw Bricks
+    bricks.forEach(b => {
+        ctx.fillStyle = b.fill;
+        ctx.strokeStyle = b.border;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(b.x, b.y, b.w, b.h, 5);
+        ctx.fill();
+        ctx.stroke();
+        drawBrickSchematic(b);
+    });
+
+    // Update & Draw Power-Up Drops
+    for (let i = drops.length - 1; i >= 0; i--) {
+        const d = drops[i];
+        d.y += d.vy;
+
+        ctx.fillStyle = '#0f172a';
+        ctx.strokeStyle = d.color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(d.x - 32, d.y - 10, 64, 20, 4);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = d.color;
+        ctx.font = 'bold 10px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(d.label, d.x, d.y + 3.5);
+
+        // Catch check
+        if (d.y + 10 >= paddle.y && d.y - 10 <= paddle.y + paddle.h && d.x >= paddle.x && d.x <= paddle.x + paddle.w) {
+            score += 150;
+            if (d.kind === 'WIDE') {
+                paddle.w = 165;
+                paddle.wideTimer = 600;
+            } else if (d.kind === 'MULTI' && balls.length < 3) {
+                const ref = balls[0];
+                balls.push({
+                    x: ref.x,
+                    y: ref.y,
+                    r: 7,
+                    vx: -ref.vx || baseSpeed * 0.6,
+                    vy: -Math.abs(ref.vy),
+                    stuck: false
+                });
+            }
+            drops.splice(i, 1);
+            updateHUD();
+            continue;
+        }
+        if (d.y > canvas.height) drops.splice(i, 1);
+    }
+
+    // Update & Draw Balls
+    let triggerQuizAfterFrame = false;
+
+    for (let bIdx = balls.length - 1; bIdx >= 0; bIdx--) {
+        const ball = balls[bIdx];
+
+        if (ball.stuck) {
+            ball.x = paddle.x + paddle.w / 2;
+            ball.y = paddle.y - ball.r - 2;
+        } else {
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+
+            // Wall collisions
+            if (ball.x - ball.r < 0) { ball.x = ball.r; ball.vx *= -1; }
+            if (ball.x + ball.r > canvas.width) { ball.x = canvas.width - ball.r; ball.vx *= -1; }
+            if (ball.y - ball.r < 0) { ball.y = ball.r; ball.vy *= -1; }
+
+            // Paddle collision
+            if (
+                ball.vy > 0 &&
+                ball.y + ball.r >= paddle.y &&
+                ball.y - ball.r <= paddle.y + paddle.h &&
+                ball.x >= paddle.x - 4 &&
+                ball.x <= paddle.x + paddle.w + 4
+            ) {
+                const hitOffset = (ball.x - (paddle.x + paddle.w / 2)) / (paddle.w / 2);
+                const maxAngle = Math.PI / 3; // 60 deg
+                const angle = hitOffset * maxAngle;
+                const spd = Math.min(10, Math.hypot(ball.vx, ball.vy) * 1.01);
+                ball.vx = spd * Math.sin(angle);
+                ball.vy = -Math.abs(spd * Math.cos(angle));
+                spawnParticles(ball.x, paddle.y, '#10b981');
+            }
+
+            // Brick collisions
+            for (let i = bricks.length - 1; i >= 0; i--) {
+                const br = bricks[i];
+                if (
+                    ball.x + ball.r > br.x &&
+                    ball.x - ball.r < br.x + br.w &&
+                    ball.y + ball.r > br.y &&
+                    ball.y - ball.r < br.y + br.h
+                ) {
+                    ball.vy *= -1;
+                    br.hp--;
+                    spawnParticles(ball.x, ball.y, br.color);
+
+                    if (br.hp <= 0) {
+                        score += br.points;
+                        totalZCleared += br.zVal;
+                        maybeSpawnDrop(br);
+                        if (br.type === 'IC') {
+                            triggerQuizAfterFrame = true;
+                        }
+                        bricks.splice(i, 1);
+                        updateHUD();
+                    }
+                    break;
+                }
+            }
+
+            // Bottom out
+            if (ball.y - ball.r > canvas.height) {
+                balls.splice(bIdx, 1);
+            }
+        }
+
+        // Draw Ball (Glowing Electron Charge)
+        ctx.save();
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = '#38bdf8';
+        ctx.fillStyle = '#e0f2fe';
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    // Check lost all balls
+    if (balls.length === 0) {
+        lives--;
+        paddle.w = 115;
+        paddle.wideTimer = 0;
+        updateHUD();
+        if (lives <= 0) {
+            endGame(false);
+            return;
+        } else {
+            resetBall(true);
+        }
+    }
+
+    // Particles
+    for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= 0.04;
+        if (p.life <= 0) {
+            particles.splice(i, 1);
+            continue;
+        }
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.life;
+        ctx.fillRect(p.x, p.y, 3, 3);
+    }
+    ctx.globalAlpha = 1;
+
+    // Check Stage Cleared
+    if (bricks.length === 0) {
+        if (stage < 3) {
+            stage++;
+            score += 1000;
+            buildStage(stage);
+            resetBall(true);
+            updateHUD();
+        } else {
+            endGame(true);
+            return;
+        }
+    }
+
+    if (triggerQuizAfterFrame) {
+        triggerQuiz();
+        return;
+    }
+}
+
+function loop() {
+    if (gameState !== 'PLAY') return;
+    updateAndDraw();
+    animId = requestAnimationFrame(loop);
+}
+
+// Controls: Mouse, Touch & Keyboard
+canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const mouseX = (e.clientX - rect.left) * scaleX;
+    paddle.x = mouseX - paddle.w / 2;
+});
+
+canvas.addEventListener('click', () => {
+    balls.forEach(b => { b.stuck = false; });
+});
+
+window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft' || e.key === 'a') paddle.dx = -paddle.speed;
+    if (e.key === 'ArrowRight' || e.key === 'd') paddle.dx = paddle.speed;
+    if (e.code === 'Space') {
+        e.preventDefault();
+        balls.forEach(b => { b.stuck = false; });
+    }
+});
+
+window.addEventListener('keyup', e => {
+    if (['ArrowLeft', 'ArrowRight', 'a', 'd'].includes(e.key)) paddle.dx = 0;
+});
+
+document.getElementById('speed-slider').addEventListener('input', e => {
+    baseSpeed = parseFloat(e.target.value);
+});
+
+// Render initial background preview
+buildStage(1);
+resetBall(true);
+updateAndDraw();
+</script>
+</body>
+</html>

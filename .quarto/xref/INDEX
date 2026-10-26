@@ -1,14 +1,53 @@
 {
-  "index.qmd": {
-    "index.html": "5bfb20a7"
-  },
-  "about.qmd": {
-    "about.html": "5b9dd5cc"
-  },
-  "reactance_calculator.qmd": {
-    "reactance_calculator.html": "f6e2a5cf"
+  "teaching.qmd": {
+    "teaching.html": "64273732"
   },
   "circuit_analysis.qmd": {
-    "circuit_analysis.html": "2bc5e514"
+    "circuit_analysis.html": "44f4ddd1"
+  },
+  "outreach_data.qmd": {
+    "outreach_data.html": "9e154a74"
+  },
+  "circuit_generator.qmd": {
+    "circuit_generator.html": "ba586130"
+  },
+  "resonance_game.qmd": {
+    "resonance_game.html": "f7bd5e10"
+  },
+  "linear_regression.qmd": {
+    "linear_regression.html": "91b7a24d"
+  },
+  "circuit_simulator.qmd": {
+    "circuit_simulator.html": "0cfb72ee"
+  },
+  "projects.qmd": {
+    "projects.html": "8cf9d035"
+  },
+  "index.qmd": {
+    "index.html": "77577853"
+  },
+  "circuit_dashboard.qmd": {
+    "circuit_dashboard.html": "21e0cbab"
+  },
+  "about.qmd": {
+    "about.html": "aada8d49"
+  },
+  "web_scraping.qmd": {
+    "web_scraping.html": "c5cbc79b"
+  },
+  "outreach.qmd": {
+    "outreach.html": "a765c752"
+  },
+  "reactance_calculator.qmd": {
+    "reactance_calculator.html": "bfa7786b"
+  },
+  "circuit_breakout.qmd": {
+    "circuit_breakout.html": "f4d29add"
+  },
+  "simulations.qmd": {
+    "simulations.html": "475a6e3b"
+  },
+  "usaf_1951.qmd": {
+    "usaf_1951.html": "73e69a59"
   }
 }

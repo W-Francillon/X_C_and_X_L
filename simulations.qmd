@@ -1,0 +1,240 @@
+---
+title: ""
+page-layout: full
+toc: false
+---
+
+```{=html}
+<style>
+.sim-hub-container {
+  max-width: 1220px;
+  margin: 1.5rem auto 4rem auto;
+  padding: 0 1rem;
+}
+.sim-hub-header {
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #000000;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.sim-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.75rem;
+}
+.sim-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.sim-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.07);
+  transform: translateY(-2px);
+}
+.sim-card-visual {
+  width: 100%;
+  height: 240px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1.25rem;
+}
+.sim-card-visual svg {
+  width: 100%;
+  height: 100%;
+}
+.sim-card-body {
+  padding: 1.25rem 1.75rem 1.75rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.sim-card-title {
+  font-size: 1.18rem;
+  font-weight: 500;
+  color: #1e293b;
+  margin: 0 0 0.75rem 0;
+}
+.sim-card-desc {
+  font-size: 0.96rem;
+  line-height: 1.55;
+  color: #334155;
+  margin: 0 0 1.5rem 0;
+  flex-grow: 1;
+}
+.sim-btn {
+  display: inline-block;
+  align-self: flex-start;
+  background-color: #191326;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-size: 0.95rem;
+  font-weight: 400;
+  padding: 0.6rem 1.25rem;
+  border-radius: 2px;
+  transition: background-color 0.15s ease;
+}
+.sim-btn:hover {
+  background-color: #2d2244;
+  color: #ffffff !important;
+}
+</style>
+
+<div class="sim-hub-container">
+<h1 class="sim-hub-header">ENGINEERING SIMULATIONS &amp; INTERACTIVE LABS</h1>
+<div class="sim-card-grid">
+
+<div class="sim-card">
+<div class="sim-card-visual">
+<svg viewBox="0 0 320 220" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+<rect x="28" y="30" width="120" height="125" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+<rect x="44" y="45" width="10" height="50" fill="#1e3a5f"/>
+<rect x="64" y="45" width="10" height="50" fill="#1e3a5f"/>
+<rect x="84" y="45" width="10" height="50" fill="#1e3a5f"/>
+<rect x="44" y="108" width="50" height="9" fill="#1e3a5f"/>
+<rect x="44" y="123" width="50" height="9" fill="#1e3a5f"/>
+<rect x="44" y="138" width="50" height="9" fill="#1e3a5f"/>
+<rect x="108" y="45" width="5" height="25" fill="#1e3a5f"/>
+<rect x="118" y="45" width="5" height="25" fill="#1e3a5f"/>
+<rect x="128" y="45" width="5" height="25" fill="#1e3a5f"/>
+<rect x="38" y="39" width="64" height="62" fill="none" stroke="#e86c3a" stroke-width="2" stroke-dasharray="4,3"/>
+<path d="M 165 55 Q 225 60, 255 125 T 305 180" fill="none" stroke="#e86c3a" stroke-width="2.8"/>
+<circle cx="190" cy="63" r="4.5" fill="#1e3a5f"/>
+<circle cx="235" cy="96" r="4.5" fill="#1e3a5f"/>
+<circle cx="268" cy="146" r="4.5" fill="#1e3a5f"/>
+<line x1="165" y1="185" x2="305" y2="185" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="165" y1="45" x2="165" y2="185" stroke="#94a3b8" stroke-width="1.5"/>
+</svg>
+</div>
+<div class="sim-card-body">
+<h3 class="sim-card-title">1951 USAF Optical Resolution Analyzer</h3>
+<p class="sim-card-desc">
+Interactive optical metrology lab evaluating spatial frequency, Modulation Transfer Function (MTF), astigmatic PSF blur, and Nyquist sensor sampling on MIL-STD-150A targets, micro-engravings, and textiles.
+</p>
+<a href="usaf_1951.html" class="sim-btn">View Module</a>
+</div>
+</div>
+
+<div class="sim-card">
+<div class="sim-card-visual">
+<svg viewBox="0 0 320 220" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+<line x1="45" y1="60" x2="100" y2="60" stroke="#1e3a5f" stroke-width="2.2"/>
+<polyline points="100,60 106,50 116,70 126,50 136,70 146,50 152,60" fill="none" stroke="#e86c3a" stroke-width="2.5"/>
+<line x1="152" y1="60" x2="275" y2="60" stroke="#1e3a5f" stroke-width="2.2"/>
+<circle cx="195" cy="60" r="4.5" fill="#1e3a5f"/>
+<line x1="195" y1="60" x2="195" y2="95" stroke="#1e3a5f" stroke-width="2.2"/>
+<polyline points="195,95 205,101 185,111 205,121 185,131 205,141 195,147" fill="none" stroke="#1e3a5f" stroke-width="2.2"/>
+<line x1="195" y1="147" x2="195" y2="175" stroke="#1e3a5f" stroke-width="2.2"/>
+<line x1="45" y1="60" x2="45" y2="98" stroke="#1e3a5f" stroke-width="2.2"/>
+<circle cx="45" cy="118" r="20" fill="#eff6ff" stroke="#1e3a5f" stroke-width="2.2"/>
+<line x1="45" y1="138" x2="45" y2="175" stroke="#1e3a5f" stroke-width="2.2"/>
+<line x1="275" y1="60" x2="275" y2="175" stroke="#1e3a5f" stroke-width="2.2"/>
+<line x1="45" y1="175" x2="275" y2="175" stroke="#1e3a5f" stroke-width="2.2"/>
+<circle cx="45" cy="60" r="4" fill="#e86c3a"/>
+<circle cx="275" cy="60" r="4" fill="#e86c3a"/>
+</svg>
+</div>
+<div class="sim-card-body">
+<h3 class="sim-card-title">Circuit Problem Generator</h3>
+<p class="sim-card-desc">
+Practice circuit analysis across DC Mesh &amp; Nodal networks, Thévenin &amp; Norton equivalents, AC Phasors, 1st/2nd-order RLC transients, and Op-Amps with step-by-step derivations and LaTeX/LTspice export.
+</p>
+<a href="circuit_generator.html" class="sim-btn">View Module</a>
+</div>
+</div>
+
+<div class="sim-card">
+<div class="sim-card-visual">
+<svg viewBox="0 0 320 220" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+<path d="M 30 165 L 30 75 L 295 75 L 295 165 Z" fill="#dbeafe" opacity="0.55"/>
+<line x1="30" y1="75" x2="295" y2="75" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,5"/>
+<path d="M 30 165 C 55 15, 80 135, 110 52 C 138 98, 165 62, 195 79 C 225 71, 255 76, 295 75" fill="none" stroke="#1e3a5f" stroke-width="2.8"/>
+<path d="M 30 165 Q 95 82, 295 75" fill="none" stroke="#e86c3a" stroke-width="2.4"/>
+<circle cx="67" cy="42" r="4.5" fill="#1e3a5f"/>
+<circle cx="110" cy="52" r="4.5" fill="#1e3a5f"/>
+<circle cx="152" cy="75" r="4.5" fill="#e86c3a"/>
+<circle cx="220" cy="75" r="4.5" fill="#1e3a5f"/>
+</svg>
+</div>
+<div class="sim-card-body">
+<h3 class="sim-card-title">Live Circuit Simulator</h3>
+<p class="sim-card-desc">
+Real-time time-domain and frequency-domain waveform simulation for series and parallel RLC networks. Adjust resistance, inductance, and capacitance to observe transient damping and phase shifts.
+</p>
+<a href="circuit_simulator.html" class="sim-btn">View Module</a>
+</div>
+</div>
+
+<div class="sim-card">
+<div class="sim-card-visual">
+<svg viewBox="0 0 320 220" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+<line x1="40" y1="180" x2="290" y2="180" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="40" y1="35" x2="40" y2="180" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="40" y1="180" x2="280" y2="45" stroke="#1e3a5f" stroke-width="2.6"/>
+<path d="M 55 40 Q 95 155, 285 172" fill="none" stroke="#e86c3a" stroke-width="2.6"/>
+<line x1="138" y1="35" x2="138" y2="180" stroke="#64748b" stroke-width="1.4" stroke-dasharray="4,4"/>
+<circle cx="138" cy="125" r="6" fill="#1e3a5f" stroke="#ffffff" stroke-width="2"/>
+</svg>
+</div>
+<div class="sim-card-body">
+<h3 class="sim-card-title">Reactance &amp; Impedance Calculator</h3>
+<p class="sim-card-desc">
+Interactive AC impedance tool computing inductive reactance, capacitive reactance, resonant crossover frequency, and complex impedance phasor angles across frequency sweeps.
+</p>
+<a href="reactance_calculator.html" class="sim-btn">View Module</a>
+</div>
+</div>
+
+<div class="sim-card">
+<div class="sim-card-visual">
+<svg viewBox="0 0 320 220" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+<path d="M 30 175 Q 115 170, 145 75 Q 160 28, 175 75 Q 205 170, 290 175 Z" fill="#dbeafe" opacity="0.5"/>
+<path d="M 30 175 Q 115 170, 145 75 Q 160 28, 175 75 Q 205 170, 290 175" fill="none" stroke="#1e3a5f" stroke-width="2.6"/>
+<circle cx="160" cy="52" r="6.5" fill="#e86c3a"/>
+<line x1="160" y1="25" x2="160" y2="185" stroke="#e86c3a" stroke-width="1.5" stroke-dasharray="4,4"/>
+<circle cx="95" cy="95" r="4.5" fill="#1e3a5f"/>
+<circle cx="225" cy="95" r="4.5" fill="#1e3a5f"/>
+</svg>
+</div>
+<div class="sim-card-body">
+<h3 class="sim-card-title">Resonance Defender Game</h3>
+<p class="sim-card-desc">
+Gamified RLC tuning simulation where players dynamically adjust inductance and capacitance to lock onto incoming signal frequencies and maximize resonant power transfer.
+</p>
+<a href="resonance_game.html" class="sim-btn">View Module</a>
+</div>
+</div>
+
+<div class="sim-card">
+<div class="sim-card-visual">
+<svg viewBox="0 0 320 220" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+<rect x="45" y="40" width="65" height="22" fill="#1e3a5f" rx="2"/>
+<rect x="125" y="40" width="65" height="22" fill="#e86c3a" rx="2"/>
+<rect x="205" y="40" width="65" height="22" fill="#1e3a5f" rx="2"/>
+<rect x="45" y="72" width="65" height="22" fill="#dbeafe" stroke="#1e3a5f" stroke-width="1.5" rx="2"/>
+<rect x="125" y="72" width="65" height="22" fill="#1e3a5f" rx="2"/>
+<rect x="205" y="72" width="65" height="22" fill="#dbeafe" stroke="#1e3a5f" stroke-width="1.5" rx="2"/>
+<polyline points="90,175 158,96 220,155" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4"/>
+<circle cx="158" cy="96" r="6" fill="#e86c3a"/>
+<rect x="60" y="175" width="90" height="10" fill="#1e3a5f" rx="4"/>
+</svg>
+</div>
+<div class="sim-card-body">
+<h3 class="sim-card-title">Impedance Breaker Game</h3>
+<p class="sim-card-desc">
+Arcade-style engineering challenge combining classic brick-breaker physics with passive component identification, equivalent circuit simplification, and reactive impedance matching.
+</p>
+<a href="circuit_breakout.html" class="sim-btn">View Module</a>
+</div>
+</div>
+
+</div>
+</div>
+```
