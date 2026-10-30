@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Transient Circuit Analysis – Wesley Francillon, PhD</title>
+<title>CIRCUIT ANALYSIS &amp; INTERACTIVE LABS – Wesley Francillon, PhD</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -25,41 +25,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -178,10 +143,25 @@ window.Quarto = {
     <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./teaching.html"> 
-<span class="menu-text">Teaching</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teaching</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li>
+    <a class="dropdown-item" href="./teaching.html">
+ <span class="dropdown-text">Teaching Statement</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./lecture_notes.html">
+ <span class="dropdown-text">Lecture Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lab_manuals.html">
+ <span class="dropdown-text">Lab Manuals</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-outreach" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Outreach</span>
@@ -211,6 +191,10 @@ window.Quarto = {
     <a class="dropdown-item" href="./circuit_breakout.html">
  <span class="dropdown-text">Impedance Breaker Game</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./rf_foxhunt.html">
+ <span class="dropdown-text">RF Fox Hunt Lab</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -218,6 +202,10 @@ window.Quarto = {
  <span class="menu-text">Circuit Analysis</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-circuit-analysis">    
+        <li>
+    <a class="dropdown-item" href="./circuit_analysis.html">
+ <span class="dropdown-text">Circuit Analysis Hub</span></a>
+  </li>  
         <li>
     <a class="dropdown-item" href="./circuit_dashboard.html">
  <span class="dropdown-text">Electrical Dashboard</span></a>
@@ -283,10 +271,6 @@ window.Quarto = {
     <a class="nav-link" href="./projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./lectures.qmd"> 
-<span class="menu-text">Class Lectures</span></a>
-  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -295,30 +279,23 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page…</h2>
-   
-  <ul>
-  <li><a href="#introduction-to-rc-circuits" id="toc-introduction-to-rc-circuits" class="nav-link active" data-scroll-target="#introduction-to-rc-circuits">Introduction to RC Circuits</a></li>
-  <li><a href="#computational-model" id="toc-computational-model" class="nav-link" data-scroll-target="#computational-model">Computational Model</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Transient Circuit Analysis</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<h1 class="title">CIRCUIT ANALYSIS &amp; INTERACTIVE LABS</h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -330,19 +307,148 @@ window.Quarto = {
 </header>
 
 
-<section id="introduction-to-rc-circuits" class="level3">
-<h3 class="anchored" data-anchor-id="introduction-to-rc-circuits">Introduction to RC Circuits</h3>
-<p>When a DC voltage is applied to an RC circuit, the capacitor charges over time. The voltage across the capacitor <span class="math inline">V_c(t)</span> is described by the following differential equation solution:</p>
-<p><span class="math display"> V_c(t) = V_s \left(1 - e^{-\frac{t}{RC}}\right) </span></p>
-</section>
-<section id="computational-model" class="level3">
-<h3 class="anchored" data-anchor-id="computational-model">Computational Model</h3>
-<p>Click the <strong>“Code”</strong> button to the right to see the Python script used to model this behavior.</p>
+<div class="grid">
+<!-- CARD 1: ELECTRICAL DASHBOARD -->
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div id="a67fede1" class="cell" data-fig-height="2.8" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="circuit_analysis_files/figure-html/cell-2-output-1.png" width="499" height="288" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="card-body">
+<h5 class="card-title anchored">
+Electrical Dashboard
+</h5>
+<p class="card-text">
+Interactive telemetry and parameter visualization for analyzing voltage, current, and power relationships in electrical systems.
+</p>
+<p><a href="./circuit_dashboard.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Open Dashboard</a></p>
+</div>
+</div>
+</div>
+<!-- CARD 2: LIVE CIRCUIT SIMULATOR -->
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div id="14501ca9" class="cell" data-fig-height="2.8" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="circuit_analysis_files/figure-html/cell-3-output-1.png" width="499" height="288" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="card-body">
+<h5 class="card-title anchored">
+Live Circuit Simulator
+</h5>
+<p class="card-text">
+Build, modify, and probe live schematic networks in real time with virtual oscilloscope traces and interactive components.
+</p>
+<p><a href="./circuit_simulator.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Launch Simulator</a></p>
+</div>
+</div>
+</div>
+<!-- CARD 3: REACTANCE CALCULATOR -->
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div id="4be3f17a" class="cell" data-fig-height="2.8" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="circuit_analysis_files/figure-html/cell-4-output-1.png" width="499" height="288" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="card-body">
+<h5 class="card-title anchored">
+Reactance Calculator
+</h5>
+<p class="card-text">
+Compute inductive reactance (<span class="math inline">X_L</span>), capacitive reactance (<span class="math inline">X_C</span>), total impedance (<span class="math inline">|Z|</span>), and resonant frequency across AC sweeps.
+</p>
+<p><a href="./reactance_calculator.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Open Calculator</a></p>
+</div>
+</div>
+</div>
+<!-- CARD 4: CIRCUIT PROBLEM GENERATOR -->
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div id="122f3972" class="cell" data-fig-height="2.8" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="circuit_analysis_files/figure-html/cell-5-output-1.png" width="499" height="288" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="card-body">
+<h5 class="card-title anchored">
+Circuit Problem Generator
+</h5>
+<p class="card-text">
+Procedural problem engine for DC networks, Thévenin equivalents, AC phasors, 1st/2nd-order transients, and Op-Amps with SPICE &amp; LaTeX export.
+</p>
+<p><a href="./circuit_generator.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Generate Problems</a></p>
+</div>
+</div>
+</div>
+<!-- CARD 5: RESONANCE DEFENDER GAME -->
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div id="e75e52d8" class="cell" data-fig-height="2.8" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="circuit_analysis_files/figure-html/cell-6-output-1.png" width="499" height="288" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="card-body">
+<h5 class="card-title anchored">
+Resonance Defender Game
+</h5>
+<p class="card-text">
+Tune your series RLC circuit’s inductance (<span class="math inline">L</span>) and capacitance (<span class="math inline">C</span>) in real time to lock onto incoming AC sine waves and achieve resonance.
+</p>
+<p><a href="./resonance_game.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Play Game</a></p>
+</div>
+</div>
+</div>
+<!-- CARD 6: IMPEDANCE BREAKER GAME -->
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div id="62fbc89d" class="cell" data-fig-height="2.8" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="circuit_analysis_files/figure-html/cell-7-output-1.png" width="499" height="288" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="card-body">
+<h5 class="card-title anchored">
+Impedance Breaker Game
+</h5>
+<p class="card-text">
+Pilot the copper busbar paddle to shatter passive R, L, and C component arrays and solve IC Gate engineering override challenges.
+</p>
+<p><a href="./circuit_breakout.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Play Arcade</a></p>
+</div>
+</div>
+</div>
+</div>
 
 
-<!-- -->
-
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -415,57 +521,6 @@ window.Quarto = {
         container: window.document.getElementById('quarto-embedded-source-code-modal')
       });
       clipboardModal.on('success', onCopySuccess);
-    }
-    const viewSource = window.document.getElementById('quarto-view-source') ||
-                       window.document.getElementById('quarto-code-tools-source');
-    if (viewSource) {
-      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
-      viewSource.addEventListener("click", function(e) {
-        if (sourceUrl) {
-          // rstudio viewer pane
-          if (/\bcapabilities=\b/.test(window.location)) {
-            window.open(sourceUrl);
-          } else {
-            window.location.href = sourceUrl;
-          }
-        } else {
-          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
-          modal.show();
-        }
-        return false;
-      });
-    }
-    function toggleCodeHandler(show) {
-      return function(e) {
-        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
-        for (let i=0; i<cellDetails.length; i++) {
-          const details = cellDetails[i];
-          if (show) {
-            details.open = true;
-          } else {
-            details.removeAttribute("open");
-          }
-        }
-        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
-        const fromCls = show ? "hidden" : "unhidden";
-        const toCls = show ? "unhidden" : "hidden";
-        for (let i=0; i<cellCodeDivs.length; i++) {
-          const codeDiv = cellCodeDivs[i];
-          if (codeDiv.classList.contains(fromCls)) {
-            codeDiv.classList.remove(fromCls);
-            codeDiv.classList.add(toCls);
-          } 
-        }
-        return false;
-      }
-    }
-    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
-    if (hideAllCode) {
-      hideAllCode.addEventListener("click", toggleCodeHandler(false));
-    }
-    const showAllCode = window.document.getElementById("quarto-show-all-code");
-    if (showAllCode) {
-      showAllCode.addEventListener("click", toggleCodeHandler(true));
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
@@ -795,26 +850,7 @@ window.Quarto = {
       }
     }
   });
-  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Transient Circuit Analysis"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">### Introduction to RC Circuits</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>When a DC voltage is applied to an RC circuit, the capacitor charges over time. The voltage across the capacitor $V_c(t)$ is described by the following differential equation solution:</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>$$ V_c(t) = V_s \left(1 - e^{-\frac{t}{RC}}\right) $$</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">### Computational Model</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>Click the **"Code"** button to the right to see the Python script used to model this behavior.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
-</div></div></div></div></div>
+  </script>
 </div> <!-- /content -->
 
 

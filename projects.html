@@ -100,10 +100,25 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./teaching.html"> 
-<span class="menu-text">Teaching</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teaching</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li>
+    <a class="dropdown-item" href="./teaching.html">
+ <span class="dropdown-text">Teaching Statement</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./lecture_notes.html">
+ <span class="dropdown-text">Lecture Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lab_manuals.html">
+ <span class="dropdown-text">Lab Manuals</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-outreach" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Outreach</span>
@@ -133,6 +148,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="./circuit_breakout.html">
  <span class="dropdown-text">Impedance Breaker Game</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./rf_foxhunt.html">
+ <span class="dropdown-text">RF Fox Hunt Lab</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -140,6 +159,10 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Circuit Analysis</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-circuit-analysis">    
+        <li>
+    <a class="dropdown-item" href="./circuit_analysis.html">
+ <span class="dropdown-text">Circuit Analysis Hub</span></a>
+  </li>  
         <li>
     <a class="dropdown-item" href="./circuit_dashboard.html">
  <span class="dropdown-text">Electrical Dashboard</span></a>
@@ -205,10 +228,6 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link active" href="./projects.html" aria-current="page"> 
 <span class="menu-text">Projects</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./lectures.qmd"> 
-<span class="menu-text">Class Lectures</span></a>
-  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -229,6 +248,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">RESEARCH &amp; PROJECT AREAS</h1>
+<p class="subtitle lead">Active R&amp;D Initiatives, Clean-Tech Ventures &amp; Hardware Modeling</p>
 </div>
 
 
@@ -246,43 +266,85 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="grid">
+<!-- CARD 1: AUTONOMOUS SYSTEMS -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<img src="https://via.placeholder.com/400x250.png?text=Autonomous+Systems" class="img-fluid"> ::: {.card-body}
+<div id="63ce234a" class="cell" data-fig-height="2.8" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projects_files/figure-html/cell-2-output-1.png" width="499" height="288" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="card-body">
+<div style="margin-bottom: 8px;">
+<p><span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background-color: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px;">Robotics &amp; Control</span></p>
+</div>
 <h5 class="card-title anchored">
 Autonomous Systems
 </h5>
 <p class="card-text">
-Developing AI-enabled autonomous systems and modular robotics. Mentorship initiatives focus on software integration and control systems for next-generation automation.
+Developing AI-enabled autonomous systems and modular SnappyXO robotics. Mentorship initiatives focus on sensor fusion, software integration, and closed-loop control systems for next-generation automation.
 </p>
+<p><a href="#" class="btn btn-primary" style="background-color: #1a0b2e; border: none; opacity: 0.75; pointer-events: none;">Project Brief Coming Soon</a></p>
 </div>
 </div>
 </div>
+<!-- CARD 2: SUSTAINABLE AVIATION FUEL -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<img src="https://via.placeholder.com/400x250.png?text=Aviation+Fuel" class="img-fluid"> ::: {.card-body}
+<div id="a89bae4e" class="cell" data-fig-height="2.8" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projects_files/figure-html/cell-3-output-1.png" width="499" height="288" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="card-body">
+<div style="margin-bottom: 8px;">
+<p><span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background-color: #dcfce7; color: #15803d; padding: 3px 8px; border-radius: 4px;">Clean-Tech Venture</span></p>
+</div>
 <h5 class="card-title anchored">
 Sustainable Aviation Fuel
 </h5>
 <p class="card-text">
-Exploring clean-technology ventures and chemical engineering approaches through Etherion Fuels to develop and scale sustainable alternatives for aviation.
+Exploring clean-technology ventures and chemical engineering synthesis pathways through Etherion Fuels to develop, model, and scale low-carbon sustainable fuel alternatives for aviation.
 </p>
+<p><a href="#" class="btn btn-primary" style="background-color: #1a0b2e; border: none; opacity: 0.75; pointer-events: none;">Case Study Coming Soon</a></p>
 </div>
 </div>
-<p>:::</p>
+</div>
+<!-- CARD 3: POLYPHASE POWER SYSTEMS -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<img src="https://via.placeholder.com/400x250.png?text=Power+Systems" class="img-fluid"> ::: {.card-body}
+<div id="1595f110" class="cell" data-fig-height="2.8" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projects_files/figure-html/cell-4-output-1.png" width="499" height="288" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="card-body">
+<div style="margin-bottom: 8px;">
+<p><span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background-color: #f3e8ff; color: #7e22ce; padding: 3px 8px; border-radius: 4px;">Electrical Engineering</span></p>
+</div>
 <h5 class="card-title anchored">
 Polyphase Power Systems
 </h5>
 <p class="card-text">
-Measurement and transient modeling of analog, digital, and AC polyphase power circuits utilizing PSpice, TINA-TI, and MATLAB data visualization.
+Measurement, harmonic analysis, and transient modeling of analog, digital, and balanced/unbalanced AC polyphase power circuits utilizing PSpice, LTspice, TINA-TI, and MATLAB visualization.
 </p>
+<p><a href="./circuit_analysis.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Explore Circuit Tools</a></p>
 </div>
 </div>
-<p>:::</p>
-<p>:::</p>
+</div>
+</div>
 
 
 
