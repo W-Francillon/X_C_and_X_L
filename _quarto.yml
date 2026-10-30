@@ -20,8 +20,14 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: teaching.qmd
-        text: Teaching
+      - text: Teaching
+        menu:
+          - href: teaching.qmd
+            text: Teaching Statement
+          - href: lecture_notes.qmd
+            text: Lecture Notes
+          - href: lab_manuals.qmd
+            text: Lab Manuals
       - text: Outreach
         menu: 
           - href: outreach.qmd
@@ -36,8 +42,12 @@ website:
             text: Resonance Defender Game
           - href: circuit_breakout.qmd
             text: Impedance Breaker Game
+          - href: rf_foxhunt.qmd
+            text: RF Fox Hunt Lab
       - text: Circuit Analysis
         menu: 
+          - href: circuit_analysis.qmd
+            text: Circuit Analysis Hub
           - href: circuit_dashboard.qmd
             text: Electrical Dashboard
           - href: circuit_simulator.qmd
@@ -68,8 +78,6 @@ website:
             text: Impedance Breaker Game
       - href: projects.qmd
         text: Projects
-      - href: lectures.qmd
-        text: Class Lectures
 
 format:
   html:

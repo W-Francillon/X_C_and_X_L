@@ -1,18 +1,195 @@
 ---
-title: "Transient Circuit Analysis"
+title: "CIRCUIT ANALYSIS & INTERACTIVE LABS"
+page-layout: full
 jupyter: python3
-format:
-  html:
-    code-fold: true
-    code-tools: true
 ---
 
-### Introduction to RC Circuits
+::: {.grid}
 
-When a DC voltage is applied to an RC circuit, the capacitor charges over time. The voltage across the capacitor $V_c(t)$ is described by the following differential equation solution:
+<!-- CARD 1: ELECTRICAL DASHBOARD -->
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+import numpy as np
 
-$$ V_c(t) = V_s \left(1 - e^{-\frac{t}{RC}}\right) $$
+# Generate Polyphase AC Waveform Thumbnail
+t = np.linspace(0, 2*np.pi, 200)
+v1 = np.sin(t)
+v2 = np.sin(t - 2*np.pi/3)
+v3 = np.sin(t + 2*np.pi/3)
 
-### Computational Model
+fig, ax = plt.subplots(figsize=(5, 2.8))
+ax.plot(t, v1, color='#1c528b', linewidth=2.5)
+ax.plot(t, v2, color='#ed7953', linewidth=2.5, linestyle='--')
+ax.plot(t, v3, color='#10b981', linewidth=2.5, linestyle=':')
+ax.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+```
+::: {.card-body}
+<h5 class="card-title">Electrical Dashboard</h5>
+<p class="card-text">Interactive telemetry and parameter visualization for analyzing voltage, current, and power relationships in electrical systems.</p>
+<a href="circuit_dashboard.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Open Dashboard</a>
+:::
+:::
+:::
 
-Click the **"Code"** button to the right to see the Python script used to model this behavior.
+<!-- CARD 2: LIVE CIRCUIT SIMULATOR -->
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate Square-Wave & RC Transient Response Thumbnail
+t = np.linspace(0, 4, 300)
+sq = np.where((t % 2) < 1, 1.0, 0.0)
+rc = np.zeros_like(t)
+for i in range(1, len(t)):
+    dt = t[i] - t[i-1]
+    rc[i] = rc[i-1] + (sq[i] - rc[i-1]) * (dt / 0.25)
+
+fig, ax = plt.subplots(figsize=(5, 2.8))
+ax.plot(t, sq, color='#94a3b8', linewidth=1.8, linestyle='--')
+ax.plot(t, rc, color='#1c528b', linewidth=2.8)
+ax.fill_between(t, rc, color='#1c528b', alpha=0.12)
+ax.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+```
+::: {.card-body}
+<h5 class="card-title">Live Circuit Simulator</h5>
+<p class="card-text">Build, modify, and probe live schematic networks in real time with virtual oscilloscope traces and interactive components.</p>
+<a href="circuit_simulator.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Launch Simulator</a>
+:::
+:::
+:::
+
+<!-- CARD 3: REACTANCE CALCULATOR -->
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate XL vs XC Reactance Crossover Thumbnail
+f = np.linspace(15, 100, 200)
+xl = 0.8 * f
+xc = 2500 / f
+
+fig, ax = plt.subplots(figsize=(5, 2.8))
+ax.plot(f, xl, color='#06b6d4', linewidth=2.5)
+ax.plot(f, xc, color='#a855f7', linewidth=2.5)
+ax.scatter([55.9], [44.7], color='#ed7953', s=80, zorder=5)
+ax.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+```
+::: {.card-body}
+<h5 class="card-title">Reactance Calculator</h5>
+<p class="card-text">Compute inductive reactance ($X_L$), capacitive reactance ($X_C$), total impedance ($|Z|$), and resonant frequency across AC sweeps.</p>
+<a href="reactance_calculator.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Open Calculator</a>
+:::
+:::
+:::
+
+<!-- CARD 4: CIRCUIT PROBLEM GENERATOR -->
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate 2nd-Order Underdamped RLC Step Response Thumbnail
+t = np.linspace(0, 6, 300)
+y = 1 - np.exp(-0.6*t) * (np.cos(3.5*t) + (0.6/3.5)*np.sin(3.5*t))
+
+fig, ax = plt.subplots(figsize=(5, 2.8))
+ax.axhline(1.0, color='#94a3b8', linestyle='--', linewidth=1.5)
+ax.plot(t, y, color='#10b981', linewidth=2.8)
+ax.fill_between(t, 1.0, y, color='#10b981', alpha=0.12)
+ax.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+```
+::: {.card-body}
+<h5 class="card-title">Circuit Problem Generator</h5>
+<p class="card-text">Procedural problem engine for DC networks, Thévenin equivalents, AC phasors, 1st/2nd-order transients, and Op-Amps with SPICE & LaTeX export.</p>
+<a href="circuit_generator.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Generate Problems</a>
+:::
+:::
+:::
+
+<!-- CARD 5: RESONANCE DEFENDER GAME -->
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate Oscilloscope Target Lock Waveform Thumbnail
+t = np.linspace(0, 4*np.pi, 200)
+y1 = np.sin(t)
+y2 = 0.85 * np.sin(t + 0.35)
+
+fig, ax = plt.subplots(figsize=(5, 2.8))
+ax.plot(t, y1, color='#10b981', linewidth=2.5)
+ax.plot(t, y2, color='#ef4444', linewidth=2.5, linestyle='--')
+ax.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+```
+::: {.card-body}
+<h5 class="card-title">Resonance Defender Game</h5>
+<p class="card-text">Tune your series RLC circuit's inductance ($L$) and capacitance ($C$) in real time to lock onto incoming AC sine waves and achieve resonance.</p>
+<a href="resonance_game.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Play Game</a>
+:::
+:::
+:::
+
+<!-- CARD 6: IMPEDANCE BREAKER GAME -->
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+# Generate Breakout Component Brick Matrix Thumbnail
+fig, ax = plt.subplots(figsize=(5, 2.8))
+colors = ['#a855f7', '#f59e0b', '#06b6d4', '#10b981']
+for r in range(3):
+    for c in range(5):
+        rect = patches.FancyBboxPatch((c*1.0, 2.0 - r*0.55), 0.85, 0.38, boxstyle="round,pad=0.03", facecolor=colors[(r+c)%4], edgecolor='none')
+        ax.add_patch(rect)
+# Paddle & Ball
+paddle = patches.FancyBboxPatch((1.6, 0.15), 1.6, 0.2, boxstyle="round,pad=0.03", facecolor='#10b981', edgecolor='none')
+ax.add_patch(paddle)
+ax.scatter([2.4], [0.65], color='#1c528b', s=70, zorder=5)
+ax.set_xlim(-0.2, 5.0)
+ax.set_ylim(0, 2.6)
+ax.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+```
+::: {.card-body}
+<h5 class="card-title">Impedance Breaker Game</h5>
+<p class="card-text">Pilot the copper busbar paddle to shatter passive R, L, and C component arrays and solve IC Gate engineering override challenges.</p>
+<a href="circuit_breakout.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Play Arcade</a>
+:::
+:::
+:::
+
+:::

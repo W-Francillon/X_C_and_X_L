@@ -49,5 +49,20 @@
   },
   "usaf_1951.qmd": {
     "usaf_1951.html": "73e69a59"
+  },
+  "assignments.qmd": {
+    "assignments.html": "975e93f1"
+  },
+  "lecture_notes.qmd": {
+    "lecture_notes.html": "37416154"
+  },
+  "solutions.qmd": {
+    "solutions.html": "e9735883"
+  },
+  "lab_manuals.qmd": {
+    "lab_manuals.html": "27477f28"
+  },
+  "rf_foxhunt.qmd": {
+    "rf_foxhunt.html": "5e074569"
   }
 }

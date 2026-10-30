@@ -1,0 +1,193 @@
+---
+title: "RF Fox Hunt & Transient Telemetry Lab"
+subtitle: "K-12 STEM Direction Finding, Raspberry Pi 5 Beacons & RC Circuit Analysis"
+page-layout: full
+---
+
+## Project Overview & Objectives
+
+Welcome to the **RF Fox Hunt & Transient Telemetry Lab**. This module bridges foundational radio frequency (RF) direction finding with practical analog circuit analysis using modern single-board computers. Students build a directional waveguide antenna (the "Cantenna") to track down a hidden Wi-Fi beacon powered by a **Raspberry Pi 5**, then transition to data acquisition by logging DC transient charging curves using an **ADS1115 16-Bit ADC**.
+
+---
+
+## Bill of Materials (BOM) & Hardware
+
+To assemble and deploy this complete lab workstation, the required hardware components and recommended equipment are outlined below.
+
+::: {.callout-note appearance="simple"}
+**Affiliate Disclosure:** Some links below are affiliate links. If you purchase hardware through these links, this site earns a small commission at no additional cost to you, helping fund our K-12 STEM outreach programs.
+:::
+
+| Component | Specifications / Model | Purpose / Role | Source / Affiliate Link |
+| :--- | :--- | :--- | :--- |
+| **Microcontroller / Server** | Raspberry Pi 5 (4GB or 8GB RAM Starter Kit) | Acts as the hidden Wi-Fi beacon ("Fox") and telemetry data server | [View on Amazon](https://amzn.to/YOUR_LINK) |
+| **Power Supply** | Official Raspberry Pi 27W USB-C Power Supply | Clean benchtop power for the Pi 5 server | [View on Amazon](https://amzn.to/YOUR_LINK) |
+| **Portable Power Bank** | High-Output USB-C Power Bank (10,000+ mAh) | Powers the Raspberry Pi 5 when hidden during field fox hunts | [View on Amazon](https://amzn.to/YOUR_LINK) |
+| **Wi-Fi USB Adapter** | TP-Link USB Wi-Fi Adapter (or Alfa Network adapter) | Directional RF reception mounted inside the Cantenna | [View on Amazon](https://amzn.to/YOUR_LINK) |
+| **Analog-to-Digital Converter** | ADS1115 4-Channel 16-Bit I2C ADC Breakout | High-precision voltage sampling for RC transient data logging | [View on Amazon](https://amzn.to/YOUR_LINK) |
+| **Prototyping Kit** | 830-Point Breadboard, Resistors ($10\,\text{k}\Omega$), and Capacitors ($100\,\mu\text{F}$) | Analog RC circuit construction | [View on Amazon](https://amzn.to/YOUR_LINK) |
+| **Test Instrument** | 2-Channel Digital Storage Oscilloscope (e.g., Siglent / Rigol) | Visualizing square-wave transient step responses | [View on Amazon](https://amzn.to/YOUR_LINK) |
+
+<br>
+
+---
+
+# Part 1: Student Beacon Setup Guide
+
+## What is a Fox Hunt?
+A **"Fox Hunt"** (officially called Amateur Radio Direction Finding, or ARDF) is a classic engineering game. One person hides a small, battery-powered radio transmitter (the "Fox") somewhere in a building or park. The rest of the teams (the "Hunters") must use their knowledge of signal strength, decibels ($\text{dBm}$), and directional antennas (like our Pringles Cantenna) to track down the hidden transmitter.
+
+To play, we first need to build our Fox. Today, you will program a Raspberry Pi to act as a standalone Wi-Fi beacon that automatically starts broadcasting the moment you plug in a battery!
+
+## What is a Wi-Fi Beacon?
+Every wireless router in the world constantly shouts an invisible radio packet into the air about 10 times every single second. This packet is called a **Beacon Frame**. It contains the network's name (the SSID) so your phone knows the network exists. 
+
+Even if you don't type in the password to connect to the network, your phone's Wi-Fi antenna can still feel the physical power of the Beacon Frame hitting it. We will measure that power (the RSSI in $\text{dBm}$) to play our game.
+
+## Step 1: Creating the Beacon
+We will use `nmcli` (NetworkManager Command Line Interface) to command the Raspberry Pi's internal wireless chip to stop acting like a normal computer and start acting like a wireless router.
+
+1. Open the terminal on your Raspberry Pi.
+2. Type the following command exactly as written, then press **Enter**:
+
+```bash
+sudo nmcli device wifi hotspot ifname wlan0 band bg channel 11 ssid The_Hidden_Fox password catchmeifyoucan
+```
+
+**What did we just do?**
+* `ifname wlan0`: Tells the Pi to use its built-in Wi-Fi antenna.
+* `band bg channel 11`: Forces the transmitter to use the $2.462\,\text{GHz}$ frequency (a long enough wavelength to measure easily).
+* `ssid The_Hidden_Fox`: This is the network name the Hunters will look for!
+
+## Step 2: Making the Beacon "Persistent" (Auto-Start on Boot)
+If we hide the Raspberry Pi in a backpack or above a ceiling tile, we won't have a screen or keyboard to type commands. The Pi must automatically start shouting its beacon the instant we plug it into a portable USB battery bank.
+
+When we ran the command in Step 1, NetworkManager saved our new beacon as a connection profile named **Hotspot**. We need to modify this profile so it automatically connects on boot with the highest priority.
+
+1. Tell the Pi to auto-connect to the Hotspot profile:
+```bash
+sudo nmcli connection modify Hotspot connection.autoconnect yes
+```
+2. Give the Hotspot a high priority (so the Pi chooses to be a beacon instead of trying to connect to the school's normal Wi-Fi):
+```bash
+sudo nmcli connection modify Hotspot connection.autoconnect-priority 100
+```
+
+> **The Ultimate Fallback: Using Cron**
+> Sometimes, NetworkManager gets confused if it sees familiar networks nearby. To absolutely guarantee our Fox wakes up howling, we can add a scheduling rule to the Linux `cron` system. This tells the operating system to force the Hotspot on every time the computer boots up.
+> 
+> Type `crontab -e` in the terminal (select `nano` if it asks for an editor). Scroll all the way to the bottom of the file and add this exact line:
+> ```bash
+> @reboot sleep 10 && nmcli connection up Hotspot
+> ```
+> Press **Ctrl+O** (then Enter) to save, and **Ctrl+X` to exit. The `sleep 10` command gives the Wi-Fi chip 10 seconds to warm up before firing the beacon command.
+
+## Step 3: Test Your Fox
+Let's make sure it works!
+1. Restart your Raspberry Pi by typing `sudo reboot` in the terminal.
+2. Wait 60 seconds for the Pi to fully boot up.
+3. Take out your smartphone, go to your Wi-Fi settings, and look at the list of available networks.
+4. If you see **The_Hidden_Fox** in the list, congratulations! Your beacon is actively broadcasting.
+
+---
+
+# Part 2: Directional RF Detection & RC Transient Telemetry
+
+## System Architecture: Directional RF Detection
+This schematic illustrates the hardware data flow. The waveguide physically filters out scattered radio waves so your adapter only reads the signal coming from straight ahead.
+
+## Lab Instructions: The Fox Hunt
+In this lab, you will use your directional waveguide to detect a hidden 2.4 GHz Wi-Fi signal broadcasted by a Raspberry Pi 5. By measuring the Received Signal Strength Indicator (RSSI) in decibel-milliwatts ($\text{dBm}$), you will triangulate the physical origin of the signal.
+
+### Step-by-Step Procedure
+1. **Connect the Hardware:** Plug the USB Wi-Fi adapter into your laptop. Ensure the adapter is mounted securely inside the uncut Pringles can waveguide.
+2. **Launch the Terminal:** Open a new terminal window on your laptop.
+3. **Select a Tracking Method:** Choose one of the exploration methods below. 
+4. **Find the Peak Signal:** Stand at your assigned station and slowly rotate the cantenna $360^\circ$. The signal is at its strongest (peak) when the negative number gets **closest to zero**.
+5. **Log the Vector:** When you find the peak value, use a smartphone compass to record the exact heading the open end of the cantenna is pointing.
+
+### Exploration Method 1: Quick Radar (Terminal)
+This command refreshes your screen every 0.5 seconds, turning your terminal into a live radar dashboard without saving the data. Press `Ctrl+C` to stop.
+```bash
+watch -n 0.5 "iwconfig wlan0 | grep -i 'signal level'"
+```
+
+### Exploration Method 2: Data Logging (Python)
+For advanced analysis, this script continuously logs the RSSI values to a CSV file along with precise timestamps. Save this as `waveguide_telemetry.py` and run it:
+```python
+import subprocess, time, csv
+
+INTERFACE = "wlan0"
+OUTPUT_FILE = "waveguide_telemetry.csv"
+
+def get_rssi():
+    cmd = f"iwconfig {INTERFACE} | grep -i --color=never 'signal level'"
+    res = subprocess.check_output(cmd, shell=True).decode("utf-8")
+    for part in res.split():
+        if "level=" in part:
+            return float(part.split("=")[1])
+    return -100.0
+
+print("Logging RSSI (dBm)... Press Ctrl+C to stop.")
+with open(OUTPUT_FILE, "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["Timestamp_s", "RSSI_dBm"])
+    t0 = time.time()
+    while True:
+        rssi = get_rssi()
+        elapsed = round(time.time() - t0, 2)
+        print(f"t = {elapsed:5.2f} s | Signal = {rssi:6.1f} dBm")
+        writer.writerow([elapsed, rssi])
+        time.sleep(0.5)
+```
+
+## Data Collection Log
+| Measurement Node | Coordinates (x,y) | Peak RSSI (dBm) | Compass Heading ($^\circ$) |
+| :--- | :---: | :---: | :---: |
+| Station A | | | |
+| Station B | | | |
+| Station C (Optional) | | | |
+
+---
+
+## Data Acquisition: DC Transient Telemetry
+The analog RC circuit connects directly to an **ADS1115 16-Bit ADC**, which communicates with the Raspberry Pi 5 over the $\text{I}^2\text{C}$ bus.
+
+### I2C Bus & Power Wiring:
+* **Red Wire:** VDD (3.3V Power)
+* **Blue Wire:** SDA (Data Line to GPIO 2)
+* **Orange Wire:** SCL (Clock Line to GPIO 3)
+* **Black Wire:** Common System Ground
+
+### Software Implementation: ADS1115 Data Logging
+Once the physical circuit is wired, use this script to record capacitor voltage over time to a CSV file:
+
+```python
+import time
+import board
+import busio
+import csv
+import adafruit_ads1x15.ads1115 as ADS
+from adafruit_ads1x15.analog_in import AnalogIn
+
+i2c = busio.I2C(board.SCL, board.SDA)
+adc = ADS.ADS1115(i2c)
+chan = AnalogIn(adc, ADS.P0)
+
+print("Logging RC Voltage to CSV... Press Ctrl+C to stop.")
+with open("rc_transient_data.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["Time_s", "Voltage_V"])
+    
+    t0 = time.time()
+    while True:
+        elapsed = round(time.time() - t0, 3)
+        volts = round(chan.voltage, 3)
+        print(f"t = {elapsed:5.3f} s | V_c = {volts} V")
+        writer.writerow([elapsed, volts])
+        time.sleep(0.05)
+```
+
+## Assembly Notes & Instructor Guidelines
+* **Ground Referencing:** The analog breadboard ground, the oscilloscope ground, and the Raspberry Pi digital ground must share a common reference, otherwise the ADC will read floating, erratic voltage values.
+* **Time Constant ($\tau$):** For $R = 10\,\text{k}\Omega$ and $C = 100\,\mu\text{F}$, the theoretical time constant is $\tau = RC = 1.0$ second. In the DC circuit, the capacitor reaches approximately $63.2\%$ of $V_{in}$ after $1.0$ second.

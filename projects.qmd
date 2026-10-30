@@ -1,36 +1,117 @@
 ---
 title: "RESEARCH & PROJECT AREAS"
+subtitle: "Active R&D Initiatives, Clean-Tech Ventures & Hardware Modeling"
 page-layout: full
+jupyter: python3
 ---
 
 ::: {.grid}
 
+<!-- CARD 1: AUTONOMOUS SYSTEMS -->
 ::: {.g-col-12 .g-col-md-4}
 ::: {.card .h-100}
-![](https://via.placeholder.com/400x250.png?text=Autonomous+Systems)
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate Autonomous Waypoint Trajectory & Sensor Field Thumbnail
+t = np.linspace(0, 10, 150)
+x = t
+y = 1.5 * np.sin(0.6 * t) + 0.15 * t
+
+wp_x = [1.0, 3.5, 6.2, 8.8]
+wp_y = [1.5 * np.sin(0.6 * wx) + 0.15 * wx for wx in wp_x]
+
+fig, ax = plt.subplots(figsize=(5, 2.8))
+ax.plot(x, y, color='#1c528b', linewidth=2.5, zorder=3)
+ax.fill_between(x, y - 0.55, y + 0.55, color='#06b6d4', alpha=0.14, zorder=1)
+ax.scatter(wp_x, wp_y, color='#ed7953', s=75, zorder=4)
+for wx, wy in zip(wp_x, wp_y):
+    circle = plt.Circle((wx, wy), 0.55, color='#ed7953', fill=False, linestyle='--', alpha=0.5)
+    ax.add_patch(circle)
+
+ax.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+```
 ::: {.card-body}
+<div style="margin-bottom: 8px;">
+  <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background-color: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px;">Robotics & Control</span>
+</div>
 <h5 class="card-title">Autonomous Systems</h5>
-<p class="card-text">Developing AI-enabled autonomous systems and modular robotics. Mentorship initiatives focus on software integration and control systems for next-generation automation.</p>
+<p class="card-text">Developing AI-enabled autonomous systems and modular SnappyXO robotics. Mentorship initiatives focus on sensor fusion, software integration, and closed-loop control systems for next-generation automation.</p>
+<a href="#" class="btn btn-primary" style="background-color: #1a0b2e; border: none; opacity: 0.75; pointer-events: none;">Project Brief Coming Soon</a>
 :::
 :::
 :::
 
+<!-- CARD 2: SUSTAINABLE AVIATION FUEL -->
 ::: {.g-col-12 .g-col-md-4}
 ::: {.card .h-100}
-![](https://via.placeholder.com/400x250.png?text=Aviation+Fuel)
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate Process Conversion & Carbon Reduction Curve Thumbnail
+t = np.linspace(0, 8, 200)
+conv = 1 - np.exp(-0.55 * t)
+emissions = np.exp(-0.45 * t)
+
+fig, ax = plt.subplots(figsize=(5, 2.8))
+ax.plot(t, conv, color='#10b981', linewidth=2.8)
+ax.plot(t, emissions, color='#1c528b', linewidth=2.2, linestyle='--')
+ax.fill_between(t, conv, color='#10b981', alpha=0.14)
+ax.scatter([4.2], [1 - np.exp(-0.55 * 4.2)], color='#ed7953', s=75, zorder=5)
+ax.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+```
 ::: {.card-body}
+<div style="margin-bottom: 8px;">
+  <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background-color: #dcfce7; color: #15803d; padding: 3px 8px; border-radius: 4px;">Clean-Tech Venture</span>
+</div>
 <h5 class="card-title">Sustainable Aviation Fuel</h5>
-<p class="card-text">Exploring clean-technology ventures and chemical engineering approaches through Etherion Fuels to develop and scale sustainable alternatives for aviation.</p>
+<p class="card-text">Exploring clean-technology ventures and chemical engineering synthesis pathways through Etherion Fuels to develop, model, and scale low-carbon sustainable fuel alternatives for aviation.</p>
+<a href="#" class="btn btn-primary" style="background-color: #1a0b2e; border: none; opacity: 0.75; pointer-events: none;">Case Study Coming Soon</a>
 :::
 :::
 :::
 
+<!-- CARD 3: POLYPHASE POWER SYSTEMS -->
 ::: {.g-col-12 .g-col-md-4}
 ::: {.card .h-100}
-![](https://via.placeholder.com/400x250.png?text=Power+Systems)
+```{python}
+#| echo: false
+#| fig-height: 2.8
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate Balanced 3-Phase AC Sine Waveforms Thumbnail
+t = np.linspace(0, 3*np.pi, 300)
+va = np.sin(t)
+vb = np.sin(t - 2*np.pi/3)
+vc = np.sin(t + 2*np.pi/3)
+
+fig, ax = plt.subplots(figsize=(5, 2.8))
+ax.axhline(0, color='#cbd5e1', linewidth=1, zorder=1)
+ax.plot(t, va, color='#1c528b', linewidth=2.5)
+ax.plot(t, vb, color='#ed7953', linewidth=2.5, linestyle='--')
+ax.plot(t, vc, color='#a855f7', linewidth=2.5, linestyle=':')
+ax.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+```
 ::: {.card-body}
+<div style="margin-bottom: 8px;">
+  <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background-color: #f3e8ff; color: #7e22ce; padding: 3px 8px; border-radius: 4px;">Electrical Engineering</span>
+</div>
 <h5 class="card-title">Polyphase Power Systems</h5>
-<p class="card-text">Measurement and transient modeling of analog, digital, and AC polyphase power circuits utilizing PSpice, TINA-TI, and MATLAB data visualization.</p>
+<p class="card-text">Measurement, harmonic analysis, and transient modeling of analog, digital, and balanced/unbalanced AC polyphase power circuits utilizing PSpice, LTspice, TINA-TI, and MATLAB visualization.</p>
+<a href="circuit_analysis.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Explore Circuit Tools</a>
 :::
 :::
 :::

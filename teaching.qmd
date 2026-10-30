@@ -1,11 +1,13 @@
 ---
-title: "Teaching"
+title: "Teaching Philosophy & Resources"
+page-layout: full
 ---
 
-## Course Materials
+My teaching philosophy centers on bridging the gap between theoretical engineering principles and hands-on, practical application. Whether guiding students through complex polyphase power systems or modular robotics design, I believe in fostering an interactive and highly accessible learning environment. 
 
-* **Engineering Science:** Lecture slides and operational amplifier assessments.
-* **Circuit Simulation:** PSpice and LTspice lab manuals.
-* **Materials Science:** Supplemental resources for chemical engineering.
+By integrating modern computational tools, custom gamified simulations, and real-world project-based learning, my goal is to empower the next generation of engineers to approach problem-solving with confidence, creativity, and analytical rigor.
 
-More information coming soon.
+---
+
+### Course Materials
+Navigate using the top menu to access specific course resources, including **Lecture Notes**, **Assignments**, and **Solutions** for both introductory and advanced engineering sciences.
