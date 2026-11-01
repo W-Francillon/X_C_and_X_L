@@ -8,6 +8,51 @@ page-layout: full
 
 Welcome to the **RF Fox Hunt & Transient Telemetry Lab**. This module bridges foundational radio frequency (RF) direction finding with practical analog circuit analysis using modern single-board computers. Students build a directional waveguide antenna (the "Cantenna") to track down a hidden Wi-Fi beacon powered by a **Raspberry Pi 5**, then transition to data acquisition by logging DC transient charging curves using an **ADS1115 16-Bit ADC**.
 
+```{=html}
+<div style="text-align: center; margin: 2rem 0;">
+  <svg width="320" height="240" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" style="background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+    <!-- Radiating RF Waves -->
+    <circle cx="160" cy="115" r="55" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6,4" opacity="0.7" />
+    <circle cx="160" cy="115" r="80" fill="none" stroke="#0284c7" stroke-width="2" stroke-dasharray="8,6" opacity="0.5" />
+    <circle cx="160" cy="115" r="105" fill="none" stroke="#0369a1" stroke-width="1.5" stroke-dasharray="10,8" opacity="0.3" />
+    
+    <!-- Antenna Behind Fox -->
+    <line x1="160" y1="80" x2="160" y2="30" stroke="#475569" stroke-width="3" />
+    <circle cx="160" cy="28" r="5" fill="#ef4444" />
+    
+    <!-- Geometric Fox Ears -->
+    <polygon points="105,95 115,40 145,80" fill="#ea580c" stroke="#9a3412" stroke-width="2" stroke-linejoin="round" />
+    <polygon points="112,88 118,52 138,80" fill="#fed7aa" />
+    <polygon points="215,95 205,40 175,80" fill="#ea580c" stroke="#9a3412" stroke-width="2" stroke-linejoin="round" />
+    <polygon points="208,88 202,52 182,80" fill="#fed7aa" />
+
+    <!-- Geometric Fox Head Base -->
+    <polygon points="105,95 160,75 215,95 225,135 160,185 95,135" fill="#f97316" stroke="#9a3412" stroke-width="2" stroke-linejoin="round" />
+    
+    <!-- White Cheeks -->
+    <polygon points="95,135 130,135 160,185" fill="#fff7ed" stroke="#9a3412" stroke-width="1.5" stroke-linejoin="round" />
+    <polygon points="225,135 190,135 160,185" fill="#fff7ed" stroke="#9a3412" stroke-width="1.5" stroke-linejoin="round" />
+    
+    <!-- Center Snout Bridge -->
+    <polygon points="145,80 175,80 190,135 160,185 130,135" fill="#fb923c" />
+    
+    <!-- Eyes -->
+    <circle cx="135" cy="118" r="5" fill="#1e293b" />
+    <circle cx="133" cy="116" r="1.5" fill="#ffffff" />
+    <circle cx="185" cy="118" r="5" fill="#1e293b" />
+    <circle cx="183" cy="116" r="1.5" fill="#ffffff" />
+    
+    <!-- Nose -->
+    <polygon points="152,173 168,173 160,185" fill="#0f172a" />
+    
+    <!-- Caption Banner -->
+    <rect x="60" y="202" width="200" height="24" rx="6" fill="#0f172a" />
+    <text x="160" y="218" font-family="monospace" font-size="11" fill="#38bdf8" text-anchor="middle" font-weight="bold">SSID: The_Hidden_Fox (2.4 GHz)</text>
+  </svg>
+  <p style="font-size: 0.9em; color: #64748b; margin-top: 0.5rem;"><em>Figure 1: The Autonomous Raspberry Pi 5 "Fox" Beacon broadcasting 2.462 GHz frames.</em></p>
+</div>
+```
+
 ---
 
 ## Bill of Materials (BOM) & Hardware
@@ -20,11 +65,11 @@ To assemble and deploy this complete lab workstation, the required hardware comp
 
 | Component | Specifications / Model | Purpose / Role | Source / Affiliate Link |
 | :--- | :--- | :--- | :--- |
-| **Microcontroller / Server** | Raspberry Pi 5 (4GB or 8GB RAM Starter Kit) | Acts as the hidden Wi-Fi beacon ("Fox") and telemetry data server | [View on Amazon](https://amzn.to/YOUR_LINK) |
-| **Power Supply** | Official Raspberry Pi 27W USB-C Power Supply | Clean benchtop power for the Pi 5 server | [View on Amazon](https://amzn.to/YOUR_LINK) |
-| **Portable Power Bank** | High-Output USB-C Power Bank (10,000+ mAh) | Powers the Raspberry Pi 5 when hidden during field fox hunts | [View on Amazon](https://amzn.to/YOUR_LINK) |
+| **Microcontroller / Server** | Raspberry Pi 5 (4GB or 8GB RAM Starter Kit) | Acts as the hidden Wi-Fi beacon ("Fox") and telemetry data server | [View on Amazon](https://link.amazon/B019F8tzM) |
+| **Power Supply** | Official Raspberry Pi 27W USB-C Power Supply | Clean benchtop power for the Pi 5 server | [View on Amazon](https://link.amazon/B08pz8z2u) |
+| **Portable Power Bank** | High-Output USB-C Power Bank (10,000+ mAh) | Powers the Raspberry Pi 5 when hidden during field fox hunts | [View on Amazon](https://link.amazon/B0bL3nQSE) |
 | **Wi-Fi USB Adapter** | TP-Link USB Wi-Fi Adapter (or Alfa Network adapter) | Directional RF reception mounted inside the Cantenna | [View on Amazon](https://amzn.to/YOUR_LINK) |
-| **Analog-to-Digital Converter** | ADS1115 4-Channel 16-Bit I2C ADC Breakout | High-precision voltage sampling for RC transient data logging | [View on Amazon](https://amzn.to/YOUR_LINK) |
+| **Analog-to-Digital Converter** | ADS1115 4-Channel 16-Bit I2C ADC Breakout | High-precision voltage sampling for RC transient data logging | [View on Amazon](https://link.amazon/B06RWT41X) |
 | **Prototyping Kit** | 830-Point Breadboard, Resistors ($10\,\text{k}\Omega$), and Capacitors ($100\,\mu\text{F}$) | Analog RC circuit construction | [View on Amazon](https://amzn.to/YOUR_LINK) |
 | **Test Instrument** | 2-Channel Digital Storage Oscilloscope (e.g., Siglent / Rigol) | Visualizing square-wave transient step responses | [View on Amazon](https://amzn.to/YOUR_LINK) |
 
@@ -55,6 +100,7 @@ sudo nmcli device wifi hotspot ifname wlan0 band bg channel 11 ssid The_Hidden_F
 ```
 
 **What did we just do?**
+
 * `ifname wlan0`: Tells the Pi to use its built-in Wi-Fi antenna.
 * `band bg channel 11`: Forces the transmitter to use the $2.462\,\text{GHz}$ frequency (a long enough wavelength to measure easily).
 * `ssid The_Hidden_Fox`: This is the network name the Hunters will look for!
@@ -80,10 +126,11 @@ sudo nmcli connection modify Hotspot connection.autoconnect-priority 100
 > ```bash
 > @reboot sleep 10 && nmcli connection up Hotspot
 > ```
-> Press **Ctrl+O** (then Enter) to save, and **Ctrl+X` to exit. The `sleep 10` command gives the Wi-Fi chip 10 seconds to warm up before firing the beacon command.
+> Press **Ctrl+O** (then Enter) to save, and **Ctrl+X** to exit. The `sleep 10` command gives the Wi-Fi chip 10 seconds to warm up before firing the beacon command.
 
 ## Step 3: Test Your Fox
 Let's make sure it works!
+
 1. Restart your Raspberry Pi by typing `sudo reboot` in the terminal.
 2. Wait 60 seconds for the Pi to fully boot up.
 3. Take out your smartphone, go to your Wi-Fi settings, and look at the list of available networks.
@@ -94,7 +141,110 @@ Let's make sure it works!
 # Part 2: Directional RF Detection & RC Transient Telemetry
 
 ## System Architecture: Directional RF Detection
-This schematic illustrates the hardware data flow. The waveguide physically filters out scattered radio waves so your adapter only reads the signal coming from straight ahead.
+This schematic illustrates the hardware data flow. The cylindrical waveguide physically filters out off-axis scattered radio waves so your internal USB Wi-Fi adapter only reads the plane wave arriving from straight ahead.
+
+```{=html}
+<div style="text-align: center; margin: 2rem 0;">
+  <svg width="650" height="220" viewBox="0 0 650 220" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto; background: #ffffff; border-radius: 10px; border: 1px solid #cbd5e1; padding: 10px;">
+    <!-- Incoming RF Waves -->
+    <path d="M 35,60 Q 55,110 35,160" fill="none" stroke="#0284c7" stroke-width="3" />
+    <path d="M 55,70 Q 70,110 55,150" fill="none" stroke="#0284c7" stroke-width="3" />
+    <path d="M 75,80 Q 85,110 75,140" fill="none" stroke="#0284c7" stroke-width="3" />
+    <text x="55" y="45" font-family="sans-serif" font-size="12" fill="#0369a1" font-weight="bold" text-anchor="middle">2.4 GHz Plane Wave</text>
+    
+    <!-- Arrow into Can -->
+    <line x1="90" y1="110" x2="125" y2="110" stroke="#0284c7" stroke-width="2.5" marker-end="url(#arrow)" />
+
+    <!-- Pringles Cantenna Cylinder -->
+    <rect x="135" y="65" width="210" height="90" fill="#f1f5f9" stroke="#475569" stroke-width="2.5" />
+    <ellipse cx="135" cy="110" rx="12" ry="45" fill="#e2e8f0" stroke="#475569" stroke-width="2" stroke-dasharray="4,3" />
+    <path d="M 345,65 A 12,45 0 0,1 345,155" fill="none" stroke="#475569" stroke-width="2.5" />
+    <text x="235" y="55" font-family="sans-serif" font-size="13" fill="#1e293b" font-weight="bold" text-anchor="middle">Cylindrical Waveguide ("Cantenna")</text>
+    <text x="235" y="95" font-family="monospace" font-size="11" fill="#64748b" text-anchor="middle">Metallic Foil Liner</text>
+
+    <!-- Quarter-Wave Monopole / USB Adapter Probe -->
+    <rect x="290" y="135" width="30" height="40" rx="3" fill="#1e293b" />
+    <line x1="305" y1="135" x2="305" y2="100" stroke="#dc2626" stroke-width="4" stroke-linecap="round" />
+    <circle cx="305" cy="100" r="4" fill="#dc2626" />
+    <text x="295" y="125" font-family="sans-serif" font-size="10" fill="#dc2626" font-weight="bold" text-anchor="end">1/4 λ Probe</text>
+
+    <!-- USB Cable -->
+    <path d="M 305,175 L 305,195 L 430,195 L 430,145" fill="none" stroke="#334155" stroke-width="4" />
+    <text x="368" y="188" font-family="monospace" font-size="11" fill="#334155" text-anchor="middle">USB Data Bus</text>
+
+    <!-- Laptop / Telemetry Station -->
+    <rect x="440" y="65" width="160" height="95" rx="6" fill="#1e293b" stroke="#0f172a" stroke-width="2" />
+    <rect x="448" y="73" width="144" height="75" fill="#0f172a" />
+    <text x="520" y="98" font-family="monospace" font-size="11" fill="#4ade80" text-anchor="middle">iwconfig wlan0</text>
+    <text x="520" y="118" font-family="monospace" font-size="12" fill="#38bdf8" font-weight="bold" text-anchor="middle">RSSI: -42.0 dBm</text>
+    <text x="520" y="136" font-family="monospace" font-size="10" fill="#94a3b8" text-anchor="middle">Logging CSV...</text>
+    <polygon points="425,160 615,160 630,175 410,175" fill="#94a3b8" stroke="#475569" stroke-width="1.5" />
+
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0284c7" />
+      </marker>
+    </defs>
+  </svg>
+  <p style="font-size: 0.9em; color: #64748b; margin-top: 0.5rem;"><em>Figure 2: Directional Waveguide Hardware & RSSI Telemetry Architecture.</em></p>
+</div>
+```
+
+## Stationary Triangulation Geometry
+By measuring the compass bearing ($\theta_1, \theta_2$) of the peak RSSI signal from two separated baseline stations (Station A and Station B), students plot intersecting rays to pinpoint the exact physical coordinates of the hidden Fox transmitter.
+
+```{=html}
+<div style="text-align: center; margin: 2rem 0;">
+  <svg width="550" height="320" viewBox="0 0 550 320" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto; background: #f8fafc; border-radius: 10px; border: 1px solid #cbd5e1;">
+    <!-- Subtle Coordinate Grid -->
+    <g stroke="#e2e8f0" stroke-width="1">
+      <line x1="0" y1="60" x2="550" y2="60" /><line x1="0" y1="120" x2="550" y2="120" />
+      <line x1="0" y1="180" x2="550" y2="180" /><line x1="0" y1="240" x2="550" y2="240" />
+      <line x1="90" y1="0" x2="90" y2="320" /><line x1="180" y1="0" x2="180" y2="320" />
+      <line x1="275" y1="0" x2="275" y2="320" /><line x1="370" y1="0" x2="370" y2="320" />
+      <line x1="460" y1="0" x2="460" y2="320" />
+    </g>
+
+    <!-- Baseline d -->
+    <line x1="90" y1="260" x2="460" y2="260" stroke="#334155" stroke-width="2.5" stroke-dasharray="8,5" />
+    <text x="275" y="285" font-family="sans-serif" font-size="13" fill="#1e293b" font-weight="bold" text-anchor="middle">Known Baseline Distance (d)</text>
+
+    <!-- Angle Arcs -->
+    <path d="M 145,260 A 55,55 0 0,0 123,216" fill="none" stroke="#0284c7" stroke-width="2" />
+    <text x="160" y="242" font-family="serif" font-size="16" fill="#0369a1" font-style="italic" font-weight="bold">θ₁</text>
+
+    <path d="M 405,260 A 55,55 0 0,1 427,216" fill="none" stroke="#0284c7" stroke-width="2" />
+    <text x="385" y="242" font-family="serif" font-size="16" fill="#0369a1" font-style="italic" font-weight="bold">θ₂</text>
+
+    <!-- Bearing Vectors -->
+    <line x1="90" y1="260" x2="265" y2="68" stroke="#2563eb" stroke-width="3" marker-end="url(#bluearrow)" />
+    <text x="150" y="150" font-family="sans-serif" font-size="12" fill="#1d4ed8" font-weight="bold" transform="rotate(-48, 150, 150)">Peak Vector A</text>
+
+    <line x1="460" y1="260" x2="285" y2="68" stroke="#2563eb" stroke-width="3" marker-end="url(#bluearrow)" />
+    <text x="395" y="150" font-family="sans-serif" font-size="12" fill="#1d4ed8" font-weight="bold" transform="rotate(48, 395, 150)">Peak Vector B</text>
+
+    <!-- Station A & Station B Nodes -->
+    <circle cx="90" cy="260" r="7" fill="#0f172a" />
+    <text x="90" y="302" font-family="sans-serif" font-size="13" fill="#0f172a" font-weight="bold" text-anchor="middle">Station A (x₁, y₁)</text>
+
+    <circle cx="460" cy="260" r="7" fill="#0f172a" />
+    <text x="460" y="302" font-family="sans-serif" font-size="13" fill="#0f172a" font-weight="bold" text-anchor="middle">Station B (x₂, y₂)</text>
+
+    <!-- Hidden Fox Target -->
+    <circle cx="275" cy="58" r="18" fill="#fee2e2" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2" />
+    <circle cx="275" cy="58" r="7" fill="#dc2626" />
+    <rect x="200" y="12" width="150" height="22" rx="4" fill="#dc2626" />
+    <text x="275" y="27" font-family="sans-serif" font-size="12" fill="#ffffff" font-weight="bold" text-anchor="middle">Hidden Fox (Pi 5)</text>
+
+    <defs>
+      <marker id="bluearrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb" />
+      </marker>
+    </defs>
+  </svg>
+  <p style="font-size: 0.9em; color: #64748b; margin-top: 0.5rem;"><em>Figure 3: Stationary Triangulation Geometry using Peak RSSI Bearing Intersection.</em></p>
+</div>
+```
 
 ## Lab Instructions: The Fox Hunt
 In this lab, you will use your directional waveguide to detect a hidden 2.4 GHz Wi-Fi signal broadcasted by a Raspberry Pi 5. By measuring the Received Signal Strength Indicator (RSSI) in decibel-milliwatts ($\text{dBm}$), you will triangulate the physical origin of the signal.
@@ -152,6 +302,90 @@ with open(OUTPUT_FILE, "w", newline="") as f:
 
 ## Data Acquisition: DC Transient Telemetry
 The analog RC circuit connects directly to an **ADS1115 16-Bit ADC**, which communicates with the Raspberry Pi 5 over the $\text{I}^2\text{C}$ bus.
+
+```{=html}
+<div style="text-align: center; margin: 2rem 0;">
+  <svg width="680" height="310" viewBox="0 0 680 310" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto; background: #ffffff; border-radius: 10px; border: 1px solid #cbd5e1; padding: 10px;">
+    <!-- Left Loop: Voltage Source + Switch -->
+    <line x1="70" y1="70" x2="70" y2="125" stroke="#0f172a" stroke-width="2.5" />
+    <line x1="70" y1="165" x2="70" y2="230" stroke="#0f172a" stroke-width="2.5" />
+    
+    <!-- DC Battery Symbol -->
+    <line x1="50" y1="125" x2="90" y2="125" stroke="#0f172a" stroke-width="3" />
+    <line x1="58" y1="138" x2="82" y2="138" stroke="#0f172a" stroke-width="5" />
+    <line x1="50" y1="151" x2="90" y2="151" stroke="#0f172a" stroke-width="3" />
+    <line x1="58" y1="165" x2="82" y2="165" stroke="#0f172a" stroke-width="5" />
+    <text x="40" y="150" font-family="sans-serif" font-size="13" fill="#0f172a" font-weight="bold" text-anchor="end">Vin (3.3V)</text>
+
+    <!-- Top Rail & Switch -->
+    <line x1="70" y1="70" x2="115" y2="70" stroke="#0f172a" stroke-width="2.5" />
+    <circle cx="115" cy="70" r="3.5" fill="#0f172a" />
+    <line x1="115" y1="70" x2="150" y2="48" stroke="#dc2626" stroke-width="2.5" />
+    <circle cx="155" cy="70" r="3.5" fill="#0f172a" />
+    <text x="135" y="40" font-family="sans-serif" font-size="11" fill="#dc2626" font-weight="bold" text-anchor="middle">Step Switch</text>
+    <line x1="155" y1="70" x2="195" y2="70" stroke="#0f172a" stroke-width="2.5" />
+
+    <!-- Resistor R = 10k -->
+    <polyline points="195,70 202,55 214,85 226,55 238,85 250,55 262,85 270,70" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linejoin="round" />
+    <text x="232" y="42" font-family="sans-serif" font-size="13" fill="#0f172a" font-weight="bold" text-anchor="middle">R = 10 kΩ</text>
+    <line x1="270" y1="70" x2="320" y2="70" stroke="#0f172a" stroke-width="2.5" />
+
+    <!-- Node Vc(t) -->
+    <circle cx="320" cy="70" r="4.5" fill="#dc2626" />
+    <text x="320" y="52" font-family="serif" font-size="14" fill="#dc2626" font-weight="bold" text-anchor="middle">V_c(t)</text>
+
+    <!-- Capacitor C = 100uF -->
+    <line x1="320" y1="70" x2="320" y2="138" stroke="#0f172a" stroke-width="2.5" />
+    <line x1="298" y1="138" x2="342" y2="138" stroke="#0f172a" stroke-width="3.5" />
+    <line x1="298" y1="154" x2="342" y2="154" stroke="#0f172a" stroke-width="3.5" />
+    <line x1="320" y1="154" x2="320" y2="230" stroke="#0f172a" stroke-width="2.5" />
+    <text x="285" y="150" font-family="sans-serif" font-size="13" fill="#0f172a" font-weight="bold" text-anchor="end">C = 100 μF</text>
+
+    <!-- Common Ground Rail -->
+    <line x1="70" y1="230" x2="430" y2="230" stroke="#0f172a" stroke-width="2.5" />
+    <circle cx="320" cy="230" r="4" fill="#0f172a" />
+    <!-- Ground Symbol -->
+    <line x1="320" y1="230" x2="320" y2="250" stroke="#0f172a" stroke-width="2.5" />
+    <line x1="300" y1="250" x2="340" y2="250" stroke="#0f172a" stroke-width="3" />
+    <line x1="307" y1="258" x2="333" y2="258" stroke="#0f172a" stroke-width="2.5" />
+    <line x1="314" y1="266" x2="326" y2="266" stroke="#0f172a" stroke-width="2" />
+    <text x="320" y="285" font-family="sans-serif" font-size="11" fill="#475569" font-weight="bold" text-anchor="middle">Common System GND</text>
+
+    <!-- Analog Sense Tap to ADS1115 A0 -->
+    <line x1="320" y1="70" x2="405" y2="70" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="6,4" />
+    <text x="362" y="88" font-family="monospace" font-size="11" fill="#dc2626" text-anchor="middle">Analog In</text>
+
+    <!-- ADS1115 Breakout Block -->
+    <rect x="405" y="45" width="115" height="205" rx="6" fill="#1e3a8a" stroke="#172554" stroke-width="2" />
+    <text x="462" y="72" font-family="sans-serif" font-size="13" fill="#ffffff" font-weight="bold" text-anchor="middle">ADS1115</text>
+    <text x="462" y="90" font-family="monospace" font-size="10" fill="#93c5fd" text-anchor="middle">16-Bit I2C ADC</text>
+    <text x="415" y="74" font-family="monospace" font-size="11" fill="#fde047" font-weight="bold">A0</text>
+    <text x="415" y="234" font-family="monospace" font-size="11" fill="#cbd5e1">GND</text>
+    
+    <!-- I2C Bus Lines to Raspberry Pi 5 -->
+    <!-- VDD Red -->
+    <line x1="520" y1="115" x2="565" y2="115" stroke="#ef4444" stroke-width="3" />
+    <text x="542" y="108" font-family="monospace" font-size="10" fill="#ef4444" font-weight="bold" text-anchor="middle">3.3V</text>
+    <!-- SDA Blue -->
+    <line x1="520" y1="150" x2="565" y2="150" stroke="#2563eb" stroke-width="3" />
+    <text x="542" y="143" font-family="monospace" font-size="10" fill="#2563eb" font-weight="bold" text-anchor="middle">SDA</text>
+    <!-- SCL Orange -->
+    <line x1="520" y1="185" x2="565" y2="185" stroke="#f97316" stroke-width="3" />
+    <text x="542" y="178" font-family="monospace" font-size="10" fill="#f97316" font-weight="bold" text-anchor="middle">SCL</text>
+    <!-- GND Black -->
+    <line x1="520" y1="220" x2="565" y2="220" stroke="#0f172a" stroke-width="3" />
+    <text x="542" y="213" font-family="monospace" font-size="10" fill="#0f172a" font-weight="bold" text-anchor="middle">GND</text>
+
+    <!-- Raspberry Pi 5 Block -->
+    <rect x="565" y="45" width="95" height="205" rx="6" fill="#15803d" stroke="#14532d" stroke-width="2" />
+    <text x="612" y="75" font-family="sans-serif" font-size="13" fill="#ffffff" font-weight="bold" text-anchor="middle">Raspberry</text>
+    <text x="612" y="92" font-family="sans-serif" font-size="13" fill="#ffffff" font-weight="bold" text-anchor="middle">Pi 5</text>
+    <text x="612" y="150" font-family="monospace" font-size="10" fill="#bbf7d0" text-anchor="middle">GPIO 2 (SDA)</text>
+    <text x="612" y="185" font-family="monospace" font-size="10" fill="#bbf7d0" text-anchor="middle">GPIO 3 (SCL)</text>
+  </svg>
+  <p style="font-size: 0.9em; color: #64748b; margin-top: 0.5rem;"><em>Figure 4: Complete RC Transient Schematic & ADS1115 I2C Telemetry Wiring to Raspberry Pi 5.</em></p>
+</div>
+```
 
 ### I2C Bus & Power Wiring:
 * **Red Wire:** VDD (3.3V Power)

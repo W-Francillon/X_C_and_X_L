@@ -1,0 +1,519 @@
+---
+title: "Materials Science Part I: Crystal Structures, Planes & Bragg's Law"
+subtitle: "K-12 & Introductory Engineering: Atomic Packing, Mechanical Properties, and X-Ray Diffraction Foundations"
+description: "Interactive STEM module covering Simple Cubic, BCC, FCC, HCP, Rock Salt, Atomic Packing Factor (APF), Miller Indices, and Bragg's Law with Python 3D visualizations."
+page-layout: full
+jupyter: python3
+---
+
+::: {.callout-note appearance="simple"}
+**Educator & Student Guide:** This module is **Part I** of our Planetary Materials & Diffraction series. Here, you will master how atoms stack in 3D space, how crystal geometry dictates whether a metal bends or shatters, and how atomic planes act as microscopic mirrors for X-rays. When you finish, proceed to **[Part II: Mars & Lunar Rover XRD Lab](mars_xrd_lab.html)**.
+:::
+
+## 1. What is a Unit Cell?
+
+Crystalline solids—from aerospace aluminum alloys to table salt ($NaCl$)—are built from atoms arranged in a repeating, three-dimensional pattern called a **crystal lattice**. 
+
+The **Unit Cell** is the smallest repeating building block of a crystal that captures its full symmetry and atomic arrangement. Stacking unit cells side-by-side in 3D space constructs the entire macroscopic material, much like stacking identical LEGO bricks.
+
+Every unit cell is defined by six **lattice parameters**:
+
+* **Axial lengths:** $a, b, c$ (the lengths of the box edges, typically measured in Angstroms, $1\text{ \AA} = 10^{-10}\text{ m}$, or nanometers).
+* **Interaxial angles:** $\alpha, \beta, \gamma$ (the angles between the axes). In a **cubic** system, $a = b = c$ and $\alpha = \beta = \gamma = 90^\circ$.
+
+```{python}
+#| echo: false
+#| warning: false
+#| fig-align: center
+import matplotlib.pyplot as plt
+import numpy as np
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+
+fig = plt.figure(figsize=(10, 4.5))
+
+# Subplot 1: Single Unit Cell with Lattice Parameters
+ax1 = fig.add_subplot(121, projection='3d')
+r = [0, 1]
+X, Y = np.meshgrid(r, r)
+one = np.ones(4).reshape(2, 2)
+zero = np.zeros(4).reshape(2, 2)
+
+# Draw cube edges
+edges = [
+    ([0,1], [0,0], [0,0]), ([0,0], [0,1], [0,0]), ([0,0], [0,0], [0,1]),
+    ([1,1], [0,1], [0,0]), ([1,1], [0,0], [0,1]), ([0,1], [1,1], [0,0]),
+    ([0,0], [1,1], [0,1]), ([0,1], [0,0], [1,1]), ([0,0], [0,1], [1,1]),
+    ([1,1], [1,1], [0,1]), ([1,1], [0,1], [1,1]), ([0,1], [1,1], [1,1])
+]
+for e in edges:
+    ax1.plot3D(e[0], e[1], e[2], color='#1e293b', linewidth=1.8, linestyle='--')
+
+# Highlight primary axes a, b, c
+ax1.quiver(0, 0, 0, 1.15, 0, 0, color='#ef4444', linewidth=3, arrow_length_ratio=0.15)
+ax1.quiver(0, 0, 0, 0, 1.15, 0, color='#10b981', linewidth=3, arrow_length_ratio=0.15)
+ax1.quiver(0, 0, 0, 0, 0, 1.15, color='#007acc', linewidth=3, arrow_length_ratio=0.15)
+
+ax1.text(1.22, 0, 0, "a (x-axis)", color='#ef4444', fontweight='bold', fontsize=11)
+ax1.text(0, 1.22, 0, "b (y-axis)", color='#10b981', fontweight='bold', fontsize=11)
+ax1.text(0, 0, 1.22, "c (z-axis)", color='#007acc', fontweight='bold', fontsize=11)
+
+ax1.text(0.35, 0.35, 0.05, r"$\gamma$", fontsize=13, fontweight='bold', color='#334155')
+ax1.text(0.05, 0.35, 0.35, r"$\alpha$", fontsize=13, fontweight='bold', color='#334155')
+ax1.text(0.35, 0.05, 0.35, r"$\beta$", fontsize=13, fontweight='bold', color='#334155')
+
+ax1.set_xlim([0, 1.3]); ax1.set_ylim([0, 1.3]); ax1.set_zlim([0, 1.3])
+ax1.set_axis_off()
+ax1.set_title("The Unit Cell (a, b, c & α, β, γ)", fontsize=12, fontweight='bold')
+ax1.view_init(elev=22, azim=35)
+
+# Subplot 2: 2x2x2 Crystal Lattice Supercell
+ax2 = fig.add_subplot(122, projection='3d')
+for i in range(3):
+    for j in range(3):
+        ax2.plot3D([0, 2], [i, i], [j, j], color='#94a3b8', lw=1)
+        ax2.plot3D([i, i], [0, 2], [j, j], color='#94a3b8', lw=1)
+        ax2.plot3D([i, i], [j, j], [0, 2], color='#94a3b8', lw=1)
+
+# Highlight one unit cell inside the lattice
+for e in edges:
+    ax2.plot3D(e[0], e[1], e[2], color='#ff8c00', linewidth=2.5)
+
+pts = np.array([[i, j, k] for i in range(3) for j in range(3) for k in range(3)])
+ax2.scatter(pts[:,0], pts[:,1], pts[:,2], color='#007acc', s=80, edgecolors='black', depthshade=True)
+ax2.set_xlim([0, 2.1]); ax2.set_ylim([0, 2.1]); ax2.set_zlim([0, 2.1])
+ax2.set_axis_off()
+ax2.set_title("3D Crystal Lattice (Repeating Unit Cells)", fontsize=12, fontweight='bold')
+ax2.view_init(elev=22, azim=35)
+
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+## 2. How to Count Atoms & Calculate Atomic Packing Factor (APF)
+
+Atoms inside a unit cell are shared with neighboring unit cells:
+
+* **Corner Atoms:** Shared equally among **8** adjacent unit cells $\rightarrow$ each corner contributes $\frac{1}{8}$ of an atom.
+* **Face-Centered Atoms:** Shared between **2** adjacent unit cells $\rightarrow$ each face atom contributes $\frac{1}{2}$ of an atom.
+* **Body-Centered (Interior) Atoms:** Completely inside **1** unit cell $\rightarrow$ contributes $1$ full atom.
+* **Edge-Centered Atoms (in Ionic/Rock Salt):** Shared among **4** unit cells $\rightarrow$ contributes $\frac{1}{4}$ of an atom.
+
+The total number of effective atoms inside a cubic unit cell ($N$) is:
+
+$$N = N_{\text{interior}} + \frac{N_{\text{face}}}{2} + \frac{N_{\text{corner}}}{8} + \frac{N_{\text{edge}}}{4}$$
+
+### Key Metrics Every Engineer Calculates
+
+1. **Coordination Number ($CN$):** The number of nearest-neighbor atoms touching any given atom. Higher $CN$ generally means tighter packing.
+2. **Atomic Packing Factor ($APF$):** The fraction of the unit cell volume occupied by hard atomic spheres:
+
+$$\text{APF} = \frac{V_{\text{atoms}}}{V_{\text{unit cell}}} = \frac{N \times \left(\frac{4}{3}\pi R^3\right)}{a^3}$$
+
+---
+
+## 3. The Four Primary Metallic Crystal Structures
+
+Below are the 3D atomic arrangements generated in Python, followed by step-by-step derivations of their packing factors and their direct impact on **material strength and ductility**.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python Code for 3D Crystal Structure Gallery (SC, BCC, FCC, HCP)"
+#| warning: false
+#| fig-align: center
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure(figsize=(13, 10))
+
+def draw_cube_frame(ax):
+    edges = [
+        ([0,1], [0,0], [0,0]), ([0,0], [0,1], [0,0]), ([0,0], [0,0], [0,1]),
+        ([1,1], [0,1], [0,0]), ([1,1], [0,0], [0,1]), ([0,1], [1,1], [0,0]),
+        ([0,0], [1,1], [0,1]), ([0,1], [0,0], [1,1]), ([0,0], [0,1], [1,1]),
+        ([1,1], [1,1], [0,1]), ([1,1], [0,1], [1,1]), ([0,1], [1,1], [1,1])
+    ]
+    for e in edges:
+        ax.plot3D(e[0], e[1], e[2], color='#64748b', lw=1.5, ls='--')
+    ax.set_xlim([-0.2, 1.2]); ax.set_ylim([-0.2, 1.2]); ax.set_zlim([-0.2, 1.2])
+    ax.set_axis_off()
+    ax.view_init(elev=20, azim=32)
+
+corners = np.array([[i, j, k] for i in [0, 1] for j in [0, 1] for k in [0, 1]])
+
+# 1. Simple Cubic (SC)
+ax1 = fig.add_subplot(221, projection='3d')
+draw_cube_frame(ax1)
+ax1.scatter(corners[:,0], corners[:,1], corners[:,2], s=650, color='#007acc', edgecolors='#0f172a', lw=1.5, alpha=0.9, label='Corner (1/8)')
+ax1.set_title("1. Simple Cubic (SC)\nN = 1 atom | CN = 6 | APF = 52%", fontsize=12, fontweight='bold')
+ax1.legend(loc='upper right', frameon=True)
+
+# 2. Body-Centered Cubic (BCC)
+ax2 = fig.add_subplot(222, projection='3d')
+draw_cube_frame(ax2)
+ax2.scatter(corners[:,0], corners[:,1], corners[:,2], s=500, color='#007acc', edgecolors='#0f172a', lw=1.5, alpha=0.85, label='Corner (1/8)')
+ax2.scatter([0.5], [0.5], [0.5], s=750, color='#ef4444', edgecolors='#0f172a', lw=2, alpha=1.0, label='Body Center (1)')
+# Draw body diagonal
+ax2.plot3D([0, 1], [0, 1], [0, 1], color='#ef4444', lw=2.5, ls=':')
+ax2.set_title("2. Body-Centered Cubic (BCC)\nN = 2 atoms | CN = 8 | APF = 68%", fontsize=12, fontweight='bold')
+ax2.legend(loc='upper right', frameon=True)
+
+# 3. Face-Centered Cubic (FCC)
+ax3 = fig.add_subplot(223, projection='3d')
+draw_cube_frame(ax3)
+faces = np.array([
+    [0.5, 0.5, 0], [0.5, 0.5, 1],
+    [0.5, 0, 0.5], [0.5, 1, 0.5],
+    [0, 0.5, 0.5], [1, 0.5, 0.5]
+])
+ax3.scatter(corners[:,0], corners[:,1], corners[:,2], s=450, color='#007acc', edgecolors='#0f172a', lw=1.5, alpha=0.8, label='Corner (1/8)')
+ax3.scatter(faces[:,0], faces[:,1], faces[:,2], s=600, color='#10b981', edgecolors='#0f172a', lw=1.5, alpha=0.95, label='Face Center (1/2)')
+# Draw face diagonal
+ax3.plot3D([1, 1], [0, 1], [0, 1], color='#10b981', lw=2.5, ls=':')
+ax3.set_title("3. Face-Centered Cubic (FCC)\nN = 4 atoms | CN = 12 | APF = 74%", fontsize=12, fontweight='bold')
+ax3.legend(loc='upper right', frameon=True)
+
+# 4. Hexagonal Close-Packed (HCP)
+ax4 = fig.add_subplot(224, projection='3d')
+angles = np.linspace(0, 2*np.pi, 7)[:-1]
+hx = np.cos(angles); hy = np.sin(angles)
+
+# Draw top and bottom hexagons
+for z in [0, 1]:
+    ax4.plot3D(np.append(hx, hx[0]), np.append(hy, hy[0]), [z]*7, color='#64748b', lw=1.5, ls='--')
+    ax4.scatter(hx, hy, [z]*6, s=400, color='#007acc', edgecolors='#0f172a', lw=1.5, alpha=0.85)
+    ax4.scatter([0], [0], [z], s=450, color='#10b981', edgecolors='#0f172a', lw=1.5, alpha=0.9)
+
+for i in range(6):
+    ax4.plot3D([hx[i], hx[i]], [hy[i], hy[i]], [0, 1], color='#64748b', lw=1.2, ls='--')
+
+# Mid-plane 3 interior atoms
+mid_angles = np.array([np.pi/6, 5*np.pi/6, 3*np.pi/2])
+mx = 0.55 * np.cos(mid_angles); my = 0.55 * np.sin(mid_angles)
+ax4.scatter(mx, my, [0.5]*3, s=550, color='#ff8c00', edgecolors='#0f172a', lw=2, alpha=1.0, label='Mid-plane (3)')
+ax4.set_xlim([-1.2, 1.2]); ax4.set_ylim([-1.2, 1.2]); ax4.set_zlim([-0.1, 1.1])
+ax4.set_axis_off()
+ax4.view_init(elev=22, azim=25)
+ax4.set_title("4. Hexagonal Close-Packed (HCP)\nN = 6 atoms | CN = 12 | APF = 74%", fontsize=12, fontweight='bold')
+ax4.legend(loc='upper right', frameon=True)
+
+plt.tight_layout()
+plt.show()
+```
+
+### Structure-by-Structure Breakdown & Worked Math
+
+::: {.panel-tabset}
+
+#### 1. Simple Cubic (SC)
+* **Atomic Touching Direction:** Atoms touch directly along the **cube edge**. Therefore, $a = 2R$.
+* **Atoms per Unit Cell ($N$):** $8 \text{ corners} \times \frac{1}{8} = 1\text{ atom}$.
+* **Coordination Number ($CN$):** $6$ (each atom touches 6 neighbors along $\pm x, \pm y, \pm z$).
+* **APF Derivation:**
+  $$\text{APF} = \frac{1 \times \frac{4}{3}\pi R^3}{(2R)^3} = \frac{\frac{4}{3}\pi R^3}{8R^3} = \frac{\pi}{6} \approx 0.524 \text{ (52.4\%)}$$
+* **Real-World Examples & Properties:** Almost **48% of a Simple Cubic cell is empty space**, making it mechanically unstable. Only **Polonium ($\alpha\text{-Po}$)** crystallizes in SC at room temperature.
+
+#### 2. Body-Centered Cubic (BCC)
+* **Atomic Touching Direction:** Corner atoms do *not* touch along the edge; they touch the central red atom along the **body diagonal** (which has length $\sqrt{3}a$). Since the body diagonal spans $4$ atomic radii ($R + 2R + R = 4R$):
+  $$\sqrt{3}a = 4R \implies a = \frac{4R}{\sqrt{3}}$$
+* **Atoms per Unit Cell ($N$):** $\left(8 \times \frac{1}{8}\right) + 1\text{ center} = 2\text{ atoms}$.
+* **Coordination Number ($CN$):** $8$.
+* **APF Derivation:**
+  $$\text{APF} = \frac{2 \times \frac{4}{3}\pi R^3}{\left(\frac{4R}{\sqrt{3}}\right)^3} = \frac{\sqrt{3}\pi}{8} \approx 0.680 \text{ (68.0\%)}$$
+* **Real-World Examples & Mechanical Impact:** **Iron ($\alpha\text{-Fe}$), Tungsten ($W$), Chromium ($Cr$), Molybdenum ($Mo$).** Because BCC lacks true close-packed planes, atoms require higher force to slide past one another (slip). Consequently, BCC metals have **high strength and hardness**, and exhibit a **ductile-to-brittle transition** at cold temperatures (famous for causing the Titanic's steel hull to fracture in icy water).
+
+#### 3. Face-Centered Cubic (FCC)
+* **Atomic Touching Direction:** Atoms touch along the **face diagonal** (length $\sqrt{2}a = 4R$):
+  $$a = \frac{4R}{\sqrt{2}} = 2\sqrt{2}R$$
+* **Atoms per Unit Cell ($N$):** $\left(8 \times \frac{1}{8}\right) + \left(6 \text{ faces} \times \frac{1}{2}\right) = 1 + 3 = 4\text{ atoms}$.
+* **Coordination Number ($CN$):** $12$.
+* **APF Derivation:**
+  $$\text{APF} = \frac{4 \times \frac{4}{3}\pi R^3}{(2\sqrt{2}R)^3} = \frac{\pi}{3\sqrt{2}} \approx 0.740 \text{ (74.0\%)}$$
+* **Real-World Examples & Mechanical Impact:** **Aluminum ($Al$), Copper ($Cu$), Gold ($Au$), Silver ($Ag$), Nickel ($Ni$).** 74% is the maximum possible packing density for spheres of equal size! Because FCC has **12 close-packed slip systems** (along the $\{111\}$ planes), atomic layers glide smoothly over one another under stress. This makes FCC metals **exceptionally ductile and malleable**—ideal for bending into wires, stamping car body panels, or hammering into gold leaf without cracking.
+
+#### 4. Hexagonal Close-Packed (HCP)
+* **Stacking Sequence:** While FCC stacks close-packed layers in an $ABCABC$ pattern, HCP stacks them in an $ABAB$ pattern. Ideal axial ratio: $c/a = \sqrt{8/3} \approx 1.633$.
+* **Atoms per Unit Cell ($N$):** $\left(12 \text{ corners} \times \frac{1}{6}\right) + \left(2 \text{ face centers} \times \frac{1}{2}\right) + 3 \text{ interior} = 2 + 1 + 3 = 6\text{ atoms}$.
+* **Coordination Number ($CN$):** $12$ | **APF:** $0.740 \text{ (74.0\%)}$.
+* **Real-World Examples & Mechanical Impact:** **Titanium ($Ti$), Magnesium ($Mg$), Zinc ($Zn$), Beryllium ($Be$).** Even though HCP shares the same 74% packing density as FCC, its $ABAB$ symmetry gives it only **3 primary slip systems** (along the basal plane) compared to FCC's 12. As a result, HCP metals are **lightweight and strong, but much more brittle and harder to bend at room temperature** than FCC metals.
+
+:::
+
+---
+
+## 4. Compound Example: Rock Salt ($NaCl$) Structure
+
+Not all crystals are made of a single metal element! Many geological minerals found on Earth, the Moon, and Mars—such as **Halite ($NaCl$, Rock Salt)** and **Periclase ($MgO$)**—are **ionic ceramics** with two different ion sizes.
+
+In the **Rock Salt ($NaCl$) structure**, large Chloride anions ($Cl^-$, ionic radius $r_{Cl^-} = 1.81\text{ \AA}$) form a **Face-Centered Cubic (FCC)** framework, while smaller Sodium cations ($Na^+$, ionic radius $r_{Na^+} = 1.02\text{ \AA}$) fit into the **octahedral interstitial holes** along every cube edge and at the very center of the unit cell.
+
+* **$Cl^-$ Ions per Unit Cell:** $8\text{ corners} \times \frac{1}{8} + 6\text{ faces} \times \frac{1}{2} = 4\text{ } Cl^-\text{ ions}$.
+* **$Na^+$ Ions per Unit Cell:** $12\text{ edges} \times \frac{1}{4} + 1\text{ body center} = 4\text{ } Na^+\text{ ions}$.
+* **Total Stoichiometry:** $4\text{ } NaCl$ formula units per unit cell (1:1 ratio), with a Coordination Number of **6** for both ions.
+
+```{python}
+#| echo: false
+#| warning: false
+#| fig-align: center
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure(figsize=(6.5, 5.5))
+ax = fig.add_subplot(111, projection='3d')
+
+# Generate 3x3x3 grid of alternating Na+ and Cl- ions
+cl_pts = []
+na_pts = []
+for x in [0, 0.5, 1.0]:
+    for y in [0, 0.5, 1.0]:
+        for z in [0, 0.5, 1.0]:
+            # Sum of indices * 2: even = Cl- (FCC), odd = Na+ (Octahedral sites)
+            idx_sum = int(round((x + y + z) * 2))
+            if idx_sum % 2 == 0:
+                cl_pts.append([x, y, z])
+            else:
+                na_pts.append([x, y, z])
+
+cl_pts = np.array(cl_pts)
+na_pts = np.array(na_pts)
+
+# Grid lines
+for x in [0, 0.5, 1.0]:
+    for y in [0, 0.5, 1.0]:
+        ax.plot3D([0, 1], [x, x], [y, y], color='#94a3b8', lw=1, alpha=0.6)
+        ax.plot3D([x, x], [0, 1], [y, y], color='#94a3b8', lw=1, alpha=0.6)
+        ax.plot3D([x, x], [y, y], [0, 1], color='#94a3b8', lw=1, alpha=0.6)
+
+ax.scatter(cl_pts[:,0], cl_pts[:,1], cl_pts[:,2], s=550, color='#10b981', edgecolors='#064e3b', lw=1.5, alpha=0.9, label=r'$Cl^-$ Anion (FCC Sites, N=4)')
+ax.scatter(na_pts[:,0], na_pts[:,1], na_pts[:,2], s=230, color='#8b5cf6', edgecolors='#2e1065', lw=1.5, alpha=1.0, label=r'$Na^+$ Cation (Octahedral Sites, N=4)')
+
+ax.set_xlim([-0.1, 1.1]); ax.set_ylim([-0.1, 1.1]); ax.set_zlim([-0.1, 1.1])
+ax.set_axis_off()
+ax.view_init(elev=20, azim=30)
+ax.set_title("Rock Salt (NaCl) Crystal Structure\nTwo Interpenetrating FCC Lattices (4 Na+ and 4 Cl- per cell)", fontsize=12, fontweight='bold')
+ax.legend(loc='upper right')
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+## 5. Crystallographic Planes & Miller Indices $(hkl)$
+
+When X-rays enter a crystal, they bounce off parallel sheets of atoms called **crystallographic planes**. Materials scientists label the orientation of these planes using a 3-number code called **Miller Indices $(hkl)$**.
+
+### 3-Step Recipe to Find Miller Indices $(hkl)$
+
+1. **Find the Intercepts:** Identify where the plane intersects the $x, y, z$ axes in fractions of the unit cell length $(a, b, c)$. If a plane is parallel to an axis, its intercept is $\infty$.
+2. **Take Reciprocals:** Flip each intercept upside down ($\frac{1}{x}, \frac{1}{y}, \frac{1}{z}$). Note that $\frac{1}{\infty} = 0$.
+3. **Clear Fractions:** Multiply by the smallest common denominator if needed, and enclose in parentheses $(hkl)$ without commas.
+
+* **$(100)$ Plane:** Intercepts at $(1, \infty, \infty) \rightarrow$ Reciprocals $(1, 0, 0) \rightarrow \mathbf{(100)}$. (Front face of the cube).
+* **$(110)$ Plane:** Intercepts at $(1, 1, \infty) \rightarrow$ Reciprocals $(1, 1, 0) \rightarrow \mathbf{(110)}$. (Slices diagonally across the BCC body center).
+* **$(111)$ Plane:** Intercepts at $(1, 1, 1) \rightarrow$ Reciprocals $(1, 1, 1) \rightarrow \mathbf{(111)}$. (The primary close-packed slip plane in FCC metals like Aluminum, Silicon, and Gold!).
+
+```{python}
+#| echo: false
+#| warning: false
+#| fig-align: center
+import matplotlib.pyplot as plt
+import numpy as np
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+
+fig = plt.figure(figsize=(12, 4))
+
+def setup_cube(ax, title):
+    edges = [
+        ([0,1], [0,0], [0,0]), ([0,0], [0,1], [0,0]), ([0,0], [0,0], [0,1]),
+        ([1,1], [0,1], [0,0]), ([1,1], [0,0], [0,1]), ([0,1], [1,1], [0,0]),
+        ([0,0], [1,1], [0,1]), ([0,1], [0,0], [1,1]), ([0,0], [0,1], [1,1]),
+        ([1,1], [1,1], [0,1]), ([1,1], [0,1], [1,1]), ([0,1], [1,1], [1,1])
+    ]
+    for e in edges:
+        ax.plot3D(e[0], e[1], e[2], color='#475569', lw=1.3, ls='--')
+    ax.quiver(0,0,0, 1.25,0,0, color='#ef4444', lw=1.5, arrow_length_ratio=0.12)
+    ax.quiver(0,0,0, 0,1.25,0, color='#10b981', lw=1.5, arrow_length_ratio=0.12)
+    ax.quiver(0,0,0, 0,0,1.25, color='#007acc', lw=1.5, arrow_length_ratio=0.12)
+    ax.text(1.3,0,0, "x", color='#ef4444', fontweight='bold')
+    ax.text(0,1.3,0, "y", color='#10b981', fontweight='bold')
+    ax.text(0,0,1.3, "z", color='#007acc', fontweight='bold')
+    ax.set_xlim([0, 1.3]); ax.set_ylim([0, 1.3]); ax.set_zlim([0, 1.3])
+    ax.set_axis_off()
+    ax.view_init(elev=20, azim=32)
+    ax.set_title(title, fontsize=11, fontweight='bold')
+
+# (100) Plane
+ax1 = fig.add_subplot(131, projection='3d')
+setup_cube(ax1, "(100) Plane\nIntercepts: (1, ∞, ∞)")
+verts100 = [[[1,0,0], [1,1,0], [1,1,1], [1,0,1]]]
+ax1.add_collection3d(Poly3DCollection(verts100, facecolors='#007acc', linewidths=2, edgecolors='#005999', alpha=0.55))
+
+# (110) Plane
+ax2 = fig.add_subplot(132, projection='3d')
+setup_cube(ax2, "(110) Plane\nIntercepts: (1, 1, ∞)")
+verts110 = [[[1,0,0], [0,1,0], [0,1,1], [1,0,1]]]
+ax2.add_collection3d(Poly3DCollection(verts110, facecolors='#10b981', linewidths=2, edgecolors='#047857', alpha=0.55))
+
+# (111) Plane
+ax3 = fig.add_subplot(133, projection='3d')
+setup_cube(ax3, "(111) Plane\nIntercepts: (1, 1, 1)")
+verts111 = [[[1,0,0], [0,1,0], [0,0,1]]]
+ax3.add_collection3d(Poly3DCollection(verts111, facecolors='#ff8c00', linewidths=2, edgecolors='#b45309', alpha=0.65))
+
+plt.tight_layout()
+plt.show()
+```
+
+### Interplanar Spacing ($d_{hkl}$) and Bragg's Law
+
+The perpendicular distance $d_{hkl}$ between adjacent parallel $(hkl)$ planes in a cubic crystal of lattice constant $a$ is:
+
+$$d_{hkl} = \frac{a}{\sqrt{h^2 + k^2 + l^2}}$$
+
+When an X-ray beam of wavelength $\lambda$ (for standard Copper $K\alpha$ X-ray tubes, $\lambda = 1.5406\text{ \AA}$) strikes these planes at an incident angle $\theta$, the lower beam travels an extra path length of $2d_{hkl}\sin\theta$. Constructive interference (a bright diffraction peak!) occurs when **Bragg's Law** is satisfied:
+
+$$n\lambda = 2d_{hkl}\sin\theta$$
+
+---
+
+## 6. Interactive Crystal & Bragg's Law Simulator
+
+Use this live simulator to select a real-world engineering material, adjust the Miller indices $(hkl)$, and see how the unit cell geometry determines theoretical density and exact X-ray diffraction peak angles ($2\theta$).
+
+```{=html}
+<div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px; padding: 22px; margin: 25px 0; font-family: system-ui, -apple-system, sans-serif;">
+  <h4 style="margin-top: 0; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">🔬 Live Crystal Lattice & XRD Peak Calculator</h4>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 18px;">
+    <div>
+      <label style="font-weight: 600; font-size: 0.9rem; color: #334155; display: block; margin-bottom: 6px;">Select Material / Structure:</label>
+      <select id="matSelect" onchange="updateCrystalCalc()" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #94a3b8; font-size: 0.95rem;">
+        <option value="Al">Aluminum (Al) — FCC</option>
+        <option value="Au">Gold (Au) — FCC</option>
+        <option value="Cu">Copper (Cu) — FCC</option>
+        <option value="Fe">Iron (α-Fe) — BCC</option>
+        <option value="W">Tungsten (W) — BCC</option>
+        <option value="Po">Polonium (α-Po) — Simple Cubic</option>
+        <option value="NaCl">Rock Salt (NaCl) — Ionic FCC</option>
+      </select>
+    </div>
+
+    <div>
+      <label style="font-weight: 600; font-size: 0.9rem; color: #334155; display: block; margin-bottom: 6px;">Select Miller Plane (h k l):</label>
+      <select id="planeSelect" onchange="updateCrystalCalc()" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #94a3b8; font-size: 0.95rem;">
+        <option value="1,1,1" selected>(1 1 1) — Close-Packed Diagonal</option>
+        <option value="1,0,0">(1 0 0) — Cube Face</option>
+        <option value="1,1,0">(1 1 0) — Body Diagonal Slice</option>
+        <option value="2,0,0">(2 0 0) — Half-Cell Face</option>
+        <option value="2,2,0">(2 2 0) — Secondary Diagonal</option>
+        <option value="3,1,1">(3 1 1) — High-Angle Plane</option>
+      </select>
+    </div>
+
+    <div>
+      <label style="font-weight: 600; font-size: 0.9rem; color: #334155; display: block; margin-bottom: 6px;">Atomic Radius R (<span id="rValLabel">1.43</span> Å):</label>
+      <input type="range" id="rSlider" min="0.90" max="2.20" step="0.01" value="1.43" oninput="updateCrystalCalc(true)" style="width: 100%; cursor: pointer;">
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <div style="text-align: center; padding: 8px;">
+      <div style="font-size: 0.8rem; color: #64748b; text-transform: uppercase; font-weight: bold;">Crystal System</div>
+      <div id="outStruct" style="font-size: 1.25rem; font-weight: 800; color: #007acc; margin-top: 4px;">FCC</div>
+      <div id="outN" style="font-size: 0.85rem; color: #475569;">N = 4 atoms | CN = 12</div>
+    </div>
+    <div style="text-align: center; padding: 8px; border-left: 1px solid #f1f5f9;">
+      <div style="font-size: 0.8rem; color: #64748b; text-transform: uppercase; font-weight: bold;">Packing Factor (APF)</div>
+      <div id="outAPF" style="font-size: 1.25rem; font-weight: 800; color: #10b981; margin-top: 4px;">74.0%</div>
+      <div id="outDuct" style="font-size: 0.85rem; color: #475569;">High Ductility (12 slip sys)</div>
+    </div>
+    <div style="text-align: center; padding: 8px; border-left: 1px solid #f1f5f9;">
+      <div style="font-size: 0.8rem; color: #64748b; text-transform: uppercase; font-weight: bold;">Lattice Constant (a)</div>
+      <div id="outA" style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-top: 4px;">4.04 Å</div>
+      <div id="outRho" style="font-size: 0.85rem; color: #475569;">Density: 2.71 g/cm³</div>
+    </div>
+    <div style="text-align: center; padding: 8px; border-left: 1px solid #f1f5f9;">
+      <div style="font-size: 0.8rem; color: #64748b; text-transform: uppercase; font-weight: bold;">Plane Spacing (d_hkl)</div>
+      <div id="outD" style="font-size: 1.25rem; font-weight: 800; color: #ff8c00; margin-top: 4px;">2.34 Å</div>
+      <div id="outTheta" style="font-size: 0.85rem; color: #dc2626; font-weight: 700;">XRD Peak (2θ): 38.47°</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const matDB = {
+  Al:   { struct: "FCC", N: 4, CN: 12, apf: "74.0%", r: 1.431, mass: 26.98, prop: "Ductile & Malleable" },
+  Au:   { struct: "FCC", N: 4, CN: 12, apf: "74.0%", r: 1.442, mass: 196.97, prop: "Ultra-Ductile Conductor" },
+  Cu:   { struct: "FCC", N: 4, CN: 12, apf: "74.0%", r: 1.278, mass: 63.55, prop: "High Electrical/Thermal Cond." },
+  Fe:   { struct: "BCC", N: 2, CN: 8,  apf: "68.0%", r: 1.241, mass: 55.85, prop: "High Strength / Harder Slip" },
+  W:    { struct: "BCC", N: 2, CN: 8,  apf: "68.0%", r: 1.371, mass: 183.84, prop: "Extreme Hardness & Melting Pt" },
+  Po:   { struct: "SC",  N: 1, CN: 6,  apf: "52.4%", r: 1.675, mass: 209.00, prop: "Low Packing / Mechanically Weak" },
+  NaCl: { struct: "Rock Salt (FCC)", N: 4, CN: 6, apf: "67.0%", r: 1.994, mass: 58.44, prop: "Brittle Ionic Cleavage" }
+};
+
+function updateCrystalCalc(fromSlider = false) {
+  const matKey = document.getElementById("matSelect").value;
+  const mat = matDB[matKey];
+  const rSlider = document.getElementById("rSlider");
+  
+  if (!fromSlider) {
+    rSlider.value = mat.r.toFixed(2);
+  }
+  const R = parseFloat(rSlider.value);
+  document.getElementById("rValLabel").innerText = R.toFixed(2);
+
+  let a = 2 * R;
+  if (mat.struct.includes("FCC")) {
+    a = 2 * Math.sqrt(2) * R;
+  } else if (mat.struct === "BCC") {
+    a = (4 * R) / Math.sqrt(3);
+  }
+
+  // Theoretical Density: rho = (N * A) / (V_c * N_A)
+  const vol_cm3 = Math.pow(a * 1e-8, 3);
+  const rho = (mat.N * mat.mass) / (vol_cm3 * 6.022e23);
+
+  // Miller Indices & Bragg's Law (lambda = 1.5406 A for Cu K-alpha)
+  const hkl = document.getElementById("planeSelect").value.split(",").map(Number);
+  const h = hkl[0], k = hkl[1], l = hkl[2];
+  const d = a / Math.sqrt(h*h + k*k + l*l);
+  const lambda = 1.5406;
+  const sinTheta = lambda / (2 * d);
+
+  document.getElementById("outStruct").innerText = mat.struct;
+  document.getElementById("outN").innerText = `N = ${mat.N} | CN = ${mat.CN}`;
+  document.getElementById("outAPF").innerText = mat.apf;
+  document.getElementById("outDuct").innerText = mat.prop;
+  document.getElementById("outA").innerText = `${a.toFixed(2)} Å`;
+  document.getElementById("outRho").innerText = `Density: ${rho.toFixed(2)} g/cm³`;
+  document.getElementById("outD").innerText = `${d.toFixed(2)} Å`;
+
+  if (sinTheta <= 1.0) {
+    const twoTheta = 2 * (Math.asin(sinTheta) * 180 / Math.PI);
+    document.getElementById("outTheta").innerText = `XRD Peak (2θ): ${twoTheta.toFixed(2)}°`;
+  } else {
+    document.getElementById("outTheta").innerText = "No Diffraction (λ > 2d)";
+  }
+}
+updateCrystalCalc();
+</script>
+```
+
+---
+
+## 7. Summary Comparison Table for Educators & Students
+
+| Crystal Structure | Atoms / Cell ($N$) | Coordination ($CN$) | Lattice Constant ($a$) | Packing Factor (APF) | Mechanical Behavior & Examples |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Simple Cubic (SC)** | $1$ | $6$ | $2R$ | $52.4\%$ | Very open & weak ($\alpha\text{-Po}$) |
+| **Body-Centered Cubic (BCC)** | $2$ | $8$ | $\frac{4R}{\sqrt{3}}$ | $68.0\%$ | High strength, harder slip ($\text{Fe, W, Cr}$) |
+| **Face-Centered Cubic (FCC)** | $4$ | $12$ | $2\sqrt{2}R$ | $74.0\%$ | Highly ductile, 12 slip systems ($\text{Al, Cu, Au}$) |
+| **Hexagonal Close-Packed (HCP)** | $6$ | $12$ | $2R$ ($c \approx 1.633a$) | $74.0\%$ | Lightweight, limited slip ($\text{Ti, Mg, Zn}$) |
+| **Rock Salt ($NaCl$)** | $4\text{ Na}^+ + 4\text{ Cl}^-$ | $6$ | $2(r_{\text{Na}^+} + r_{\text{Cl}^-})$ | $\sim 67\%$ | Brittle ionic ceramic, cleaves on $(100)$ |
+
+<div style="text-align: center; margin: 35px 0 15px 0;">
+  <a href="mars_xrd_lab.html" class="btn btn-primary btn-lg" style="background-color: #1a0b2e; border: none; padding: 14px 28px; font-weight: bold;">
+    🚀 Proceed to Part II: Planetary Rover XRD Lab &rarr;
+  </a>
+</div>

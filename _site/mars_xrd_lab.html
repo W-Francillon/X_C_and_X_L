@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Mars Rover XRD: Fingerprinting the Red Planet – Wesley Francillon, PhD</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-d4c7e7da4be7e5978c9f5d27c8a0c455.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2P04N7WV2H"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./papillon.png" alt="Papillon Engineering" class="navbar-logo light-content">
+    <img src="./papillon.png" alt="Papillon Engineering" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teaching</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li>
+    <a class="dropdown-item" href="./teaching.html">
+ <span class="dropdown-text">Teaching Statement</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lecture_notes.html">
+ <span class="dropdown-text">Lecture Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lab_manuals.html">
+ <span class="dropdown-text">Lab Manuals</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-outreach" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Outreach</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-outreach">    
+        <li>
+    <a class="dropdown-item" href="./outreach.html">
+ <span class="dropdown-text">K-12 Outreach Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./linear_regression.html">
+ <span class="dropdown-text">Linear Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./outreach_data.html">
+ <span class="dropdown-text">API Data Challenge</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./web_scraping.html">
+ <span class="dropdown-text">Web Scraping</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./resonance_game.html">
+ <span class="dropdown-text">Resonance Defender Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./rf_foxhunt.html">
+ <span class="dropdown-text">RF Fox Hunt Lab</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-circuit-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Circuit Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-circuit-analysis">    
+        <li>
+    <a class="dropdown-item" href="./circuit_analysis.html">
+ <span class="dropdown-text">Circuit Analysis Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_dashboard.html">
+ <span class="dropdown-text">Electrical Dashboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_simulator.html">
+ <span class="dropdown-text">Live Circuit Simulator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./reactance_calculator.html">
+ <span class="dropdown-text">Reactance Calculator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./resonance_game.html">
+ <span class="dropdown-text">Resonance Defender Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_generator.html">
+ <span class="dropdown-text">Circuit Problem Generator</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-simulations" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Simulations</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-simulations">    
+        <li>
+    <a class="dropdown-item" href="./simulations.html">
+ <span class="dropdown-text">Simulations Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./usaf_1951.html">
+ <span class="dropdown-text">1951 USAF Optical Resolution Analyzer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_simulator.html">
+ <span class="dropdown-text">Live Circuit Simulator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_generator.html">
+ <span class="dropdown-text">Circuit Problem Generator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./reactance_calculator.html">
+ <span class="dropdown-text">Reactance Calculator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./resonance_game.html">
+ <span class="dropdown-text">Resonance Defender Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page…</h2>
+   
+  <ul>
+  <li><a href="#mission-brief-the-gale-crater-anomaly" id="toc-mission-brief-the-gale-crater-anomaly" class="nav-link active" data-scroll-target="#mission-brief-the-gale-crater-anomaly">🚀 Mission Brief: The Gale Crater Anomaly</a></li>
+  <li><a href="#the-physics-of-x-ray-diffraction" id="toc-the-physics-of-x-ray-diffraction" class="nav-link" data-scroll-target="#the-physics-of-x-ray-diffraction">🔬 The Physics of X-Ray Diffraction</a></li>
+  <li><a href="#interactive-lab-periodic-table-noise-filter" id="toc-interactive-lab-periodic-table-noise-filter" class="nav-link" data-scroll-target="#interactive-lab-periodic-table-noise-filter">🎛️ Interactive Lab: Periodic Table &amp; Noise Filter</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Mars Rover XRD: Fingerprinting the Red Planet</h1>
+<p class="subtitle lead">K-12 Materials Science: Bragg’s Law, Crystal Lattices, and Alloy Composition</p>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Affiliate Disclosure:</strong> Some links below are affiliate links. If you purchase hardware or data tools through these links, this site earns a small commission at no additional cost to you, helping fund our K-12 STEM outreach programs.</p>
+</div>
+</div>
+</div>
+<hr>
+<section id="mission-brief-the-gale-crater-anomaly" class="level2">
+<h2 class="anchored" data-anchor-id="mission-brief-the-gale-crater-anomaly">🚀 Mission Brief: The Gale Crater Anomaly</h2>
+<p>Welcome to the <strong>Astro-Materials Analysis Lab</strong>. NASA’s <em>Curiosity</em> rover (equipped with the CheMin X-Ray Diffraction instrument) has just drilled into an unusual metallic vein in Gale Crater on Mars. Before mission control authorizes a sample return, our engineering team must identify what the rock is made of without touching it!</p>
+<p>Using <strong>X-Ray Diffraction (XRD)</strong>, we shoot a beam of X-rays at the powdered rock sample. As the X-rays bounce off the internal crystal planes of the atoms, they create a unique interference pattern—an atomic “fingerprint” called a <strong>diffractogram</strong>.</p>
+<p><em>Data Attribution: Core diffraction analysis workflows are inspired by synchrotron and planetary exploration curricula from Brookhaven National Laboratory (BNL) and NASA’s Mars Science Laboratory.</em></p>
+<div style="text-align: center; margin: 30px 0;">
+  <svg width="100%" max-width="750" height="240" viewbox="0 0 750 240" xmlns="http://www.w3.org/2000/svg">
+    <rect width="750" height="240" fill="#0f172a" rx="12" stroke="#334155" stroke-width="2"></rect>
+    
+    <!-- Crystal Lattice Planes -->
+    <line x1="150" y1="150" x2="450" y2="150" stroke="#64748b" stroke-width="2" stroke-dasharray="6,6"></line>
+    <line x1="150" y1="190" x2="450" y2="190" stroke="#64748b" stroke-width="2" stroke-dasharray="6,6"></line>
+    
+    <!-- Atoms Plane 1 -->
+    <circle cx="200" cy="150" r="8" fill="#38bdf8"></circle>
+    <circle cx="300" cy="150" r="8" fill="#38bdf8"></circle>
+    <circle cx="400" cy="150" r="8" fill="#38bdf8"></circle>
+    
+    <!-- Atoms Plane 2 -->
+    <circle cx="200" cy="190" r="8" fill="#0284c7"></circle>
+    <circle cx="300" cy="190" r="8" fill="#0284c7"></circle>
+    <circle cx="400" cy="190" r="8" fill="#0284c7"></circle>
+    
+    <!-- d-spacing label -->
+    <line x1="135" y1="150" x2="135" y2="190" stroke="#f8fafc" stroke-width="1.5"></line>
+    <text x="120" y="175" font-family="sans-serif" font-size="13" fill="#f8fafc" font-weight="bold">d</text>
+    
+    <!-- Incoming X-Rays -->
+    <line x1="140" y1="60" x2="292" y2="144" stroke="#f59e0b" stroke-width="3"></line>
+    <line x1="120" y1="90" x2="292" y2="184" stroke="#f59e0b" stroke-width="3"></line>
+    <text x="160" y="50" font-family="sans-serif" font-size="13" fill="#f59e0b" font-weight="bold">Incident X-Rays (λ)</text>
+    
+    <!-- Outgoing Diffracted X-Rays -->
+    <line x1="308" y1="144" x2="460" y2="60" stroke="#10b981" stroke-width="3"></line>
+    <line x1="308" y1="184" x2="480" y2="90" stroke="#10b981" stroke-width="3"></line>
+    <text x="450" y="50" font-family="sans-serif" font-size="13" fill="#10b981" font-weight="bold">Diffracted Signal (2θ)</text>
+    
+    <!-- Angle Theta -->
+    <path d="M 250 150 A 50 50 0 0 1 260 125" fill="none" stroke="#f8fafc" stroke-width="1.5"></path>
+    <text x="235" y="142" font-family="sans-serif" font-size="12" fill="#f8fafc">θ</text>
+    
+    <!-- Equation Box -->
+    <rect x="520" y="75" width="195" height="90" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"></rect>
+    <text x="617" y="105" font-family="sans-serif" font-size="14" fill="#38bdf8" text-anchor="middle" font-weight="bold">Bragg's Law</text>
+    <text x="617" y="132" font-family="monospace" font-size="16" fill="#f8fafc" text-anchor="middle" font-weight="bold">nλ = 2d sin(θ)</text>
+    <text x="617" y="152" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Cu Kα (λ = 0.15406 nm)</text>
+  </svg>
+</div>
+<hr>
+</section>
+<section id="the-physics-of-x-ray-diffraction" class="level2">
+<h2 class="anchored" data-anchor-id="the-physics-of-x-ray-diffraction">🔬 The Physics of X-Ray Diffraction</h2>
+<p>When an X-ray beam with a known wavelength (<span class="math inline">\lambda</span>) strikes a crystal lattice at an angle (<span class="math inline">\theta</span>), the waves bounce off parallel layers of atoms separated by a distance (<span class="math inline">d</span>). Constructive interference (a sharp spike in intensity on our detector) only happens when the extra distance traveled by the deeper wave equals a whole number (<span class="math inline">n</span>) of wavelengths:</p>
+<p><span class="math display">n\lambda = 2d \sin(\theta)</span></p>
+<p>Because our X-ray detector rotates around the sample, we measure the total deflection angle, known as <strong><span class="math inline">2\theta</span> (Two-Theta)</strong>. By finding the exact <span class="math inline">2\theta</span> angles where high-intensity peaks occur, we can rearrange Bragg’s Law to calculate the exact atomic spacing (<span class="math inline">d</span>) inside the mystery rock:</p>
+<p><span class="math display">d = \frac{\lambda}{2 \sin(\theta)}</span></p>
+<p><br></p>
+<hr>
+</section>
+<section id="interactive-lab-periodic-table-noise-filter" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-lab-periodic-table-noise-filter">🎛️ Interactive Lab: Periodic Table &amp; Noise Filter</h2>
+<p>Before running our Python scripts, use this live mission simulator! Select a pure reference element from the Periodic Table or load the <strong>Mystery Mars Alloy</strong>. Use the slider to subtract the background “Martian dust scattering” (noise floor) and isolate the true crystalline peaks!</p>
+<div style="background: #f8f9fa; border: 2px solid #cbd5e1; border-radius: 12px; padding: 20px; margin: 20px 0; font-family: sans-serif;">
+  <h4 style="margin-top: 0; color: #1e293b;" class="anchored">⚡ CheMin Rover Live Diffractogram Simulator</h4>
+  
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 15px; align-items: center;">
+    <div>
+      <label for="elementSelect" style="font-weight: bold; color: #334155; display: block; margin-bottom: 5px;">Select Sample / Element:</label>
+      <select id="elementSelect" onchange="updateXRDWidget()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid #94a3b8; font-size: 14px; background: white;">
+        <option value="mars">🔴 Mystery Mars Vein (Sample #980)</option>
+        <option value="Si">💎 Silicon (Si - #14) [Diamond Cubic]</option>
+        <option value="Al">🛡️ Aluminum (Al - #13) [FCC Metal]</option>
+        <option value="Au">🏆 Gold (Au - #79) [FCC Heavy Metal]</option>
+        <option value="alloy">⚙️ Engineered Al-Si Alloy (75% Al / 25% Si)</option>
+      </select>
+    </div>
+
+    <div style="flex-grow: 1; min-width: 220px;">
+      <label for="noiseSlider" style="font-weight: bold; color: #334155; display: block; margin-bottom: 5px;">
+        Dust Scattering Filter (Threshold Cut): <span id="noiseVal" style="color: #dc2626; font-weight: bold;">1500</span> Counts
+      </label>
+      <input type="range" id="noiseSlider" min="0" max="6000" step="100" value="1500" oninput="updateXRDWidget()" style="width: 100%; cursor: pointer;">
+    </div>
+  </div>
+
+  <div id="elementInfoBox" style="background: #e2e8f0; padding: 10px 15px; border-radius: 6px; margin-bottom: 15px; font-size: 13.5px; color: #1e293b;">
+    <!-- Populated by JS -->
+  </div>
+
+  <canvas id="xrdCanvas" width="700" height="280" style="width: 100%; max-width: 700px; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; display: block; margin: 0 auto;"></canvas>
+</div>
+
+<script>
+const sampleDatabase = {
+  mars: {
+    name: "Gale Crater Drill Sample #980",
+    crystal: " Mixed Regolith / Silicate Matrix",
+    baseNoise: 2200,
+    peaks: [{angle: 26.6, intensity: 4800, label: "Quartz (101)"}, {angle: 32.35, intensity: 10000, label: "Martian Plagioclase (Main)"}, {angle: 42.5, intensity: 3900, label: "Olivine"}],
+    desc: "Notice the high background scatter at low angles (3°–15°) caused by amorphous Martian dust, and the dominant crystalline peak at <b>2&theta; = 32.35° (10,000 counts)</b>!"
+  },
+  Si: {
+    name: "Pure Silicon (Si - Atomic #14)",
+    crystal: "Diamond Cubic (a = 0.5431 nm)",
+    baseNoise: 400,
+    peaks: [{angle: 28.44, intensity: 9200, label: "Si (111)"}, {angle: 47.30, intensity: 5100, label: "Si (220)"}, {angle: 56.12, intensity: 3000, label: "Si (311)"}],
+    desc: "Silicon is the semiconductor standard used to calibrate X-ray diffractometers. Its primary (111) peak sits sharply at <b>2&theta; = 28.44°</b>."
+  },
+  Al: {
+    name: "Pure Aluminum (Al - Atomic #13)",
+    crystal: "Face-Centered Cubic (a = 0.4049 nm)",
+    baseNoise: 500,
+    peaks: [{angle: 38.47, intensity: 9500, label: "Al (111)"}, {angle: 44.74, intensity: 4500, label: "Al (200)"}],
+    desc: "Lightweight aerospace metal! Because its unit cell is smaller than Silicon, Bragg's Law pushes its primary peak to a wider angle: <b>2&theta; = 38.47°</b>."
+  },
+  Au: {
+    name: "Pure Gold (Au - Atomic #79)",
+    crystal: "Face-Centered Cubic (a = 0.4078 nm)",
+    baseNoise: 600,
+    peaks: [{angle: 38.18, intensity: 9800, label: "Au (111)"}, {angle: 44.39, intensity: 4600, label: "Au (200)"}],
+    desc: "Gold has almost the exact same crystal lattice size as Aluminum, so its diffraction peaks appear at nearly identical angles (<b>38.18°</b> and <b>44.39°</b>), but with much stronger X-ray scattering!"
+  },
+  alloy: {
+    name: "Aerospace Al-Si Alloy Rover Strut",
+    crystal: "Dual-Phase Metallic Mixture",
+    baseNoise: 800,
+    peaks: [{angle: 28.44, intensity: 2500, label: "Si (25%)"}, {angle: 38.47, intensity: 7500, label: "Al (75%)"}, {angle: 44.74, intensity: 3400, label: "Al (200)"}, {angle: 47.30, intensity: 1400, label: "Si (220)"}],
+    desc: "In an alloy mixture, both crystal structures diffract independently! By comparing the primary Al peak (7,500) to the Si peak (2,500), we find a <b>3:1 ratio (75 wt% Al, 25 wt% Si)</b>."
+  }
+};
+
+function updateXRDWidget() {
+  const elem = document.getElementById("elementSelect").value;
+  const threshold = parseInt(document.getElementById("noiseSlider").value);
+  document.getElementById("noiseVal").innerText = threshold;
+  
+  const data = sampleDatabase[elem];
+  document.getElementById("elementInfoBox").innerHTML = `<strong>${data.name}</strong> | <em>Structure: ${data.crystal}</em><br>${data.desc}`;
+  
+  const canvas = document.getElementById("xrdCanvas");
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  const padL = 55, padR = 20, padT = 25, padB = 35;
+  const w = canvas.width - padL - padR;
+  const h = canvas.height - padT - padB;
+  
+  // Draw Grid
+  ctx.strokeStyle = "#e2e8f0";
+  ctx.lineWidth = 1;
+  for(let i=0; i<=5; i++) {
+    let y = padT + (h/5)*i;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL+w, y); ctx.stroke();
+    ctx.fillStyle = "#64748b"; ctx.font = "11px sans-serif";
+    ctx.fillText(10000 - i*2000, 10, y+4);
+  }
+  
+  // Draw Threshold Line
+  let threshY = padT + h - (threshold / 10000) * h;
+  ctx.strokeStyle = "#ef4444";
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath(); ctx.moveTo(padL, threshY); ctx.lineTo(padL+w, threshY); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = "#ef4444"; ctx.font = "bold 11px sans-serif";
+  ctx.fillText("Filter Threshold", padL + 10, threshY - 5);
+  
+  // Plot Signal
+  ctx.strokeStyle = "#0f172a";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  
+  for(let px = 0; px <= w; px++) {
+    let angle = 3 + (px / w) * 57; // 3 to 60 degrees
+    let intensity = data.baseNoise * Math.exp(-angle/20) + (Math.sin(angle*13)*120 + 150);
+    
+    data.peaks.forEach(p => {
+      intensity += p.intensity * Math.exp(-Math.pow(angle - p.angle, 2) / 0.18);
+    });
+    if (intensity > 10000) intensity = 10000;
+    
+    let plotInt = intensity < threshold ? 0 : intensity;
+    let py = padT + h - (plotInt / 10000) * h;
+    if (px === 0) ctx.moveTo(padL + px, py);
+    else ctx.lineTo(padL + px, py);
+  }
+  ctx.stroke();
+  
+  // Peak Labels
+  data.peaks.forEach(p => {
+    if (p.intensity >= threshold) {
+      let px = padL + ((p.angle - 3) / 57) * w;
+      let py = padT + h - (p.intensity / 10000) * h;
+      ctx.fillStyle = "#0284c7";
+      ctx.font = "bold 11px sans-serif";
+      ctx.fillText(`${p.label} (${p.angle}°)`, px - 30, Math.max(padT + 12, py - 8));
+    }
+  });
+  
+  // Axes
+  ctx.strokeStyle = "#475569"; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(padL, padT); ctx.lineTo(padL, padT+h); ctx.lineTo(padL+w, padT+h); ctx.stroke();
+  ctx.fillStyle = "#334155"; ctx.font = "bold 12px sans-serif";
+  ctx.fillText("2-Theta Angle (Degrees: 3° to 60°)", padL + w/2 - 90, canvas.height - 8);
+}
+setTimeout(updateXRDWidget, 100);
+</script>
+<p><br></p>
+<hr>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">👨‍💻 Student Lab Guide</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">👨‍🏫 Instructor Guide &amp; Answer Key</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<section id="step-1-generating-loading-the-mars-rover-dataset" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-generating-loading-the-mars-rover-dataset">Step 1: Generating &amp; Loading the Mars Rover Dataset</h4>
+<p>In the field (or in Google Colab), our spectrometer exports a CSV file with two columns: <code>2-THETA</code> (from <span class="math inline">3.00^\circ</span> to <span class="math inline">51.95^\circ</span> in <span class="math inline">0.05^\circ</span> steps, giving 980 rows) and <code>INTENSITY</code> (photon counts). Below, we generate the exact Martian diffractogram dataset in Python and inspect the DataFrame!</p>
+<div id="bc3ea4d1" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the 980-row Mars Rover XRD Dataset (3.00 to 51.95 degrees, step 0.05)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>two_theta <span class="op">=</span> np.<span class="bu">round</span>(np.arange(<span class="fl">3.00</span>, <span class="fl">52.00</span>, <span class="fl">0.05</span>), <span class="dv">2</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate low-angle dust scattering + crystalline mineral peaks (Max 10,000 at 32.35 deg)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>background <span class="op">=</span> <span class="dv">3400</span> <span class="op">*</span> np.exp(<span class="op">-</span>(two_theta <span class="op">-</span> <span class="fl">3.0</span>) <span class="op">/</span> <span class="fl">14.0</span>) <span class="op">+</span> <span class="dv">1400</span> <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">140</span>, <span class="bu">len</span>(two_theta))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>peak_main <span class="op">=</span> <span class="dv">7800</span> <span class="op">*</span> np.exp(<span class="op">-</span>((two_theta <span class="op">-</span> <span class="fl">32.35</span>) <span class="op">/</span> <span class="fl">0.35</span>)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>peak_sec1 <span class="op">=</span> <span class="dv">1800</span> <span class="op">*</span> np.exp(<span class="op">-</span>((two_theta <span class="op">-</span> <span class="fl">26.60</span>) <span class="op">/</span> <span class="fl">0.30</span>)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>peak_sec2 <span class="op">=</span> <span class="dv">1250</span> <span class="op">*</span> np.exp(<span class="op">-</span>((two_theta <span class="op">-</span> <span class="fl">42.45</span>) <span class="op">/</span> <span class="fl">0.40</span>)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>intensity <span class="op">=</span> np.clip(background <span class="op">+</span> peak_main <span class="op">+</span> peak_sec1 <span class="op">+</span> peak_sec2, <span class="dv">1200</span>, <span class="dv">10000</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>intensity[np.where(two_theta <span class="op">==</span> <span class="fl">32.35</span>)[<span class="dv">0</span>][<span class="dv">0</span>]] <span class="op">=</span> <span class="dv">10000</span> <span class="co"># Calibrate max peak</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">"2-THETA"</span>: two_theta, <span class="st">"INTENSITY"</span>: intensity})</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dataset Columns:"</span>, df.columns.tolist())</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset Columns: ['2-THETA', 'INTENSITY']
+   2-THETA  INTENSITY
+0     3.00       4869
+1     3.05       4768
+2     3.10       4866
+3     3.15       4976
+4     3.20       4718</code></pre>
+</div>
+</div>
+</section>
+<section id="step-2-plot-1-raw-detector-intensity-stream" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-plot-1-raw-detector-intensity-stream">Step 2: Plot 1 — Raw Detector Intensity Stream</h4>
+<p>Before mapping the angles, let’s plot the raw <code>INTENSITY</code> column by row index to verify our X-ray detector didn’t drop any data packets.</p>
+<div id="8c7f6786" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"INTENSITY"</span>].plot(color<span class="op">=</span><span class="st">"#0284c7"</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Plot 1: Raw Detector Intensity Stream (Index vs. Counts)"</span>, fontweight<span class="op">=</span><span class="st">"bold"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Row Index (0 to 979)"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Photon Intensity"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mars_xrd_lab_files/figure-html/cell-3-output-1.png" width="760" height="374" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-plot-2-standard-x-ray-diffractogram-2theta-vs.-intensity" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-plot-2-standard-x-ray-diffractogram-2theta-vs.-intensity">Step 3: Plot 2 — Standard X-Ray Diffractogram (<span class="math inline">2\theta</span> vs.&nbsp;Intensity)</h4>
+<p>Now let’s map <code>2-THETA</code> on the X-axis and <code>INTENSITY</code> on the Y-axis, and use Pandas <code>.idxmax()</code> to automatically locate the highest crystalline peak in the Martian rock!</p>
+<div id="41b877d6" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the exact row with the maximum X-ray intensity</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>max_idx <span class="op">=</span> df[<span class="st">"INTENSITY"</span>].idxmax()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"=== MAXIMUM DIFFRACTION PEAK DETECTED ==="</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.iloc[max_idx])</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df.plot(x<span class="op">=</span><span class="st">"2-THETA"</span>, y<span class="op">=</span><span class="st">"INTENSITY"</span>, color<span class="op">=</span><span class="st">"#ea580c"</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>), legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Plot 2: Standard X-Ray Diffractogram (2-Theta vs. Intensity)"</span>, fontweight<span class="op">=</span><span class="st">"bold"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"2-Theta (Degrees)"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Intensity (Counts)"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>=== MAXIMUM DIFFRACTION PEAK DETECTED ===
+2-THETA         32.35
+INTENSITY    10000.00
+Name: 587, dtype: float64</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mars_xrd_lab_files/figure-html/cell-4-output-2.png" width="760" height="374" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-4-plot-3-high-contrast-diagnostic-scan-with-grid" class="level4">
+<h4 class="anchored" data-anchor-id="step-4-plot-3-high-contrast-diagnostic-scan-with-grid">Step 4: Plot 3 — High-Contrast Diagnostic Scan with Grid</h4>
+<p>In materials science publications, diffractograms are plotted in high-contrast black with a coordinate grid so researchers can read exact <span class="math inline">2\theta</span> peak positions and calculate atomic <span class="math inline">d</span>-spacing using Bragg’s Law.</p>
+<div id="a96d58e9" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df.plot(x<span class="op">=</span><span class="st">"2-THETA"</span>, y<span class="op">=</span><span class="st">"INTENSITY"</span>, color<span class="op">=</span><span class="st">"black"</span>, grid<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>),</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Plot 3: High-Contrast Mars XRD Data with Diagnostic Grid"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">"Intensity of Mars Rock"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"2-Theta Angle (Degrees)"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Intensity (Counts)"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.axvline(x<span class="op">=</span><span class="fl">32.35</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">"Primary Peak (32.35°)"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mars_xrd_lab_files/figure-html/cell-5-output-1.png" width="952" height="374" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-5-plot-4-comparing-known-pure-elements-si-al-au-braggs-law" class="level4">
+<h4 class="anchored" data-anchor-id="step-5-plot-4-comparing-known-pure-elements-si-al-au-braggs-law">Step 5: Plot 4 — Comparing Known Pure Elements (Si, Al, Au) &amp; Bragg’s Law</h4>
+<p>How do we identify unknown peaks? We compare them against pure elements from the Periodic Table! Let’s use Bragg’s Law (<span class="math inline">\lambda = 0.15406\text{ nm}</span> for a Copper <span class="math inline">K\alpha</span> X-ray tube) to calculate the atomic plane spacing (<span class="math inline">d</span>) and plot the fingerprints for <strong>Silicon (Si)</strong>, <strong>Aluminum (Al)</strong>, and <strong>Gold (Au)</strong>.</p>
+<div id="394bf3ba" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>wavelength <span class="op">=</span> <span class="fl">0.15406</span> <span class="co"># Cu K-alpha X-ray wavelength in nanometers (nm)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Reference primary (111) peaks in 2-Theta degrees</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>standards <span class="op">=</span> {</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Silicon (Si)"</span>: {<span class="st">"two_theta"</span>: <span class="fl">28.44</span>, <span class="st">"color"</span>: <span class="st">"#0284c7"</span>},</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Gold (Au)"</span>: {<span class="st">"two_theta"</span>: <span class="fl">38.18</span>, <span class="st">"color"</span>: <span class="st">"#eab308"</span>},</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Aluminum (Al)"</span>: {<span class="st">"two_theta"</span>: <span class="fl">38.47</span>, <span class="st">"color"</span>: <span class="st">"#10b981"</span>}</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>angles <span class="op">=</span> np.linspace(<span class="dv">20</span>, <span class="dv">60</span>, <span class="dv">800</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">4.5</span>))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, info <span class="kw">in</span> standards.items():</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    theta_rad <span class="op">=</span> np.radians(info[<span class="st">"two_theta"</span>] <span class="op">/</span> <span class="fl">2.0</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    d_spacing <span class="op">=</span> wavelength <span class="op">/</span> (<span class="fl">2.0</span> <span class="op">*</span> np.sin(theta_rad))</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:15s}</span><span class="ss"> | 2-Theta: </span><span class="sc">{</span>info[<span class="st">'two_theta'</span>]<span class="sc">}</span><span class="ss">° | Atomic d-spacing: </span><span class="sc">{</span>d_spacing<span class="sc">:.4f}</span><span class="ss"> nm"</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Simulate clean reference peak</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    sim_curve <span class="op">=</span> <span class="dv">8500</span> <span class="op">*</span> np.exp(<span class="op">-</span>((angles <span class="op">-</span> info[<span class="st">"two_theta"</span>]) <span class="op">/</span> <span class="fl">0.35</span>)<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> <span class="dv">200</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    plt.plot(angles, sim_curve, label<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss"> (d = </span><span class="sc">{</span>d_spacing<span class="sc">:.3f}</span><span class="ss"> nm)"</span>, color<span class="op">=</span>info[<span class="st">"color"</span>], linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Plot 4: Reference Element Standards (Silicon, Gold, Aluminum)"</span>, fontweight<span class="op">=</span><span class="st">"bold"</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"2-Theta (Degrees)"</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Normalized Intensity"</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Silicon (Si)    | 2-Theta: 28.44° | Atomic d-spacing: 0.3136 nm
+Gold (Au)       | 2-Theta: 38.18° | Atomic d-spacing: 0.2355 nm
+Aluminum (Al)   | 2-Theta: 38.47° | Atomic d-spacing: 0.2338 nm</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mars_xrd_lab_files/figure-html/cell-6-output-2.png" width="952" height="422" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-6-plot-5-the-alloy-challenge-weight-percentage-ratios" class="level4">
+<h4 class="anchored" data-anchor-id="step-6-plot-5-the-alloy-challenge-weight-percentage-ratios">Step 6: Plot 5 — The Alloy Challenge: Weight Percentage &amp; Ratios</h4>
+<p>Wait—the rover’s drill bit chipped! A metallic flake fell into the sample chamber, and we need to verify if it’s a piece of the rover’s <strong>Aluminum-Silicon (Al-Si) aerospace alloy strut</strong>.</p>
+<p>In an alloy mixture, the weight percentage of each metal is proportional to its integrated peak intensity (Adjusted for Reference Intensity Ratio constants). Let’s analyze a dual-phase Al-Si diffractogram, calculate the <strong>Intensity Ratio</strong>, and determine the <strong>Weight Percentage (<span class="math inline">\text{wt}\%</span>)</strong>!</p>
+<div id="6d21dcf8" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate an Al-Si Alloy Diffractogram</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>alloy_angles <span class="op">=</span> np.linspace(<span class="dv">20</span>, <span class="dv">55</span>, <span class="dv">700</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>si_peak_int <span class="op">=</span> <span class="dv">2400</span> <span class="co"># Silicon (111) at 28.44 deg</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>al_peak_int <span class="op">=</span> <span class="dv">7200</span> <span class="co"># Aluminum (111) at 38.47 deg</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>alloy_signal <span class="op">=</span> (<span class="dv">300</span> <span class="op">+</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                si_peak_int <span class="op">*</span> np.exp(<span class="op">-</span>((alloy_angles <span class="op">-</span> <span class="fl">28.44</span>) <span class="op">/</span> <span class="fl">0.35</span>)<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                al_peak_int <span class="op">*</span> np.exp(<span class="op">-</span>((alloy_angles <span class="op">-</span> <span class="fl">38.47</span>) <span class="op">/</span> <span class="fl">0.35</span>)<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                <span class="dv">3200</span> <span class="op">*</span> np.exp(<span class="op">-</span>((alloy_angles <span class="op">-</span> <span class="fl">44.74</span>) <span class="op">/</span> <span class="fl">0.40</span>)<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Quantitative Composition Math</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>total_primary_intensity <span class="op">=</span> al_peak_int <span class="op">+</span> si_peak_int</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>al_wt_pct <span class="op">=</span> (al_peak_int <span class="op">/</span> total_primary_intensity) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>si_wt_pct <span class="op">=</span> (si_peak_int <span class="op">/</span> total_primary_intensity) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>ratio_al_si <span class="op">=</span> al_peak_int <span class="op">/</span> si_peak_int</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"=== ALLOY QUANTITATIVE AUDIT ==="</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Aluminum Peak (38.47°): </span><span class="sc">{</span>al_peak_int<span class="sc">}</span><span class="ss"> counts"</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Silicon Peak  (28.44°): </span><span class="sc">{</span>si_peak_int<span class="sc">}</span><span class="ss"> counts"</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Intensity Ratio (Al:Si): </span><span class="sc">{</span>ratio_al_si<span class="sc">:.1f}</span><span class="ss"> : 1"</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Calculated Composition : </span><span class="sc">{</span>al_wt_pct<span class="sc">:.1f}</span><span class="ss"> wt% Aluminum | </span><span class="sc">{</span>si_wt_pct<span class="sc">:.1f}</span><span class="ss"> wt% Silicon"</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 5: Side-by-Side Spectrum &amp; Composition Pie/Bar Breakdown</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">4.2</span>), gridspec_kw<span class="op">=</span>{<span class="st">'width_ratios'</span>: [<span class="fl">2.2</span>, <span class="dv">1</span>]})</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>ax1.plot(alloy_angles, alloy_signal, color<span class="op">=</span><span class="st">"#1e293b"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>ax1.fill_between(alloy_angles, <span class="dv">300</span>, alloy_signal, color<span class="op">=</span><span class="st">"#38bdf8"</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>ax1.annotate(<span class="ss">f"Si (111)</span><span class="ch">\n</span><span class="sc">{</span>si_wt_pct<span class="sc">:.0f}</span><span class="ss">%"</span>, xy<span class="op">=</span>(<span class="fl">28.44</span>, si_peak_int<span class="op">+</span><span class="dv">300</span>), xytext<span class="op">=</span>(<span class="dv">23</span>, <span class="dv">5000</span>),</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>             arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"-&gt;"</span>, color<span class="op">=</span><span class="st">"#0284c7"</span>, lw<span class="op">=</span><span class="fl">1.5</span>), fontweight<span class="op">=</span><span class="st">"bold"</span>, color<span class="op">=</span><span class="st">"#0284c7"</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>ax1.annotate(<span class="ss">f"Al (111)</span><span class="ch">\n</span><span class="sc">{</span>al_wt_pct<span class="sc">:.0f}</span><span class="ss">%"</span>, xy<span class="op">=</span>(<span class="fl">38.47</span>, al_peak_int<span class="op">+</span><span class="dv">300</span>), xytext<span class="op">=</span>(<span class="dv">32</span>, <span class="dv">8000</span>),</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>             arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"-&gt;"</span>, color<span class="op">=</span><span class="st">"#10b981"</span>, lw<span class="op">=</span><span class="fl">1.5</span>), fontweight<span class="op">=</span><span class="st">"bold"</span>, color<span class="op">=</span><span class="st">"#10b981"</span>)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">"Plot 5A: Al-Si Alloy Diffraction Spectrum"</span>, fontweight<span class="op">=</span><span class="st">"bold"</span>)</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">"2-Theta (Degrees)"</span>)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">"Intensity (Counts)"</span>)</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>ax1.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>ax2.bar([<span class="st">"Aluminum</span><span class="ch">\n</span><span class="st">(Al)"</span>, <span class="st">"Silicon</span><span class="ch">\n</span><span class="st">(Si)"</span>], [al_wt_pct, si_wt_pct], color<span class="op">=</span>[<span class="st">"#10b981"</span>, <span class="st">"#0284c7"</span>], edgecolor<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>ax2.set_ylim(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">"Weight Percentage (wt%)"</span>)</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">"Plot 5B: Alloy Weight %"</span>, fontweight<span class="op">=</span><span class="st">"bold"</span>)</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>ax2.grid(axis<span class="op">=</span><span class="st">"y"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>=== ALLOY QUANTITATIVE AUDIT ===
+Aluminum Peak (38.47°): 7200 counts
+Silicon Peak  (28.44°): 2400 counts
+Intensity Ratio (Al:Si): 3.0 : 1
+Calculated Composition : 75.0 wt% Aluminum | 25.0 wt% Silicon</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mars_xrd_lab_files/figure-html/cell-7-output-2.png" width="1048" height="393" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<section id="pedagogical-goals" class="level4">
+<h4 class="anchored" data-anchor-id="pedagogical-goals">Pedagogical Goals</h4>
+<ol type="1">
+<li><strong>Connecting Wave Physics to Data Science:</strong> Students see how trigonometry (<span class="math inline">\sin\theta</span>) and wave interference translate directly into tabular CSV arrays that can be queried with <code>.idxmax()</code> and <code>.iloc[]</code>.</li>
+<li><strong>Reading <span class="math inline">2\theta</span> vs.&nbsp;<span class="math inline">\theta</span>:</strong> A classic student mistake in Bragg’s Law (<span class="math inline">n\lambda = 2d\sin\theta</span>) is plugging the <span class="math inline">2\theta</span> graph value directly into <span class="math inline">\sin(\theta)</span> without dividing the angle by <span class="math inline">2</span> first! Emphasize that if the peak is at <span class="math inline">2\theta = 32.35^\circ</span>, then <span class="math inline">\theta = 16.175^\circ</span>.</li>
+</ol>
+</section>
+<section id="answer-key-for-student-challenges" class="level4">
+<h4 class="anchored" data-anchor-id="answer-key-for-student-challenges">Answer Key for Student Challenges</h4>
+<ul>
+<li><p><strong>Mystery Peak <span class="math inline">d</span>-Spacing Calculation:</strong> At <span class="math inline">2\theta = 32.35^\circ</span>, <span class="math inline">\theta = 16.175^\circ</span>. Using <span class="math inline">\lambda = 0.15406\text{ nm}</span>: <span class="math display">d = \frac{0.15406}{2 \times \sin(16.175^\circ)} = \frac{0.15406}{2 \times 0.27857} = 0.2765\text{ nm } (2.765\text{ \AA})</span> <em>Mineral Match:</em> This <span class="math inline">d</span>-spacing matches calcium-rich plagioclase feldspar and augite, common volcanic basalt minerals in Gale Crater!</p></li>
+<li><p><strong>Interactive Python Widget Extension (For Jupyter/Colab):</strong> If running this lesson live inside Google Colab or JupyterLab, students can run the following <code>ipywidgets</code> snippet to create a native Python slider:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ipywidgets <span class="im">as</span> widgets</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filter_xrd(threshold<span class="op">=</span><span class="dv">2000</span>):</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    filtered_df <span class="op">=</span> df[df[<span class="st">"INTENSITY"</span>] <span class="op">&gt;=</span> threshold]</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="fl">3.5</span>))</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    plt.plot(filtered_df[<span class="st">"2-THETA"</span>], filtered_df[<span class="st">"INTENSITY"</span>], color<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"Filtered XRD Data (Intensity &gt;= </span><span class="sc">{</span>threshold<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"2-Theta"</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Intensity"</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    plt.grid(<span class="va">True</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>widgets.interact(filter_xrd, threshold<span class="op">=</span>widgets.IntSlider(<span class="bu">min</span><span class="op">=</span><span class="dv">1000</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">8000</span>, step<span class="op">=</span><span class="dv">250</span>, value<span class="op">=</span><span class="dv">2000</span>))<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul>
+</section>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/professorfrancillon\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

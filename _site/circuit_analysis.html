@@ -73,6 +73,15 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2P04N7WV2H"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
+</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
@@ -191,6 +200,10 @@ window.Quarto = {
     <a class="dropdown-item" href="./circuit_breakout.html">
  <span class="dropdown-text">Impedance Breaker Game</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./rf_foxhunt.html">
+ <span class="dropdown-text">RF Fox Hunt Lab</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -307,7 +320,7 @@ window.Quarto = {
 <!-- CARD 1: ELECTRICAL DASHBOARD -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<div id="36d17a8e" class="cell" data-fig-height="2.8" data-execution_count="1">
+<div id="ff93b74e" class="cell" data-fig-height="2.8" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -330,7 +343,7 @@ Interactive telemetry and parameter visualization for analyzing voltage, current
 <!-- CARD 2: LIVE CIRCUIT SIMULATOR -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<div id="de30b4b9" class="cell" data-fig-height="2.8" data-execution_count="2">
+<div id="e2cab75d" class="cell" data-fig-height="2.8" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -353,7 +366,7 @@ Build, modify, and probe live schematic networks in real time with virtual oscil
 <!-- CARD 3: REACTANCE CALCULATOR -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<div id="18d01e91" class="cell" data-fig-height="2.8" data-execution_count="3">
+<div id="2087fd89" class="cell" data-fig-height="2.8" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -376,7 +389,7 @@ Compute inductive reactance (<span class="math inline">X_L</span>), capacitive r
 <!-- CARD 4: CIRCUIT PROBLEM GENERATOR -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<div id="e095f766" class="cell" data-fig-height="2.8" data-execution_count="4">
+<div id="587a36b0" class="cell" data-fig-height="2.8" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -399,7 +412,7 @@ Procedural problem engine for DC networks, Thévenin equivalents, AC phasors, 1s
 <!-- CARD 5: RESONANCE DEFENDER GAME -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<div id="ec008e0d" class="cell" data-fig-height="2.8" data-execution_count="5">
+<div id="770d9f35" class="cell" data-fig-height="2.8" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -422,7 +435,7 @@ Tune your series RLC circuit’s inductance (<span class="math inline">L</span>)
 <!-- CARD 6: IMPEDANCE BREAKER GAME -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<div id="6ff98f34" class="cell" data-fig-height="2.8" data-execution_count="6">
+<div id="f1798916" class="cell" data-fig-height="2.8" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -520,7 +533,7 @@ Pilot the copper busbar paddle to shatter passive R, L, and C component arrays a
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/professorfrancillon\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

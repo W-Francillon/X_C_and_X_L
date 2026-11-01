@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>solutions – Wesley Francillon, PhD</title>
+<title>Weather API &amp; Machine Learning Snow Predictor – Wesley Francillon, PhD</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -25,6 +25,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -73,6 +108,15 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2P04N7WV2H"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
+</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
 
@@ -114,12 +158,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Lecture Notes</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./assignments.html">
- <span class="dropdown-text">Assignments</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./solutions.html">
- <span class="dropdown-text">Solutions</span></a>
+    <a class="dropdown-item" href="./lab_manuals.html">
+ <span class="dropdown-text">Lab Manuals</span></a>
   </li>  
     </ul>
   </li>
@@ -151,6 +191,10 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="./circuit_breakout.html">
  <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./rf_foxhunt.html">
+ <span class="dropdown-text">RF Fox Hunt Lab</span></a>
   </li>  
     </ul>
   </li>
@@ -236,20 +280,243 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page…</h2>
+   
+  <ul>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link active" data-scroll-target="#project-overview">Project Overview</a></li>
+  <li><a href="#bill-of-materials-equipment" id="toc-bill-of-materials-equipment" class="nav-link" data-scroll-target="#bill-of-materials-equipment">Bill of Materials &amp; Equipment</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Weather API &amp; Machine Learning Snow Predictor</h1>
+<p class="subtitle lead">K-12 Data Science: REST APIs, Feature Scaling, and Interactive Neural Network Classification</p>
+</div>
 
 
 
+<div class="quarto-title-meta column-page-left">
+
+    
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Affiliate Disclosure:</strong> Some links below are affiliate links. If you purchase hardware or data tools through these links, this site earns a small commission at no additional cost to you, helping fund our K-12 STEM outreach programs.</p>
+</div>
+</div>
+</div>
+<hr>
+<section id="project-overview" class="level2">
+<h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
+<p>Welcome to the <strong>Weather API &amp; Machine Learning Snow Predictor</strong> lab module. In this project, students act as data scientists and meteorologists by querying historical weather archives from the <strong>Open-Meteo API</strong>, scaling features using Pandas and NumPy, and training a neural network classifier using <strong>TensorFlow/Keras</strong> to predict snow events based on temperature and relative humidity.</p>
+<div style="text-align: center; margin: 30px 0;">
+  <svg width="100%" max-width="650" height="200" viewbox="0 0 650 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Card -->
+    <rect width="650" height="200" fill="#f8f9fa" rx="10" stroke="#e0e0e0" stroke-width="1"></rect>
+    
+    <!-- API Source Box -->
+    <rect x="40" y="70" width="120" height="60" rx="5" fill="#007acc" stroke="#005999" stroke-width="2"></rect>
+    <text x="100" y="105" font-family="sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">Open-Meteo API</text>
+    
+    <!-- Arrow 1 -->
+    <path d="M 160 100 L 220 100" stroke="#333" stroke-width="2" marker-end="url(#arrow)"></path>
+    <text x="190" y="90" font-family="sans-serif" font-size="12" fill="#555" text-anchor="middle">JSON Data</text>
+    
+    <!-- Preprocessing Box -->
+    <rect x="220" y="70" width="120" height="60" rx="5" fill="#ff8c00" stroke="#cc7000" stroke-width="2"></rect>
+    <text x="280" y="105" font-family="sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">Pandas &amp; Scale</text>
+    
+    <!-- Arrow 2 -->
+    <path d="M 340 100 L 400 100" stroke="#333" stroke-width="2" marker-end="url(#arrow)"></path>
+    <text x="370" y="90" font-family="sans-serif" font-size="12" fill="#555" text-anchor="middle">Features (x, y)</text>
+    
+    <!-- Neural Network Box -->
+    <rect x="400" y="70" width="140" height="60" rx="5" fill="#10b981" stroke="#0e9f6e" stroke-width="2"></rect>
+    <text x="470" y="105" font-family="sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">Keras Dense NN</text>
+    
+    <!-- Output / Prediction Wave -->
+    <path d="M 560 100 Q 580 80 600 100 T 640 100" fill="none" stroke="#ef4444" stroke-width="3"></path>
+    <text x="600" y="160" font-family="sans-serif" font-size="13" fill="#333" text-anchor="middle" font-weight="bold">Snow Classifier (0 / 1)</text>
+    
+    <!-- Arrow Marker Definition -->
+    <defs>
+      <marker id="arrow" markerwidth="10" markerheight="10" refx="9" refy="3" orient="auto" markerunits="strokeWidth">
+        <path d="M0,0 L0,6 L9,3 z" fill="#333"></path>
+      </marker>
+    </defs>
+  </svg>
+  <p style="font-size: 0.95em; color: #555; margin-top: 15px;"><em>Pipeline: API Data Ingestion → Feature Normalization → Neural Network Training.</em></p>
+</div>
+<hr>
+</section>
+<section id="bill-of-materials-equipment" class="level2">
+<h2 class="anchored" data-anchor-id="bill-of-materials-equipment">Bill of Materials &amp; Equipment</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Specifications / Model</th>
+<th style="text-align: left;">Purpose / Role</th>
+<th style="text-align: left;">Source / Affiliate Link</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Workstation Computer</strong></td>
+<td style="text-align: left;">Python 3.10+ / Google Colab / VS Code</td>
+<td style="text-align: left;">Executes data ingestion and model training</td>
+<td style="text-align: left;"><a href="https://amzn.to/YOUR_LINK">View on Amazon</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Data APIs</strong></td>
+<td style="text-align: left;">Open-Meteo Historical Weather API</td>
+<td style="text-align: left;">Provides free multi-year meteorological records</td>
+<td style="text-align: left;"><a href="https://open-meteo.com/">Open-Meteo</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Machine Learning Stack</strong></td>
+<td style="text-align: left;">TensorFlow, Keras, Scikit-Learn</td>
+<td style="text-align: left;">Builds and evaluates neural network models</td>
+<td style="text-align: left;"><a href="https://tensorflow.org">View Package</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Data Visualization</strong></td>
+<td style="text-align: left;">Plotly &amp; Seaborn</td>
+<td style="text-align: left;">Interactive charts &amp; feature distribution plots</td>
+<td style="text-align: left;"><a href="https://plotly.com/python/">View Package</a></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<hr>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Student Guide</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Instructor Guide</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<section id="step-1-querying-the-weather-api" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-querying-the-weather-api">Step 1: Querying the Weather API</h4>
+<p>First, we connect to the Open-Meteo historical forecast API to pull hourly temperature, humidity, and snowfall records for Long Island, NY (<code>lat: 40.8665, lon: -73.0357</code>).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> openmeteo_requests</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests_cache</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> retry_requests <span class="im">import</span> retry</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup API Client with caching and error retry</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>cache_session <span class="op">=</span> requests_cache.CachedSession(<span class="st">'.cache'</span>, expire_after<span class="op">=</span><span class="dv">3600</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>retry_session <span class="op">=</span> retry(cache_session, retries<span class="op">=</span><span class="dv">5</span>, backoff_factor<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>openmeteo <span class="op">=</span> openmeteo_requests.Client(session<span class="op">=</span>retry_session)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://historical-forecast-api.open-meteo.com/v1/forecast"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"latitude"</span>: <span class="fl">40.8665</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"longitude"</span>: <span class="op">-</span><span class="fl">73.0357</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"start_date"</span>: <span class="st">"2022-12-26"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"end_date"</span>: <span class="st">"2024-12-26"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hourly"</span>: [<span class="st">"temperature_2m"</span>, <span class="st">"relative_humidity_2m"</span>, <span class="st">"precipitation"</span>, <span class="st">"snowfall"</span>, <span class="st">"snow_depth"</span>],</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"temperature_unit"</span>: <span class="st">"fahrenheit"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"precipitation_unit"</span>: <span class="st">"inch"</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>responses <span class="op">=</span> openmeteo.weather_api(url, params<span class="op">=</span>params)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> responses[<span class="dv">0</span>]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Retrieved data for coordinates: </span><span class="sc">{</span>response<span class="sc">.</span>Latitude()<span class="sc">}</span><span class="ss">°N, </span><span class="sc">{</span>response<span class="sc">.</span>Longitude()<span class="sc">}</span><span class="ss">°E"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="step-2-interactive-data-explorer" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-interactive-data-explorer">Step 2: Interactive Data Explorer</h4>
+<p>Hover over the data points below to inspect how temperature and humidity interact across our regional weather dataset.</p>
+<div id="53b8e27e" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="weather_ml_files/figure-html/cell-2-output-1.png" width="752" height="464" class="figure-img"></p>
+<figcaption>Feature Space: Temperature vs.&nbsp;Relative Humidity for Snow Prediction</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-building-and-training-the-neural-network" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-building-and-training-the-neural-network">Step 3: Building and Training the Neural Network</h4>
+<p>Students construct a simple sequential deep learning classifier to predict snow occurrences:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras <span class="im">import</span> layers</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> LabelEncoder</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare labels (Snow: Yes/No) based on snowfall threshold</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>hourly_df[<span class="st">'Snow'</span>] <span class="op">=</span> hourly_df[<span class="st">'snowfall'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="st">'Yes'</span> <span class="cf">if</span> x <span class="op">&gt;</span> <span class="fl">0.001</span> <span class="cf">else</span> <span class="st">'No'</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Build feature matrix (x) and target vector (y)</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>f_names <span class="op">=</span> [<span class="st">'temperature_2m'</span>, <span class="st">'relative_humidity_2m'</span>]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> hourly_df[f_names]</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>y_encoded <span class="op">=</span> LabelEncoder().fit_transform(hourly_df[<span class="st">'Snow'</span>])</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Train/Validation/Test Split</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>x_train, x_val_test, y_train, y_val_test <span class="op">=</span> train_test_split(x, y_encoded, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>x_test, x_val, y_test, y_val <span class="op">=</span> train_test_split(x_val_test, y_val_test, test_size<span class="op">=</span><span class="fl">0.5</span>, random_state<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> tf.keras.Sequential([</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    layers.Input(shape<span class="op">=</span>(<span class="bu">len</span>(f_names),)),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    layers.Dense(<span class="dv">12</span>, activation<span class="op">=</span><span class="st">'relu'</span>),</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    layers.Dropout(<span class="fl">0.2</span>),</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    layers.Dense(<span class="dv">1</span>, activation<span class="op">=</span><span class="st">'sigmoid'</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(loss<span class="op">=</span><span class="st">'binary_crossentropy'</span>, optimizer<span class="op">=</span><span class="st">'adam'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>model.summary()</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Train model</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(x_train, y_train, epochs<span class="op">=</span><span class="dv">20</span>, batch_size<span class="op">=</span><span class="dv">64</span>, validation_data<span class="op">=</span>(x_val, y_val))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<section id="pedagogical-goals-implementation-notes" class="level4">
+<h4 class="anchored" data-anchor-id="pedagogical-goals-implementation-notes">Pedagogical Goals &amp; Implementation Notes</h4>
+<ul>
+<li><strong>API Literacy:</strong> Emphasize to students that modern engineering relies heavily on querying live REST APIs rather than static CSV files.</li>
+<li><strong>Class Imbalance Handling:</strong> Notice the data balancing step in the background code (<code>df0.sample(len(df1.index))</code>). Instructors should explain why training on 98% “No Snow” and 2% “Snow” produces a lazy AI that always guesses “No Snow”, and how downsampling solves this.</li>
+<li><strong>Feature Normalization:</strong> Walk students through Z-score scaling <code>(val - avg) / std</code>. Without scaling, large magnitude features dominate gradient descent.</li>
+</ul>
+</section>
+<section id="assessment-rubric" class="level4">
+<h4 class="anchored" data-anchor-id="assessment-rubric">Assessment Rubric</h4>
+<ol type="1">
+<li><strong>API Integration (25%):</strong> Successfully retrieved and parsed multi-year weather arrays into Pandas DataFrames.</li>
+<li><strong>Data Preparation (25%):</strong> Properly formatted and normalized input features (<code>Temp0</code>, <code>Humi0</code>, etc.).</li>
+<li><strong>Model Construction (25%):</strong> Built and compiled a functional Keras neural network with correct input shapes and activation functions.</li>
+<li><strong>Evaluation &amp; Reflection (25%):</strong> Generated training loss/accuracy curves and correctly interpreted model performance.</li>
+</ol>
+</section>
+</div>
+</div>
+</div>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -325,7 +592,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/professorfrancillon\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

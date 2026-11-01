@@ -1,0 +1,206 @@
+---
+title: "Weather API & Machine Learning Snow Predictor"
+subtitle: "K-12 Data Science: REST APIs, Feature Scaling, and Interactive Neural Network Classification"
+page-layout: full
+jupyter: python3
+---
+
+::: {.callout-note appearance="simple"}
+**Affiliate Disclosure:** Some links below are affiliate links. If you purchase hardware or data tools through these links, this site earns a small commission at no additional cost to you, helping fund our K-12 STEM outreach programs.
+:::
+
+---
+
+## Project Overview
+
+Welcome to the **Weather API & Machine Learning Snow Predictor** lab module. In this project, students act as data scientists and meteorologists by querying historical weather archives from the **Open-Meteo API**, scaling features using Pandas and NumPy, and training a neural network classifier using **TensorFlow/Keras** to predict snow events based on temperature and relative humidity.
+
+```{=html}
+<div style="text-align: center; margin: 30px 0;">
+  <svg width="100%" max-width="650" height="200" viewBox="0 0 650 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Card -->
+    <rect width="650" height="200" fill="#f8f9fa" rx="10" stroke="#e0e0e0" stroke-width="1"/>
+    
+    <!-- API Source Box -->
+    <rect x="40" y="70" width="120" height="60" rx="5" fill="#007acc" stroke="#005999" stroke-width="2"/>
+    <text x="100" y="105" font-family="sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">Open-Meteo API</text>
+    
+    <!-- Arrow 1 -->
+    <path d="M 160 100 L 220 100" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="190" y="90" font-family="sans-serif" font-size="12" fill="#555" text-anchor="middle">JSON Data</text>
+    
+    <!-- Preprocessing Box -->
+    <rect x="220" y="70" width="120" height="60" rx="5" fill="#ff8c00" stroke="#cc7000" stroke-width="2"/>
+    <text x="280" y="105" font-family="sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">Pandas & Scale</text>
+    
+    <!-- Arrow 2 -->
+    <path d="M 340 100 L 400 100" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="370" y="90" font-family="sans-serif" font-size="12" fill="#555" text-anchor="middle">Features (x, y)</text>
+    
+    <!-- Neural Network Box -->
+    <rect x="400" y="70" width="140" height="60" rx="5" fill="#10b981" stroke="#0e9f6e" stroke-width="2"/>
+    <text x="470" y="105" font-family="sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">Keras Dense NN</text>
+    
+    <!-- Output / Prediction Wave -->
+    <path d="M 560 100 Q 580 80 600 100 T 640 100" fill="none" stroke="#ef4444" stroke-width="3"/>
+    <text x="600" y="160" font-family="sans-serif" font-size="13" fill="#333" text-anchor="middle" font-weight="bold">Snow Classifier (0 / 1)</text>
+    
+    <!-- Arrow Marker Definition -->
+    <defs>
+      <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <path d="M0,0 L0,6 L9,3 z" fill="#333" />
+      </marker>
+    </defs>
+  </svg>
+  <p style="font-size: 0.95em; color: #555; margin-top: 15px;"><em>Pipeline: API Data Ingestion &rarr; Feature Normalization &rarr; Neural Network Training.</em></p>
+</div>
+```
+
+---
+
+## Bill of Materials & Equipment
+
+| Component | Specifications / Model | Purpose / Role | Source / Affiliate Link |
+| :--- | :--- | :--- | :--- |
+| **Workstation Computer** | Python 3.10+ / Google Colab / VS Code | Executes data ingestion and model training | [View on Amazon](https://amzn.to/YOUR_LINK) |
+| **Data APIs** | Open-Meteo Historical Weather API | Provides free multi-year meteorological records | [Open-Meteo](https://open-meteo.com/) |
+| **Machine Learning Stack** | TensorFlow, Keras, Scikit-Learn | Builds and evaluates neural network models | [View Package](https://tensorflow.org) |
+| **Data Visualization** | Plotly & Seaborn | Interactive charts & feature distribution plots | [View Package](https://plotly.com/python/) |
+
+<br>
+
+---
+
+::: {.panel-tabset}
+
+### Student Guide
+
+#### Step 1: Querying the Weather API
+First, we connect to the Open-Meteo historical forecast API to pull hourly temperature, humidity, and snowfall records for Long Island, NY (`lat: 40.8665, lon: -73.0357`).
+
+```python
+#| eval: false
+import openmeteo_requests
+import requests_cache
+import pandas as pd
+from retry_requests import retry
+
+# Setup API Client with caching and error retry
+cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
+retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
+openmeteo = openmeteo_requests.Client(session=retry_session)
+
+url = "https://historical-forecast-api.open-meteo.com/v1/forecast"
+params = {
+    "latitude": 40.8665,
+    "longitude": -73.0357,
+    "start_date": "2022-12-26",
+    "end_date": "2024-12-26",
+    "hourly": ["temperature_2m", "relative_humidity_2m", "precipitation", "snowfall", "snow_depth"],
+    "temperature_unit": "fahrenheit",
+    "precipitation_unit": "inch"
+}
+
+responses = openmeteo.weather_api(url, params=params)
+response = responses[0]
+print(f"Retrieved data for coordinates: {response.Latitude()}°N, {response.Longitude()}°E")
+```
+
+#### Step 2: Interactive Data Explorer
+Hover over the data points below to inspect how temperature and humidity interact across our regional weather dataset.
+
+```{python}
+#| echo: false
+#| warning: false
+#| fig-cap: "Feature Space: Temperature vs. Relative Humidity for Snow Prediction"
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import pandas as pd
+
+# Set professional plotting style
+sns.set_theme(style="whitegrid")
+plt.figure(figsize=(8, 5))
+
+# Generate sample weather points for visualization demonstration
+np.random.seed(42)
+temp_sample = np.random.normal(42.9, 15.0, 200)
+humidity_sample = np.random.normal(71.9, 15.0, 200)
+snow_cond = (temp_sample < 33.0) & (humidity_sample > 60.0)
+snow_labels = ["Yes" if s else "No" for s in snow_cond]
+
+df_plot = pd.DataFrame({
+    "Temperature (°F)": temp_sample,
+    "Relative Humidity (%)": humidity_sample,
+    "Snow Event": snow_labels
+})
+
+# Create scatter plot with Seaborn
+ax = sns.scatterplot(
+    data=df_plot,
+    x="Temperature (°F)",
+    y="Relative Humidity (%)",
+    hue="Snow Event",
+    palette={"Yes": "#007acc", "No": "#adb5bd"},
+    alpha=0.8,
+    s=60
+)
+
+plt.title("Weather Feature Space (Long Island Sample)", fontsize=12, fontweight='bold', pad=12)
+plt.legend(title="Snow Event?", loc="upper right")
+plt.tight_layout()
+plt.show()
+```
+
+#### Step 3: Building and Training the Neural Network
+Students construct a simple sequential deep learning classifier to predict snow occurrences:
+
+```python
+#| eval: false
+import tensorflow as tf
+from tensorflow.keras import layers
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+
+# Prepare labels (Snow: Yes/No) based on snowfall threshold
+hourly_df['Snow'] = hourly_df['snowfall'].apply(lambda x: 'Yes' if x > 0.001 else 'No')
+
+# Build feature matrix (x) and target vector (y)
+f_names = ['temperature_2m', 'relative_humidity_2m']
+x = hourly_df[f_names]
+y_encoded = LabelEncoder().fit_transform(hourly_df['Snow'])
+
+# Train/Validation/Test Split
+x_train, x_val_test, y_train, y_val_test = train_test_split(x, y_encoded, test_size=0.2, random_state=1)
+x_test, x_val, y_test, y_val = train_test_split(x_val_test, y_val_test, test_size=0.5, random_state=3)
+
+model = tf.keras.Sequential([
+    layers.Input(shape=(len(f_names),)),
+    layers.Dense(12, activation='relu'),
+    layers.Dropout(0.2),
+    layers.Dense(1, activation='sigmoid')
+])
+
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.summary()
+
+# Train model
+history = model.fit(x_train, y_train, epochs=20, batch_size=64, validation_data=(x_val, y_val))
+```
+
+---
+
+### Instructor Guide
+
+#### Pedagogical Goals & Implementation Notes
+* **API Literacy:** Emphasize to students that modern engineering relies heavily on querying live REST APIs rather than static CSV files.
+* **Class Imbalance Handling:** Notice the data balancing step in the background code (`df0.sample(len(df1.index))`). Instructors should explain why training on 98% "No Snow" and 2% "Snow" produces a lazy AI that always guesses "No Snow", and how downsampling solves this.
+* **Feature Normalization:** Walk students through Z-score scaling `(val - avg) / std`. Without scaling, large magnitude features dominate gradient descent.
+
+#### Assessment Rubric
+1. **API Integration (25%):** Successfully retrieved and parsed multi-year weather arrays into Pandas DataFrames.
+2. **Data Preparation (25%):** Properly formatted and normalized input features (`Temp0`, `Humi0`, etc.).
+3. **Model Construction (25%):** Built and compiled a functional Keras neural network with correct input shapes and activation functions.
+4. **Evaluation & Reflection (25%):** Generated training loss/accuracy curves and correctly interpreted model performance.
+
+:::

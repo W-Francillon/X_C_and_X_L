@@ -64,5 +64,20 @@
   },
   "rf_foxhunt.qmd": {
     "rf_foxhunt.html": "5e074569"
+  },
+  "tide_predictor.qmd": {
+    "tide_predictor.html": "7fd5d281"
+  },
+  "weather_ml.qmd": {
+    "weather_ml.html": "d493c27f"
+  },
+  "co2_emissions_regression.qmd": {
+    "co2_emissions_regression.html": "b6c8373e"
+  },
+  "mars_xrd_lab.qmd": {
+    "mars_xrd_lab.html": "cf870f71"
+  },
+  "crystal_structures_part1.qmd": {
+    "crystal_structures_part1.html": "365e8e9f"
   }
 }
