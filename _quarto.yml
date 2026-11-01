@@ -8,9 +8,15 @@ project:
 
 website:
   title: "Wesley Francillon, PhD"
+  site-url: "https://professorfrancillon.com"
+  
+  # Google Analytics 4 Measurement ID
+  # Replace G-XXXXXXXXXX with the ID from your GA4 stream
+  google-analytics: "G-2P04N7WV2H"
+  
   page-navigation: false
   search: true
-  
+
   navbar:
     background: "#ffffff"
     search: true
