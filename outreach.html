@@ -73,8 +73,60 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2P04N7WV2H"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
+</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -239,20 +291,29 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page…</h2>
+   
+  <ul>
+  <li><a href="#tier-1-foundations-exploratory-stem" id="toc-tier-1-foundations-exploratory-stem" class="nav-link active" data-scroll-target="#tier-1-foundations-exploratory-stem">🔬 Tier 1: Foundations &amp; Exploratory STEM</a></li>
+  <li><a href="#tier-2-applied-physics-data-science" id="toc-tier-2-applied-physics-data-science" class="nav-link" data-scroll-target="#tier-2-applied-physics-data-science">📊 Tier 2: Applied Physics &amp; Data Science</a></li>
+  <li><a href="#tier-3-advanced-materials-engineering" id="toc-tier-3-advanced-materials-engineering" class="nav-link" data-scroll-target="#tier-3-advanced-materials-engineering">🧪 Tier 3: Advanced Materials &amp; Engineering</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">K-12 OUTREACH PROJECTS</h1>
+<p class="subtitle lead">Interactive, Hands-On Engineering, Physics, and Data Science Modules</p>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -264,11 +325,69 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<style>
+.tier-header {
+  border-left: 5px solid #1a0b2e;
+  padding-left: 12px;
+  margin-top: 35px;
+  margin-bottom: 20px;
+}
+.tier-badge {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background-color: #f1f5f9;
+  color: #334155;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+</style>
+<section id="tier-1-foundations-exploratory-stem" class="level2 tier-header">
+<h2 class="tier-header anchored" data-anchor-id="tier-1-foundations-exploratory-stem">🔬 Tier 1: Foundations &amp; Exploratory STEM</h2>
+<p><strong>Target Audience:</strong> Grades 6–9 (Middle School to Early High School)<br>
+<em>Core Concepts: Physical intuition, environmental signals, wave matching, and introductory electronics.</em></p>
 <div class="grid">
-<!-- CARD 1: LINEAR REGRESSION -->
+<!-- CARD 1: RF FOX HUNT -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<div id="c5606168" class="cell" data-fig-height="2.8" data-execution_count="1">
+<div style="text-align: center; background-color: #f8f9fa; padding-top: 15px; padding-bottom: 15px;">
+<p><img src="image_fb4fd7.png" alt="The Hidden Fox Beacon" style="max-width: 100%; height: auto; max-height: 200px;"></p>
+</div>
+<div class="card-body">
+<span class="tier-badge">Grades 6–9 | Physics &amp; RF</span>
+<h5 class="card-title anchored">
+RF Fox Hunt Lab
+</h5>
+<p class="card-text">
+Direction finding and wireless physics. Track a Raspberry Pi 5 beacon using a waveguide, filter signal noise, and locate hidden transmitters.
+</p>
+<p><a href="rf_foxhunt.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+</div>
+</div>
+</div>
+<!-- CARD 2: TIDE PREDICTOR -->
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div style="text-align: center; background-color: #f8f9fa; padding-top: 15px; padding-bottom: 15px;">
+<p><img src="tides_hub.png" alt="Fishing Tide Predictor" style="max-width: 100%; height: auto; max-height: 200px; border-radius: 5px;"></p>
+</div>
+<div class="card-body">
+<span class="tier-badge">Grades 6–9 | Earth &amp; Data Science</span>
+<h5 class="card-title anchored">
+Fishing Tide Predictor
+</h5>
+<p class="card-text">
+Fetch live NOAA ocean level predictions via API, map local coastal fishing stations interactively, and plot sinusoidal tidal curves.
+</p>
+<p><a href="tide_predictor.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+</div>
+</div>
+</div>
+<!-- CARD 3: RESONANCE DEFENDER GAME -->
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div id="7412ce32" class="cell" data-fig-height="2.8" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -278,20 +397,47 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="card-body">
+<span class="tier-badge">Grades 6–9 | Interactive Simulation</span>
 <h5 class="card-title anchored">
-Linear Regression Modeling
+Resonance Defender
 </h5>
 <p class="card-text">
-Predicting physical characteristics using math. An introduction to simple linear regression and plotting lines of best fit in Python.
+Interactive RLC circuit wave simulator. Defend the power grid by balancing inductive and capacitive reactance to neutralize incoming AC sine waves.
 </p>
-<p><a href="./linear_regression.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+<p><a href="resonance_game.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Play Game</a></p>
 </div>
 </div>
 </div>
-<!-- CARD 2: API DATA CHALLENGE -->
+</div>
+<hr>
+</section>
+<section id="tier-2-applied-physics-data-science" class="level2 tier-header">
+<h2 class="tier-header anchored" data-anchor-id="tier-2-applied-physics-data-science">📊 Tier 2: Applied Physics &amp; Data Science</h2>
+<p><strong>Target Audience:</strong> Grades 10–12 (High School STEM, AP Physics, AP Computer Science)<br>
+<em>Core Concepts: Python programming, data cleaning, scatter analysis, web automation, and regulatory modeling.</em></p>
+<div class="grid">
+<!-- CARD 4: CAR CO2 EMISSIONS -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<div id="fbd2da7d" class="cell" data-fig-height="2.8" data-execution_count="2">
+<div style="text-align: center; background-color: #f8f9fa; padding-top: 15px; padding-bottom: 15px;">
+<p><img src="car_co2_hub.jpg" alt="Car CO2 Emissions Lab" style="max-width: 100%; height: auto; max-height: 200px; border-radius: 5px;"></p>
+</div>
+<div class="card-body">
+<span class="tier-badge">Grades 10–12 | Data Science &amp; Policy</span>
+<h5 class="card-title anchored">
+Car CO2 Emissions Lab
+</h5>
+<p class="card-text">
+Step into the role of an EPA auditor. Ingest cloud vehicle specs, overlay regulatory emissions thresholds, and explore the out-of-distribution EV intercept error.
+</p>
+<p><a href="co2_emissions_regression.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+</div>
+</div>
+</div>
+<!-- CARD 5: LINEAR REGRESSION MODELING -->
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div id="eb605dfa" class="cell" data-fig-height="2.8" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -301,20 +447,21 @@ Predicting physical characteristics using math. An introduction to simple linear
 </div>
 </div>
 <div class="card-body">
+<span class="tier-badge">Grades 10–12 | Applied Mathematics</span>
 <h5 class="card-title anchored">
-API Data Challenge
+Linear Regression Modeling
 </h5>
 <p class="card-text">
-Pulling live demographic data from the New York State government database using APIs, cleaning datasets, and visualizing trends.
+Predict physical characteristics through mathematical optimization. Compute slopes, intercepts, residuals, and lines of best fit using Scikit-Learn.
 </p>
-<p><a href="./outreach_data.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+<p><a href="linear_regression.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
 </div>
 </div>
 </div>
-<!-- CARD 3: WEB SCRAPING -->
+<!-- CARD 6: API DATA CHALLENGE -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<div id="16536a2c" class="cell" data-fig-height="2.8" data-execution_count="3">
+<div id="cadd2a22" class="cell" data-fig-height="2.8" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -324,20 +471,21 @@ Pulling live demographic data from the New York State government database using 
 </div>
 </div>
 <div class="card-body">
+<span class="tier-badge">Grades 10–12 | Data Engineering</span>
 <h5 class="card-title anchored">
-Automating the Web
+API Data Challenge
 </h5>
 <p class="card-text">
-Introduction to web scraping and automation. Build a Python robot to navigate websites and extract image files using BeautifulSoup.
+Pull live demographic data from open government databases using REST APIs. Parse JSON payloads, clean dirty data, and plot regional trends.
 </p>
-<p><a href="./web_scraping.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+<p><a href="outreach_data.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
 </div>
 </div>
 </div>
-<!-- CARD 4: RESONANCE DEFENDER GAME -->
+<!-- CARD 7: WEB SCRAPING -->
 <div class="g-col-12 g-col-md-4">
 <div class="card h-100">
-<div id="5a746a44" class="cell" data-fig-height="2.8" data-execution_count="4">
+<div id="5834133d" class="cell" data-fig-height="2.8" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -347,19 +495,71 @@ Introduction to web scraping and automation. Build a Python robot to navigate we
 </div>
 </div>
 <div class="card-body">
+<span class="tier-badge">Grades 10–12 | Web Robotics</span>
 <h5 class="card-title anchored">
-Resonance Defender
+Automating the Web
 </h5>
 <p class="card-text">
-Interactive RLC Circuit Simulator. Defend the system by matching inductive and capacitive reactance to neutralize incoming AC sine waves.
+Introduction to DOM traversal and web automation. Program a Python bot to crawl online directories and bulk-extract files using BeautifulSoup.
 </p>
-<p><a href="./resonance_game.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Play Game</a></p>
+<p><a href="web_scraping.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="tier-3-advanced-materials-engineering" class="level2 tier-header">
+<h2 class="tier-header anchored" data-anchor-id="tier-3-advanced-materials-engineering">🧪 Tier 3: Advanced Materials &amp; Engineering</h2>
+<p><strong>Target Audience:</strong> Grades 11–12, Early College &amp; STEM Competitions<br>
+<em>Core Concepts: 3D spatial geometry, crystallography, Miller indices, atomic packing factors, and X-ray diffraction.</em></p>
+<div class="grid">
+<!-- CARD 8: CRYSTAL STRUCTURES PART I -->
+<div class="g-col-12 g-col-md-6">
+<div class="card h-100">
+<div style="text-align: center; background-color: #f8f9fa; padding-top: 15px; padding-bottom: 15px;">
+<p><img src="crystal_fcc_hub.png" alt="Crystal Structures and Miller Planes" style="max-width: 100%; height: auto; max-height: 200px; border-radius: 5px;"></p>
+</div>
+<div class="card-body">
+<span class="tier-badge">Grades 11–College | Materials Science I</span>
+<h5 class="card-title anchored">
+Crystal Structures &amp; Miller Planes
+</h5>
+<p class="card-text">
+Explore unit cells, coordination numbers, and packing factor derivations across SC, BCC, FCC, HCP, and Rock Salt (<span class="math inline">NaCl</span>). Features an interactive HTML/JS crystal and Bragg’s Law simulator.
+</p>
+<p><a href="crystal_structures_part1.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Part I</a></p>
+</div>
+</div>
+</div>
+<!-- CARD 9: MARS ROVER XRD LAB PART II -->
+<div class="g-col-12 g-col-md-6">
+<div class="card h-100">
+<div id="5dd117de" class="cell" data-fig-height="2.8" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="outreach_files/figure-html/cell-6-output-1.png" width="499" height="288" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="card-body">
+<span class="tier-badge">Grades 11–College | Materials Science II</span>
+<h5 class="card-title anchored">
+Planetary Rover XRD Lab
+</h5>
+<p class="card-text">
+Put crystal theory to work in a gamified space mission. Filter signal noise, identify unknown minerals using Bragg peak fingerprints, and compute alloy phase ratios with Python.
+</p>
+<p><a href="mars_xrd_lab.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Part II</a></p>
 </div>
 </div>
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -435,7 +635,7 @@ Interactive RLC Circuit Simulator. Defend the system by matching inductive and c
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/W-Francillon\.github\.io\/professor-francillon-site\/");
+        var filterRegex = new RegExp("https:\/\/professorfrancillon\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
